@@ -1,0 +1,16 @@
+USER:
+	- Firstname
+	- Lastname
+	- Email
+	- Password
+	
+ACCOUNT:
+	- USER (foreign key)
+	- Saldo
+	- TRANSACTION (foreign key)
+	
+TRANSACTION:
+	- Type
+	- Sum
+	- Description
+	- Date

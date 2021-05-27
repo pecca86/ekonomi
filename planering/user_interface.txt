@@ -1,0 +1,5 @@
+VIEWS:
+
+LISTVIEW:
+	- Alla konton
+	- Genom att klicka på ett konto
