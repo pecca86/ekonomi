@@ -25,6 +25,9 @@ app.use(express.json());
 const users = require("./routes/users");
 app.use("/api/v1/users", users);
 
+const accounts = require("./routes/accounts");
+app.use("/api/v1/accounts", accounts);
+
 // === Start server ===
 
 const PORT = process.env.PORT || 8080;
