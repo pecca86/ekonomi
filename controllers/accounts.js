@@ -1,6 +1,6 @@
 const Account = require("../models/Account");
 const wrapAsync = require("../middleware/wrapAsync");
-const ErrorResponse = require('../utils/errorResponse')
+const ErrorResponse = require("../utils/errorResponse");
 
 // @desc    Register a new account
 // @route   POST /api/v1/accounts
@@ -31,15 +31,16 @@ exports.getAccounts = wrapAsync(async (req, res, next) => {
 // @access  Private
 exports.getAccount = wrapAsync(async (req, res, next) => {
   const account = await Account.findOne({ _id: req.params.accountId });
-  if (! account) {
-    return res.status(404).json({msg:"No account found"})
+  if (!account) {
+    return next(new ErrorResponse("No account found.", 404));
   }
   // Check if the user requesting for the account details is the owner of the account
-  if (account.user.toString() !== req.user.id ) {
-      return res.status(400).json({msg: "Unauthorized!"})
+  if (account.user.toString() !== req.user.id) {
+    return next(new ErrorResponse("Not authorized!", 400));
   }
+
   res.status(200).json({
-    data: account
+    data: account,
   });
 });
 
@@ -47,8 +48,21 @@ exports.getAccount = wrapAsync(async (req, res, next) => {
 // @route   PUT /api/v1/accounts/:accountId
 // @access  Private
 exports.updateAccount = wrapAsync(async (req, res, next) => {
-  res.status(200).json({
-    msg: "account updated!",
+  let account = await Account.findById(req.params.accountId);
+  if (!account) {
+    return next(new ErrorResponse("No account found.", 404));
+  }
+  // Check if the user requesting for the account details is the owner of the account
+  if (account.user.toString() !== req.user.id) {
+    return next(new ErrorResponse("Not authorized!", 400));
+  }
+
+  account = await Account.findByIdAndUpdate(req.params.accountId, req.body, {
+    runValidators: true,
+  });
+
+  res.status(202).json({
+    data: account,
   });
 });
 
@@ -59,7 +73,11 @@ exports.deleteAccount = wrapAsync(async (req, res, next) => {
   const account = await Account.findById(req.params.accountId);
 
   if (!account) {
-    throw new Error("no such account");
+    return next(new Error("No account found.", 404));
+  }
+  // Check if the user requesting for the account details is the owner of the account
+  if (account.user.toString() !== req.user.id) {
+    return next(new ErrorResponse("Not authorized!", 400));
   }
 
   account.remove();
