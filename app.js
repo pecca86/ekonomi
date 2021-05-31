@@ -28,6 +28,9 @@ app.use("/api/v1/users", users);
 const accounts = require("./routes/accounts");
 app.use("/api/v1/accounts", accounts);
 
+const transactions = require('./routes/transactions')
+app.use('/api/v1/transactions', transactions)
+
 // === Start server ===
 
 const PORT = process.env.PORT || 8080;
