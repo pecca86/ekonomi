@@ -7,6 +7,7 @@ const {
   updateAccount,
   deleteAccount,
 } = require("../controllers/accounts");
+const { protectedRoute } = require("../middleware/auth");
 
 // Include other resource routers
 const transactionRouter = require('./transactions');
@@ -14,8 +15,9 @@ const transactionRouter = require('./transactions');
 // Any URL that includes bootcampId will go trough this route
 router.use('/:accountId/transactions', transactionRouter);
 
-
-router.route("/").get(getAccounts).post(createAccount);
+//router.get('/', protectedRoute, getAccounts)
+//router.post('/', createAccount)
+router.route("/").get(protectedRoute, getAccounts).post(protectedRoute, createAccount);
 
 router
   .route("/:accountId")

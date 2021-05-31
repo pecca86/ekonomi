@@ -9,6 +9,7 @@ const {
   logoutUser,
   getLoggedInUser,
 } = require("../controllers/users");
+const { protectedRoute } = require('../middleware/auth')
 
 router.route("/").post(createUser);
 router.route("/:userId").put(updateUser);

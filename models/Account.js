@@ -39,9 +39,8 @@ const AccountSchema = new mongoose.Schema({
 AccountSchema.post("remove", async function (doc) {
   if (doc) {
     await Transaction.deleteMany({
-      //passes in the id for each review...
+      //passes in the id for each transaction...
       _id: {
-        // ... is somewhere in our campground.reviews
         $in: doc.accountTransactions,
       },
     });

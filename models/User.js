@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const UserSchema = new mongoose.Schema({
   firstname: {
@@ -21,9 +24,18 @@ const UserSchema = new mongoose.Schema({
     ],
   },
   password: {
-      type: String,
-      required: [true, "Please enter a password"]
-  }
+    type: String,
+    required: [true, "Please enter a password"],
+  },
 });
+
+// Sign a Jason Webtoken when user is created / signed in with JSONWEBTOKEN
+UserSchema.methods.getSignedJwtToken = function () {
+  // jwt.sign takes in a payload of the following:
+  // id, secret, token expiration time
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
+  });
+};
 
 module.exports = mongoose.model("User", UserSchema);

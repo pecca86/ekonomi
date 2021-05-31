@@ -10,7 +10,6 @@ exports.createAccount = wrapAsync(async (req, res, next) => {
   await account.save();
 
   res.status(200).json({
-    msg: "account created!",
     data: account,
   });
 });
@@ -19,8 +18,11 @@ exports.createAccount = wrapAsync(async (req, res, next) => {
 // @route   GET /api/v1/accounts
 // @access  Private
 exports.getAccounts = wrapAsync(async (req, res, next) => {
+  console.log(req.user.id);
+    const accounts = await Account.find();
   res.status(200).json({
-    msg: "List of all accounts!",
+    count: accounts.length,
+    data: accounts,
   });
 });
 

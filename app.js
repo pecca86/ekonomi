@@ -17,6 +17,10 @@ const path = require("path");
 // Connect to DB
 connectDB();
 
+// Set browser cookies
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
 // === MIDDLEWARE ===
 // Body parser (for parsing json post)
 app.use(express.json());
@@ -28,8 +32,13 @@ app.use("/api/v1/users", users);
 const accounts = require("./routes/accounts");
 app.use("/api/v1/accounts", accounts);
 
-const transactions = require('./routes/transactions')
-app.use('/api/v1/transactions', transactions)
+const transactions = require("./routes/transactions");
+app.use("/api/v1/transactions", transactions);
+
+// Errorhandling middleware for routes
+// NEEDS TO COME AFTER ALL OTHER MIDDLEWARE!
+const errorHandler = require("./middleware/error");
+app.use(errorHandler);
 
 // === Start server ===
 
