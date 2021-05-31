@@ -21,8 +21,8 @@ router.route("/").get(protectedRoute, getAccounts).post(protectedRoute, createAc
 
 router
   .route("/:accountId")
-  .get(getAccount)
-  .put(updateAccount)
-  .delete(deleteAccount);
+  .get(protectedRoute, getAccount)
+  .put(protectedRoute, updateAccount)
+  .delete(protectedRoute, deleteAccount);
 
 module.exports = router;

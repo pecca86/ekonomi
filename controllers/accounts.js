@@ -1,11 +1,12 @@
 const Account = require("../models/Account");
 const wrapAsync = require("../middleware/wrapAsync");
+const ErrorResponse = require('../utils/errorResponse')
 
 // @desc    Register a new account
 // @route   POST /api/v1/accounts
 // @access  Private
 exports.createAccount = wrapAsync(async (req, res, next) => {
-  // TODO: User will come from the request body
+  req.body.user = req.user.id;
   const account = new Account(req.body);
   await account.save();
 
@@ -18,8 +19,7 @@ exports.createAccount = wrapAsync(async (req, res, next) => {
 // @route   GET /api/v1/accounts
 // @access  Private
 exports.getAccounts = wrapAsync(async (req, res, next) => {
-  console.log(req.user.id);
-    const accounts = await Account.find();
+  const accounts = await Account.find({ user: req.user.id });
   res.status(200).json({
     count: accounts.length,
     data: accounts,
@@ -30,8 +30,16 @@ exports.getAccounts = wrapAsync(async (req, res, next) => {
 // @route   GET /api/v1/accounts/:accountId
 // @access  Private
 exports.getAccount = wrapAsync(async (req, res, next) => {
+  const account = await Account.findOne({ _id: req.params.accountId });
+  if (! account) {
+    return res.status(404).json({msg:"No account found"})
+  }
+  // Check if the user requesting for the account details is the owner of the account
+  if (account.user.toString() !== req.user.id ) {
+      return res.status(400).json({msg: "Unauthorized!"})
+  }
   res.status(200).json({
-    msg: "Single account details!",
+    data: account
   });
 });
 
