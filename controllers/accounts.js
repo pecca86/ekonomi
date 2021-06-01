@@ -2,6 +2,8 @@ const Account = require("../models/Account");
 const wrapAsync = require("../middleware/wrapAsync");
 const ErrorResponse = require("../utils/errorResponse");
 
+// TODO: Controller function for verifying user to account
+
 // @desc    Register a new account
 // @route   POST /api/v1/accounts
 // @access  Private
@@ -73,7 +75,7 @@ exports.deleteAccount = wrapAsync(async (req, res, next) => {
   const account = await Account.findById(req.params.accountId);
 
   if (!account) {
-    return next(new Error("No account found.", 404));
+    return next(new ErrorResponse("No account found.", 404));
   }
   // Check if the user requesting for the account details is the owner of the account
   if (account.user.toString() !== req.user.id) {
@@ -83,6 +85,6 @@ exports.deleteAccount = wrapAsync(async (req, res, next) => {
   account.remove();
 
   res.status(200).json({
-    msg: "account and corresponding transactions were deleted!",
+    msg: "Account and corresponding Transactions were deleted!",
   });
 });
