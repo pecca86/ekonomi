@@ -60,6 +60,7 @@ exports.updateAccount = wrapAsync(async (req, res, next) => {
   }
 
   account = await Account.findByIdAndUpdate(req.params.accountId, req.body, {
+    new: true,
     runValidators: true,
   });
 
@@ -82,7 +83,7 @@ exports.deleteAccount = wrapAsync(async (req, res, next) => {
     return next(new ErrorResponse("Not authorized!", 400));
   }
 
-  account.remove();
+  await account.remove();
 
   res.status(200).json({
     msg: "Account and corresponding Transactions were deleted!",

@@ -11,26 +11,31 @@ exports.getTransactions = wrapAsync(async (req, res, next) => {
   // Check if user is searching for transactions related to a specific account
   if (req.params.accountId) {
     // Check if user own the account and populate the accountTransactions
-    const account = await Account.findById(req.params.accountId).populate('accountTransactions');
+    const account = await Account.findById(req.params.accountId).populate(
+      "accountTransactions"
+    );
     if (account.user.toString() !== req.user.id) {
       return next(new ErrorResponse("Not authorized!", 400));
     }
 
     // Find all transactions related to this account
-    const transactions = account.accountTransactions
+    const transactions = account.accountTransactions;
 
     res.status(200).json({
       count: transactions.length,
       data: transactions,
     });
-  
-  // Provide all the user's transactions
+
+    // Provide all the user's transactions
   } else {
-    const transactions = await Transaction.find({user: req.user.id}).populate('account', 'IBAN')
+    const transactions = await Transaction.find({ user: req.user.id }).populate(
+      "account",
+      "IBAN"
+    );
 
     res.status(200).json({
       count: transactions.length,
-      data: transactions
+      data: transactions,
     });
   }
 });
@@ -39,8 +44,17 @@ exports.getTransactions = wrapAsync(async (req, res, next) => {
 // @route   GET /api/v1/transactions/:transactionId
 // @access  Private
 exports.getTransaction = wrapAsync(async (req, res, next) => {
+  const transaction = await Transaction.findById(
+    req.params.transactionId
+  ).populate("account", "IBAN");
+
+  // Check if user owns the transaction
+  if (transaction.user.toString() !== req.user.id) {
+    return next(new ErrorResponse("Not authorized!", 400));
+  }
+
   res.status(200).json({
-    msg: "Single transaction",
+    data: transaction,
   });
 });
 
@@ -79,8 +93,27 @@ exports.createTransaction = wrapAsync(async (req, res, next) => {
 // @route   PUT /api/v1/transactions/:transactionId
 // @access  Private
 exports.updateTransaction = wrapAsync(async (req, res, next) => {
-  res.status(200).json({
-    msg: "Updated a transaction!",
+  let transaction = await Transaction.findById(req.params.transactionId);
+  if (!transaction) {
+    return next(new ErrorResponse("No transaction found!", 404));
+  }
+
+  // Check if the user requesting for the transaction details is the owner of the account
+  if (transaction.user.toString() !== req.user.id) {
+    return next(new ErrorResponse("Not authorized!", 400));
+  }
+
+  transaction = await Transaction.findByIdAndUpdate(
+    req.params.transactionId,
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  res.status(201).json({
+    data: transaction,
   });
 });
 
@@ -88,6 +121,17 @@ exports.updateTransaction = wrapAsync(async (req, res, next) => {
 // @route   DELETE /api/v1/transactions/:transactionId
 // @access  Private
 exports.deleteTransaction = wrapAsync(async (req, res, next) => {
+  const transaction = await Transaction.findById(req.params.transactionId);
+  if (!transaction) {
+    return next(new ErrorResponse("Transaction not found.", 404));
+  }
+  // Check if the user requesting for the account details is the owner of the account
+  if (transaction.user.toString() !== req.user.id) {
+    return next(new ErrorResponse("Not authorized!", 400));
+  }
+
+  await transaction.remove()
+
   res.status(200).json({
     msg: "Transaction deleted!",
   });
