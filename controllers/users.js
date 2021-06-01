@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const wrapAsync = require("../middleware/wrapAsync");
+const ErrorResponse = require("../utils/errorResponse");
+
 
 // @desc    Register a new user
 // @route   POST /api/v1/users
@@ -29,25 +31,36 @@ exports.updateUser = wrapAsync(async (req, res, next) => {
 // @route   POST /api/v1/users/login
 // @access  Public
 exports.loginUser = wrapAsync(async (req, res, next) => {
-  /*   const { firstname, lastname, email, password } = req.body;
-  const user = new User({ firstname, lastname, email, password });
-  await user.save(); */
+  const { email, password } = req.body;
 
-  res.status(201).json({
-    msg: "user logged in",
-  });
+  if (!email || !password) {
+    return next(new ErrorResponse("Please enter email & password", 400));
+  }
+
+  const user = await User.findOne({ email: email });
+
+  if (!user) {
+    return next(new ErrorResponse("Invalid login credentials", 401));
+  }
+
+  const passwordValidated = await user.matchPassword(password);
+  if (!passwordValidated) {
+    return next(new ErrorResponse("Invalid login credentials", 401));
+  }
+
+  sendTokenResponse(user, 200, res);
 });
 
 // @desc    Logout a user
 // @route   GET /api/v1/users/logout
 // @access  Private
 exports.logoutUser = wrapAsync(async (req, res, next) => {
-  /*   const { firstname, lastname, email, password } = req.body;
-  const user = new User({ firstname, lastname, email, password });
-  await user.save(); */
+  res.cookie("token", "none", {
+    expires: new Date(Date.now() + 2 * 1000),
+  });
 
-  res.status(201).json({
-    msg: "User logged out",
+  res.status(200).json({
+    msg: "Logout successful",
   });
 });
 
@@ -55,12 +68,16 @@ exports.logoutUser = wrapAsync(async (req, res, next) => {
 // @route   GET /api/v1/users/me
 // @access  Private
 exports.getLoggedInUser = wrapAsync(async (req, res, next) => {
-  /*   const { firstname, lastname, email, password } = req.body;
-  const user = new User({ firstname, lastname, email, password });
-  await user.save(); */
+  // gets the user minus the password
+  const user = await User.findById(req.user.id).select("-password");
+  if (!user) {
+    return res.status(404).json({
+      msg: "No user found",
+    });
+  }
 
-  res.status(201).json({
-    msg: "Currently logged in user",
+  res.status(200).json({
+    user,
   });
 });
 

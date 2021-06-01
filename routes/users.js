@@ -12,9 +12,9 @@ const {
 const { protectedRoute } = require('../middleware/auth')
 
 router.route("/").post(createUser);
-router.route("/:userId").put(updateUser);
+router.route("/:userId").put(protectedRoute, updateUser);
 router.route("/login").post(loginUser);
-router.route("/logout").get(logoutUser);
-router.route("/me").get(getLoggedInUser);
+router.route("/logout").get(protectedRoute, logoutUser);
+router.route("/me").get(protectedRoute, getLoggedInUser);
 
 module.exports = router;
