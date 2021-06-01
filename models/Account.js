@@ -1,36 +1,43 @@
 const mongoose = require("mongoose");
 const Transaction = require("./Transaction");
 
-const AccountSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Please add a name to the account"],
-  },
-  IBAN: {
-    type: String,
-    required: [true, "IBAN is required"],
-    unique: true,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  balance: {
-    type: Number,
-    default: 0,
-  },
-  accountType: {
-    type: String,
-    enum: ["savings", "checking"],
-  },
-  accountTransactions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Transaction",
+const AccountSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Please add a name to the account"],
     },
-  ],
-});
+    IBAN: {
+      type: String,
+      required: [true, "IBAN is required"],
+      unique: true,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    balance: {
+      type: Number,
+      default: 0,
+    },
+    allTransactionsSum: Number,
+    accountType: {
+      type: String,
+      enum: ["savings", "checking"],
+    },
+    accountTransactions: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Transaction",
+      },
+    ],
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
 // Mongoose middleware for deletion of Accounts and any model's data that is refered to (transactions)
 // mongoose findOneAndDelete is used with findByIdAndDelete
