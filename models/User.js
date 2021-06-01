@@ -29,6 +29,14 @@ const UserSchema = new mongoose.Schema({
 });
 
 // === MODEL MIDDLEWARE ===
+
+// If password is updatedd
+UserSchema.pre("findOneAndUpdate", async function (next) {
+  const salt = await bcrypt.genSalt(10);
+  this._update.password = await bcrypt.hash(this._update.password, salt);
+  next();
+});
+
 // Encrypt the user password using bcrypt
 UserSchema.pre("save", async function (next) {
   // Prevent this middleware for checking if password was filled when resetting it

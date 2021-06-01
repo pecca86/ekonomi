@@ -2,7 +2,6 @@ const User = require("../models/User");
 const wrapAsync = require("../middleware/wrapAsync");
 const ErrorResponse = require("../utils/errorResponse");
 
-
 // @desc    Register a new user
 // @route   POST /api/v1/users
 // @access  Public
@@ -15,15 +14,16 @@ exports.createUser = wrapAsync(async (req, res, next) => {
 });
 
 // @desc    Updates existing user
-// @route   PUT /api/v1/users/:userId
+// @route   PUT /api/v1/users
 // @access  Private
 exports.updateUser = wrapAsync(async (req, res, next) => {
-  /*   const { firstname, lastname, email, password } = req.body;
-  const user = new User({ firstname, lastname, email, password });
-  await user.save(); */
+  const user = await User.findByIdAndUpdate(req.user.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
   res.status(201).json({
-    msg: "update User info",
+    data: user,
   });
 });
 
