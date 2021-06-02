@@ -19,13 +19,10 @@ const accountFilters = (model, populate) => async (req, res, next) => {
     /\b(gt|gte|lt|lte|in)\b/g,
     (match) => `$${match}`
   );
-  console.log(queryStr);
   qStr = JSON.parse(queryStr);
   // parse querystring back to json format and search accounts that match the userId and query
-  query = model.find({ balance: { $gt: 2000 } });
-
   query = model.find({
-    $and: [{ user: req.user.id }, { balance: { $gte: 1 } }],
+    $and: [{ user: req.user.id }, qStr ],
   });
 
   // Select fields from database if select is set in url
