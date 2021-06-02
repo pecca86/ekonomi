@@ -8,6 +8,8 @@ const {
   deleteAccount,
 } = require("../controllers/accounts");
 const { protectedRoute } = require("../middleware/auth");
+const accountFilters = require('../middleware/accountFilters')
+const Account = require('../models/Account')
 
 // Include other resource routers
 const transactionRouter = require('./transactions');
@@ -17,7 +19,7 @@ router.use('/:accountId/transactions', transactionRouter);
 
 //router.get('/', protectedRoute, getAccounts)
 //router.post('/', createAccount)
-router.route("/").get(protectedRoute, getAccounts).post(protectedRoute, createAccount);
+router.route("/").get(protectedRoute, accountFilters(Account, 'accountTransactions'), getAccounts).post(protectedRoute, createAccount);
 
 router
   .route("/:accountId")
