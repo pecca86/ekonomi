@@ -8,7 +8,7 @@ const accountFilters = (model, populate) => async (req, res, next) => {
   const requestQuery = { ...req.query };
 
   // Fields to exclude
-  const removeFields = ["select", "sort", "page", "limit"]; // select is set in the url
+  const removeFields = ["select", "sort", "page", "limit"]; // these are set in the url
   // Loop over removeFields and delete them from request query
   removeFields.forEach((param) => delete requestQuery[param]);
 
