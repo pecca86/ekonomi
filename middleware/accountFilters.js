@@ -2,15 +2,16 @@
 const ErrorResponse = require("../utils/errorResponse");
 const Transaction = require("../models/Transaction");
 const Account = require("../models/Account");
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const accountFilters =
-  (model, populate, type = "") => 
+  (model, populate, type = "") =>
   async (req, res, next) => {
-
     // If there is a accountId passed in by the params, check if it is a valid one
-    if (!mongoose.Types.ObjectId.isValid(req.params.accountId)) {
-      return next(new ErrorResponse("Invalid account ID", 400))
+    if (req.params.accountId) {
+      if (!mongoose.Types.ObjectId.isValid(req.params.accountId)) {
+        return next(new ErrorResponse("Invalid account ID", 400));
+      }
     }
 
     // === QUERIES ===
@@ -85,7 +86,7 @@ const accountFilters =
     if (populate) {
       query = query.populate(populate);
     }
-    
+
     const results = await query; // finds all model results according to set query
 
     // === CALCULATE GIVEN TIMEINTERVALL'S TRANSACTION SUM ===
