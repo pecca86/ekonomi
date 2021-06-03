@@ -8,38 +8,7 @@ const ErrorResponse = require("../utils/errorResponse");
 // @route   GET /api/v1/accounts/:accountId/transactions
 // @access  Private
 exports.getTransactions = wrapAsync(async (req, res, next) => {
-/*   // Check if user is searching for transactions related to a specific account
-  if (req.params.accountId) {
-    // Check if user owns the account and populate the accountTransactions
-    const account = await Account.findById(req.params.accountId).populate(
-      "accountTransactions"
-    );
-    if (account.user.toString() !== req.user.id) {
-      return next(new ErrorResponse("Not authorized!", 400));
-    }
-
-    // Find all transactions related to this account
-    const transactions = account.accountTransactions;
-
-    res.status(200).json({
-      count: transactions.length,
-      data: transactions,
-    });
-
-    // Provide all the user's transactions
-  } else {
-    const transactions = await Transaction.find({ user: req.user.id }).populate(
-      "account",
-      "IBAN"
-    );
-
-    res.status(200).json({
-      count: transactions.length,
-      data: transactions,
-    });
-  } */
   res.status(200).json(res.accountFilters);
-
 });
 
 // @desc    Get single transaction

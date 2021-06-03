@@ -30,12 +30,7 @@ const UserSchema = new mongoose.Schema({
 
 // === MODEL MIDDLEWARE ===
 
-// If password is updatedd
-UserSchema.pre("findOneAndUpdate", async function (next) {
-  const salt = await bcrypt.genSalt(10);
-  this._update.password = await bcrypt.hash(this._update.password, salt);
-  next();
-});
+
 
 // Encrypt the user password using bcrypt
 UserSchema.pre("save", async function (next) {
@@ -50,7 +45,7 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-// Sign a Jason Webtoken when user is created / signed in with JSONWEBTOKEN
+// == Sign a Jason Webtoken when user is created / signed in with JSONWEBTOKEN ==
 UserSchema.methods.getSignedJwtToken = function () {
   // jwt.sign takes in a payload of the following:
   // id, secret, token expiration time
@@ -59,7 +54,7 @@ UserSchema.methods.getSignedJwtToken = function () {
   });
 };
 
-// Match user entered password to hashed password
+// == Match user entered password to hashed password ==
 UserSchema.methods.matchPassword = async function (enteredPassword) {
   // bcrypt method for comparing entered password to the specific user's password
   return await bcrypt.compare(enteredPassword, this.password);
