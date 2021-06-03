@@ -8,9 +8,9 @@ const ErrorResponse = require("../utils/errorResponse");
 // @route   GET /api/v1/accounts/:accountId/transactions
 // @access  Private
 exports.getTransactions = wrapAsync(async (req, res, next) => {
-  // Check if user is searching for transactions related to a specific account
+/*   // Check if user is searching for transactions related to a specific account
   if (req.params.accountId) {
-    // Check if user own the account and populate the accountTransactions
+    // Check if user owns the account and populate the accountTransactions
     const account = await Account.findById(req.params.accountId).populate(
       "accountTransactions"
     );
@@ -37,7 +37,9 @@ exports.getTransactions = wrapAsync(async (req, res, next) => {
       count: transactions.length,
       data: transactions,
     });
-  }
+  } */
+  res.status(200).json(res.accountFilters);
+
 });
 
 // @desc    Get single transaction
@@ -47,6 +49,10 @@ exports.getTransaction = wrapAsync(async (req, res, next) => {
   const transaction = await Transaction.findById(
     req.params.transactionId
   ).populate("account", "IBAN");
+
+  if (!transaction) {
+    return next(new ErrorResponse("No transaction found.", 404));
+  }
 
   // Check if user owns the transaction
   if (transaction.user.toString() !== req.user.id) {
