@@ -21,11 +21,6 @@ exports.createAccount = wrapAsync(async (req, res, next) => {
 // @route   GET /api/v1/accounts
 // @access  Private
 exports.getAccounts = wrapAsync(async (req, res, next) => {
-/*   const accounts = await Account.find({ user: req.user.id });
-  res.status(200).json({
-    count: accounts.length,
-    data: accounts,
-  }); */
   res.status(200).json(res.accountFilters);
 });
 

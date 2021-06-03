@@ -108,7 +108,7 @@ exports.getLoggedInUser = wrapAsync(async (req, res, next) => {
   }
 
   res.status(200).json({
-    user,
+    data: user,
   });
 });
 
