@@ -11,6 +11,9 @@ dotenv.config({ path: "./config/config.env" });
 // Import Database setup
 const connectDB = require("./config/db");
 
+// HTTP Logger
+const morgan = require('morgan')
+
 // NodeJS stuff
 const path = require("path");
 
@@ -21,9 +24,50 @@ connectDB();
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
+// === APP SECURITY ===
+// Sanitize incoming JSON requests for app security purposes
+const mongoSanitize = require("express-mongo-sanitize");
+// Security such as XSS etc.
+const helmet = require("helmet");
+// XSS
+const xssClean = require("xss-clean");
+// Limit how many requests a single user can post
+const expressRateLimit = require("express-rate-limit");
+// Http polution
+const hpp = require("hpp");
+// Allow CORS
+const cors = require("cors");
+// = Security MiddleWare =
+// Sanitize mongo request parameters
+app.use(mongoSanitize());
+
+// Set security headers in app
+app.use(helmet());
+
+// Security against XSS
+app.use(xssClean());
+
+// Rate limiting
+const limiter = expressRateLimit({
+  // 10 mins
+  windowMs: 10 * 60 * 1000,
+  // max requests per windowMs
+  max: 100,
+});
+app.use(limiter);
+
+// HTTP Param pollution
+app.use(hpp());
+
+// Enable CORS
+app.use(cors());
+
 // === MIDDLEWARE ===
 // Body parser (for parsing json post)
 app.use(express.json());
+
+// HTTP Logger
+app.use(morgan('tiny'))
 
 // === ROUTES ===
 const users = require("./routes/users");
