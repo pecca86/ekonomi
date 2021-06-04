@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const AccountList = () => {
   return (
@@ -15,10 +16,13 @@ const AccountList = () => {
         </thead>
         <tbody>
           <tr>
-            <td><a href="!#">FI29 4434 4032 2405 33</a></td>
+            <td>
+              <Link to="account">FI29 4434 4032 2405 33</Link>
+            </td>
             <td>Varsinainen</td>
             <td>340,50€</td>
           </tr>
+
           <tr>
             <td>FI29 5555 4033 2405 33</td>
             <td>Säästö</td>

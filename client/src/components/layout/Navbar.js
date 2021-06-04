@@ -1,13 +1,15 @@
 import React, { Fragment } from "react";
 import NavbarItem from "./NavbarItem";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
-        <a className="navbar-brand" href="!#">
+        <Link to="/" className="navbar-brand">
           Dashboard
-        </a>
+        </Link>
+
         <button
           className="navbar-toggler"
           type="button"
