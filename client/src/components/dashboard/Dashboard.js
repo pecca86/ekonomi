@@ -30,7 +30,7 @@ const Dashboard = () => {
         <div className="container">
         <AccountList />
         <hr />
-        <h2 className="mt-5">All User Transactions</h2>
+        <h4 className="mt-5">All User Transactions</h4>
         <TransactionList />
         </div>
       </Fragment>
