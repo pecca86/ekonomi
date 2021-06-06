@@ -10,8 +10,8 @@ const Account = () => {
   return (
     <Fragment>
       <div className="container">
-        <h2>FI29 4434 4032 2405 33 - Varsinainen</h2>
-        <h5>Balance: 340,50€</h5>
+        <h5>FI29 4434 4032 2405 33 - Varsinainen</h5>
+        <h6>Balance: 340,50€</h6>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"

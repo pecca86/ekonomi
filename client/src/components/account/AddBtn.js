@@ -4,7 +4,7 @@ const AddBtn = () => {
   return (
     <div className="fixed-action-btn hoverEnabled">
       <button
-        className="btn-floating btn-large blue darken-2"
+        className="btn-floating btn blue darken-2"
       >
         <i className="large material-icons">add</i>
       </button>
