@@ -8,6 +8,7 @@ import Account from "./components/account/Account";
 import Login from './components/auth/Login'
 import Register from './components/auth/Register'
 import Profile from './components/profle/Profile'
+import ChangePassword from './components/profle/ChangePassword'
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
@@ -37,6 +38,9 @@ function App() {
           </Route>
           <Route exact path="/profile">
             <Profile />
+          </Route>
+          <Route exact path="/profile/password">
+            <ChangePassword />
           </Route>
         </Switch>
       </Fragment>

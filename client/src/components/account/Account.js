@@ -13,7 +13,7 @@ const Account = () => {
       <div className="container">
         <h5>FI29 4434 4032 2405 33 - Varsinainen</h5>
         <h6>Balance: 340,50€</h6>
-        {{ profileIcon }}
+        { profileIcon }
         <span className="ps-2">
           <Link to="/profile" className="text-dark">
             Janina Ranta-aho
@@ -22,7 +22,7 @@ const Account = () => {
       </div>
       {/* FRAGMENT FOR ACCOUNT LIST */}
       <Fragment>
-        <div className="container mt-5">
+        <div className="container">
           <TimeIntervall />
           <hr />
           <AccountTransactions />

@@ -4,57 +4,79 @@ import { Link } from "react-router-dom";
 const TimeIntervall = () => {
   return (
     <div className="mt-5" style={{ height: "300px", overflow: "auto" }}>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">Start Date</th>
-            <th scope="col">End Date</th>
-            <th scope="col">Incomes</th>
-            <th scope="col">Spendings</th>
-            <th scope="col">Totalt</th>
-            <th scope="col">Totalt including balance</th>
-            <th scope="col">{""}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>14.1.2021</td>
-            <td>15.2.2021</td>
-            <td>400,50€</td>
-            <td>600,76€</td>
-            <td>-200,26€</td>
-            <td>0,00€</td>
-            <td>{trash}</td>
-          </tr>
-          <tr>
-            <td>14.2.2021</td>
-            <td>15.3.2021</td>
-            <td>23,50€</td>
-            <td>2,76€</td>
-            <td>20,26€</td>
-            <td>200,00€</td>
-            <td>{trash}</td>
-          </tr>
-          <tr>
-            <td>15.5.2021</td>
-            <td>16.8.2021</td>
-            <td>1000,50€</td>
-            <td>600,76€</td>
-            <td>400,26€</td>
-            <td>2000,00€</td>
-            <td>{trash}</td>
-          </tr>
-          <tr>
-            <td>14.1.2021</td>
-            <td>15.2.2021</td>
-            <td>400,50€</td>
-            <td>600,76€</td>
-            <td>-200,26€</td>
-            <td>0,00€</td>
-            <td>{trash}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="accordion" id="timeAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header mx-0 my-0 px-0 py-0" id="account-1">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapse-1"
+              aria-expanded="false"
+              aria-controls="collapse-1"
+            >
+              <div class="col-2">14.2.2021</div>
+              <div class="col-1">-</div>
+              <div class="col-4">15.3.2021</div>
+              <div class="col-4">200.40€</div>
+            </button>
+          </h2>
+          <div
+            id="collapse-1"
+            class="accordion-collapse collapse"
+            aria-labelledby="account-1"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              <div className="col">
+                <strong> Incomes:</strong> 20€
+              </div>
+              <div className="col">
+                <strong>Spendings:</strong> -200€
+              </div>
+              <div className="col">
+                <strong>Total including Balance:</strong> 40€
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* ITEM 2 */}
+        <div class="accordion-item">
+          <h2 class="accordion-header mx-0 my-0 px-0 py-0" id="account-2">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapse-2"
+              aria-expanded="false"
+              aria-controls="collapse-2"
+            >
+              <div class="col-2">15.3.2021</div>
+              <div class="col-1">-</div>
+              <div class="col-4">18.5.2021</div>
+              <div class="col-4">-300.40€</div>
+            </button>
+          </h2>
+          <div
+            id="collapse-2"
+            class="accordion-collapse collapse"
+            aria-labelledby="account-2"
+            data-bs-parent="#accordionExample"
+          >
+            <div className="accordion-body">
+              <div className="col">
+                <strong> Incomes:</strong> 20€
+              </div>
+              <div className="col">
+                <strong>Spendings:</strong> -200€
+              </div>
+              <div className="col">
+                <strong>Total including Balance:</strong> 40€
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
