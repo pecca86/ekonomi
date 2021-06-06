@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import AccountList from './AccountList'
 import TransactionList from "./TransactionList";
+import Chart from '../chart/Chart'
 
 const Dashboard = () => {
   return (
@@ -30,8 +31,7 @@ const Dashboard = () => {
         <div className="container">
         <AccountList />
         <hr />
-        <h4 className="mt-5">All User Transactions</h4>
-        <TransactionList />
+        <Chart />
         </div>
       </Fragment>
     </Fragment>
