@@ -5,6 +5,9 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Header from "./components/layout/Header";
 import Navbar from "./components/layout/Navbar";
 import Account from "./components/account/Account";
+import Login from './components/auth/Login'
+import Register from './components/auth/Register'
+import Profile from './components/profle/Profile'
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
@@ -25,6 +28,15 @@ function App() {
           </Route>
           <Route exact path="/account">
             <Account />
+          </Route>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/register">
+            <Register />
+          </Route>
+          <Route exact path="/profile">
+            <Profile />
           </Route>
         </Switch>
       </Fragment>
