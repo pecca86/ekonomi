@@ -3,6 +3,8 @@ const ErrorResponse = require("../utils/errorResponse");
 const Transaction = require("../models/Transaction");
 const Account = require("../models/Account");
 const mongoose = require("mongoose");
+const { EJSON } = require('bson')
+const { v4: uuidv4 } = require('uuid');
 
 const accountFilters =
   (model, populate, type = "") =>
@@ -12,6 +14,15 @@ const accountFilters =
       if (!mongoose.Types.ObjectId.isValid(req.params.accountId)) {
         return next(new ErrorResponse("Invalid account ID", 400));
       }
+
+      // This saves the query to the account, so that we can fetch old queries upon loading the object
+      const account = await Account.findById(req.params.accountId)
+      // create a unique id for this query and put it inside the query
+      req.query.id = uuidv4()
+      account.accountQueries.push(EJSON.stringify(req.query))
+      await account.save()
+      // nullify the id so that it does not break the other queries
+      req.query.id = null
     }
 
     // === QUERIES ===

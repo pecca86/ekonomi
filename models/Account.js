@@ -26,6 +26,11 @@ const AccountSchema = new mongoose.Schema(
       type: String,
       enum: ["savings", "checking"],
     },
+    accountQueries: [
+      {
+        type: String
+      }
+    ],
     createdAt: {
       type: Date,
       default: Date.now

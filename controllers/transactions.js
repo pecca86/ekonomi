@@ -3,7 +3,8 @@ const Account = require("../models/Account");
 const wrapAsync = require("../middleware/wrapAsync");
 const ErrorResponse = require("../utils/errorResponse");
 
-// @desc    Get logged in user's all transactions
+// @desc    Get logged in user's all transactions or account specific transactions.
+//          This route has filters options available.
 // @route   GET /api/v1/transactions
 // @route   GET /api/v1/accounts/:accountId/transactions
 // @access  Private
