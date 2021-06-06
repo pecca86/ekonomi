@@ -1,9 +1,9 @@
 import React from "react";
 
-const AccountTransactions = () => {
+const TimeIntervallTransaction = () => {
   return (
-    <div style={{ height: "300px", overflow: "auto" }}>
-      <table className="table-sm">
+    <div className="mb-0 mt-0 pb-0 pt-0" style={{ overflow: "auto" }}>
+      <table className="table-sm mb-2 mt-0 pb-0 pt-0">
         <thead>
           <tr>
             <th scope="col">Date</th>
@@ -14,33 +14,27 @@ const AccountTransactions = () => {
         </thead>
         <tbody>
           <tr>
-            <td>24.5.2021</td>
+            <td>24.2.2021</td>
             <td>Lön</td>
             <td>340,50€</td>
             <td>{trash}</td>
           </tr>
           <tr>
-            <td>25.5.2021</td>
+            <td>25.2.2021</td>
             <td>Hyra</td>
             <td>-1400,50€</td>
             <td>{trash}</td>
           </tr>
           <tr>
-            <td>29.6.2021</td>
-            <td>Vårdbidrag</td>
-            <td>250,50€</td>
+            <td>3.3.2021</td>
+            <td>Hyra</td>
+            <td>400,50€</td>
             <td>{trash}</td>
           </tr>
           <tr>
-            <td>27.7.2021</td>
-            <td>Lön</td>
-            <td>340,50€</td>
-            <td>{trash}</td>
-          </tr>
-          <tr>
-            <td>28.7.2021</td>
-            <td>Pekkas födelsedagspresent</td>
-            <td>-10000,50€</td>
+            <td>19.3.2021</td>
+            <td>Hyra</td>
+            <td>-10,50€</td>
             <td>{trash}</td>
           </tr>
         </tbody>
@@ -66,4 +60,4 @@ const trash = (
   </svg>
 );
 
-export default AccountTransactions;
+export default TimeIntervallTransaction;

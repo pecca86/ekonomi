@@ -13,6 +13,7 @@ const AccountList = () => {
           <tr>
             <th scope="col">Description</th>
             <th scope="col">Balance</th>
+            <th scope="col">{""}</th>
           </tr>
         </thead>
         <tbody>
@@ -21,35 +22,59 @@ const AccountList = () => {
               <Link to="/account">Varsinainen</Link>
             </td>
             <td>340,50€</td>
+            <td>
+              <i class="material-icons">insert_chart</i>
+            </td>
           </tr>
 
           <tr>
             <td>Säästö</td>
             <td>12000,44€</td>
+            <td>
+              <i class="material-icons">insert_chart</i>
+            </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
+            <td>
+              <i class="material-icons">insert_chart</i>
+            </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
+            <td>
+              <i class="material-icons">insert_chart</i>
+            </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
+            <td>
+              <i class="material-icons">insert_chart</i>
+            </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
+            <td>
+              <i class="material-icons">insert_chart</i>
+            </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
+            <td>
+              <i class="material-icons">insert_chart</i>
+            </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
+            <td>
+              <i class="material-icons">insert_chart</i>
+            </td>
           </tr>
         </tbody>
       </table>
