@@ -6,7 +6,7 @@ const Chart = () => {
     <>
       <div className="header">
         <h5 className="title">
-          Balance Over Time - Varsinainen (FI29 4434 4032 2405 33)
+          Balance 2021 - Varsinainen (FI29 4434 4032 2405 33)
         </h5>
         <div className="links"></div>
       </div>

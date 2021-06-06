@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import AddAccountModal from "../account/AddAccountModal";
+import AddAccountBtn from "../account/AddAccountBtn";
 
 const AccountList = () => {
   return (
     <div className="mt-5" style={{ height: "300px", overflow: "auto" }}>
-      <button className="btn btn-primary">New Account</button>
-
+      <AddAccountBtn />
+      <AddAccountModal />
       <table className="table">
         <thead>
           <tr>
