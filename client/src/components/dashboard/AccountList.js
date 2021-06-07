@@ -23,7 +23,7 @@ const AccountList = () => {
             </td>
             <td>340,50€</td>
             <td>
-              <i class="material-icons">insert_chart</i>
+              <i className="material-icons">insert_chart</i>
             </td>
           </tr>
 
@@ -31,49 +31,49 @@ const AccountList = () => {
             <td>Säästö</td>
             <td>12000,44€</td>
             <td>
-              <i class="material-icons">insert_chart</i>
+              <i className="material-icons">insert_chart</i>
             </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
             <td>
-              <i class="material-icons">insert_chart</i>
+              <i className="material-icons">insert_chart</i>
             </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
             <td>
-              <i class="material-icons">insert_chart</i>
+              <i className="material-icons">insert_chart</i>
             </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
             <td>
-              <i class="material-icons">insert_chart</i>
+              <i className="material-icons">insert_chart</i>
             </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
             <td>
-              <i class="material-icons">insert_chart</i>
+              <i className="material-icons">insert_chart</i>
             </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
             <td>
-              <i class="material-icons">insert_chart</i>
+              <i className="material-icons">insert_chart</i>
             </td>
           </tr>
           <tr>
             <td>Visa Credit</td>
             <td>5,48€</td>
             <td>
-              <i class="material-icons">insert_chart</i>
+              <i className="material-icons">insert_chart</i>
             </td>
           </tr>
         </tbody>

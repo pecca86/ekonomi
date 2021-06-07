@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import TimeIntervallTransaction from "./TimeIntervallTransaction";
 
 const TimeIntervall = () => {

@@ -1,7 +1,28 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = formData;
+
+  // Component state functions
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log("Logged in!");
+    setFormData({
+      email: "",
+      password: "",
+    });
+  };
+
   return (
     <Fragment>
       <div className="container">
@@ -9,12 +30,14 @@ const Login = () => {
         <p className="lead">
           <i className="fas fa-user" /> Sign Into Your Account
         </p>
-        <form className="form">
+        <form className="form" onSubmit={onSubmit}>
           <div className="form-group">
             <input
               type="email"
               placeholder="Email Address"
               name="email"
+              value={email}
+              onChange={onChange}
               required
             />
           </div>
@@ -23,7 +46,9 @@ const Login = () => {
               type="password"
               placeholder="Password"
               name="password"
-              minLength="6"
+              value={password}
+              onChange={onChange}
+              required
             />
           </div>
           <input type="submit" className="btn btn-primary" value="Login" />
