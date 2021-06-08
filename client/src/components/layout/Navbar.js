@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/auth/authActions";
 
-const Navbar = ({ logout }) => {
+const Navbar = ({ logout, isAuthenticated }) => {
   const onLogout = (e) => {
     e.preventDefault();
     logout();
@@ -14,27 +14,39 @@ const Navbar = ({ logout }) => {
     <nav>
       <div className="container">
         <div className="nav-wrapper">
-          <Link to="/" className="brand-logo">
-            Dashboard
-          </Link>
+          {isAuthenticated ? (
+            <Link to="/" className="brand-logo">
+              Dashboard
+            </Link>
+          ) : (
+            <p className="brand-logo">JEkonomi</p>
+          )}
           <a href="#!" data-target="mobile-demo" className="sidenav-trigger">
             <i className="material-icons">menu</i>
           </a>
           <ul className="right hide-on-med-and-down">
-            <li>
-              <Link to="/Login">Login</Link>
-            </li>
-            <li>
-              <Link to="/Register">Register</Link>
-            </li>
-            <li>
-              <Link to="/login" onClick={onLogout}>
-                Logout
-              </Link>
-            </li>
-            <li>
-              <Link to="/profile">{profileIcon}</Link>
-            </li>
+            {!isAuthenticated && (
+              <Fragment>
+                <li>
+                  <Link to="/Login">Login</Link>
+                </li>
+                <li>
+                  <Link to="/Register">Register</Link>
+                </li>
+              </Fragment>
+            )}
+            {isAuthenticated && (
+              <Fragment>
+                <li>
+                  <Link to="/login" onClick={onLogout}>
+                    Logout
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/profile">{profileIcon}</Link>
+                </li>
+              </Fragment>
+            )}
           </ul>
         </div>
         <ul className="sidenav" id="mobile-demo">
@@ -76,7 +88,8 @@ const profileIcon = (
 );
 
 Navbar.propTypes = {
-  logout: PropTypes.func.isRequired,
+  logout: PropTypes.func,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
