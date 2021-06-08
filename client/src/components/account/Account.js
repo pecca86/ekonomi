@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import TimeIntervall from "./TimeIntervall";
 import AccountTransactions from "./AccountTransactions";
@@ -6,14 +6,21 @@ import AddBtn from "./AddBtn";
 import AddTransactionModal from "./AddTransactionModal";
 import AddTimeintervallModal from "./AddTimeintervallModal";
 import DeleteAccountModal from "./DeleteAccountModal";
+// Materialize-css
+import "materialize-css/dist/css/materialize.min.css";
+import M from "materialize-css/dist/js/materialize.min.js";
 
 const Account = () => {
+  useEffect(() => {
+    M.AutoInit();
+  },[]);
+
   return (
     <Fragment>
       <div className="container">
         <h5>FI29 4434 4032 2405 33 - Varsinainen</h5>
         <h6>Balance: 340,50€</h6>
-        { profileIcon }
+        {profileIcon}
         <span className="ps-2">
           <Link to="/profile" className="text-dark">
             Janina Ranta-aho

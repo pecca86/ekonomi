@@ -9,7 +9,9 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Profile from "./components/profle/Profile";
 import ChangePassword from "./components/profle/ChangePassword";
-import Alert from './components/layout/Alert'
+import Alert from "./components/layout/Alert";
+import setAuthToken from "./utils/setAuthToken";
+import { loadUser } from "./actions/auth/authActions";
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
@@ -21,7 +23,14 @@ const App = () => {
   useEffect(() => {
     // Init Materialize JS
     M.AutoInit();
-  });
+    // For user authentication
+    // Check if there is a token
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    store.dispatch(loadUser());
+  }, []);
+
   return (
     <Provider store={store}>
       <Router>

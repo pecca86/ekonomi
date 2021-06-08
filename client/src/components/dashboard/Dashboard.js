@@ -1,10 +1,17 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import AccountList from "./AccountList";
 import Chart from "../chart/Chart";
 import AddAccountModal from "../account/AddAccountModal";
 import { Link } from "react-router-dom";
+// Materialize-css
+import "materialize-css/dist/css/materialize.min.css";
+import M from "materialize-css/dist/js/materialize.min.js";
 
 const Dashboard = () => {
+  useEffect(() => {
+    M.AutoInit();
+  }, []);
+
   return (
     <Fragment>
       <div className="container">
