@@ -1,7 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { logout } from "../../actions/auth/authActions";
 
-const Sidebar = () => {
+const Navbar = ({ logout }) => {
+  const onLogout = (e) => {
+    e.preventDefault();
+    logout();
+  };
+
   return (
     <nav>
       <div className="container">
@@ -20,7 +28,9 @@ const Sidebar = () => {
               <Link to="/Register">Register</Link>
             </li>
             <li>
-              <Link to="#!">Logout</Link>
+              <Link to="/login" onClick={onLogout}>
+                Logout
+              </Link>
             </li>
             <li>
               <Link to="/profile">{profileIcon}</Link>
@@ -35,7 +45,9 @@ const Sidebar = () => {
             <Link to="/Register">Register</Link>
           </li>
           <li>
-            <Link to="#!">Logout</Link>
+            <Link to="/login" onClick={onLogout}>
+              Logout
+            </Link>
           </li>
           <li>
             <Link to="/profile">{profileIcon} Profile</Link>
@@ -63,4 +75,12 @@ const profileIcon = (
   </svg>
 );
 
-export default Sidebar;
+Navbar.propTypes = {
+  logout: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);

@@ -116,7 +116,7 @@ export const logout = () => async (dispatch) => {
     dispatch({
       type: LOGOUT_SUCCESS,
     });
-    dispatch(setAlert(res.data, "success"));
+    dispatch(setAlert("Log out successful!", "success"));
   } catch (err) {
     dispatch(setAlert(err.response.data.error, "danger"));
   }
