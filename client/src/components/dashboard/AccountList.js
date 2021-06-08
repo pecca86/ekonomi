@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import AddAccountModal from "../account/AddAccountModal";
 import AddAccountBtn from "../account/AddAccountBtn";
+import AccountListItem from "./AccountListItem";
 
 const AccountList = () => {
   return (
@@ -17,65 +18,12 @@ const AccountList = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <Link to="/account">Varsinainen</Link>
-            </td>
-            <td>340,50€</td>
-            <td>
-              <i className="material-icons">insert_chart</i>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Säästö</td>
-            <td>12000,44€</td>
-            <td>
-              <i className="material-icons">insert_chart</i>
-            </td>
-          </tr>
-          <tr>
-            <td>Visa Credit</td>
-            <td>5,48€</td>
-            <td>
-              <i className="material-icons">insert_chart</i>
-            </td>
-          </tr>
-          <tr>
-            <td>Visa Credit</td>
-            <td>5,48€</td>
-            <td>
-              <i className="material-icons">insert_chart</i>
-            </td>
-          </tr>
-          <tr>
-            <td>Visa Credit</td>
-            <td>5,48€</td>
-            <td>
-              <i className="material-icons">insert_chart</i>
-            </td>
-          </tr>
-          <tr>
-            <td>Visa Credit</td>
-            <td>5,48€</td>
-            <td>
-              <i className="material-icons">insert_chart</i>
-            </td>
-          </tr>
-          <tr>
-            <td>Visa Credit</td>
-            <td>5,48€</td>
-            <td>
-              <i className="material-icons">insert_chart</i>
-            </td>
-          </tr>
-          <tr>
-            <td>Visa Credit</td>
-            <td>5,48€</td>
-            <td>
-              <i className="material-icons">insert_chart</i>
-            </td>
-          </tr>
+          <AccountListItem />
+          <AccountListItem />
+          <AccountListItem />
+          <AccountListItem />
+          <AccountListItem />
+          <AccountListItem />
         </tbody>
       </table>
     </div>

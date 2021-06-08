@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { getCurrentProfile } from "../../actions/profile/profileActoins";
 
+const Profile = ({ getCurrentProfile, profile, auth }) => {
+  useEffect(() => {
+    getCurrentProfile();
+  }, []);
 
-const Profile = () => {
   return (
     <div className="container">
       <div className="row">
@@ -36,4 +42,15 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+Profile.propTypes = {
+  profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { getCurrentProfile })(Profile);
