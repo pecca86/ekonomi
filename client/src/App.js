@@ -1,6 +1,7 @@
 import "./App.css";
 import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import PrivateRoute from "./components/routing/PrivateRoute";
 import Dashboard from "./components/dashboard/Dashboard";
 import Header from "./components/layout/Header";
 import Navbar from "./components/layout/Navbar";
@@ -39,12 +40,12 @@ const App = () => {
           <Navbar />
           <Alert />
           <Switch>
-            <Route exact path="/" component={Dashboard} />
-            <Route exact path="/account" component={Account} />
+            <PrivateRoute exact path="/" component={Dashboard} />
+            <PrivateRoute exact path="/account" component={Account} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/profile/password" component={ChangePassword} />
+            <PrivateRoute exact path="/profile" component={Profile} />
+            <PrivateRoute exact path="/profile/password" component={ChangePassword} />
           </Switch>
         </Fragment>
       </Router>
