@@ -1,13 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getCurrentProfile } from "../../actions/profile/profileActoins";
 
-const Profile = ({ getCurrentProfile, profile, auth }) => {
-  useEffect(() => {
-    getCurrentProfile();
-  }, []);
+const Profile = ({ auth }) => {
+  const { firstname, lastname, email } = auth.user.data;
+
+  const [formData, setFormData] = useState({
+    firstname: firstname,
+    lastname: lastname,
+    email: email,
+  });
+
+  // STATE FUNCTIONS
+  const onChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="container">
@@ -19,21 +27,21 @@ const Profile = ({ getCurrentProfile, profile, auth }) => {
               <form>
                 <div className="mb-3">
                   <label htmlFor="firstname">Firstname</label>
-                  <input type="text" name="firstname" id="" value="Janina" />
+                  <input onChange={onChange} type="text" name="firstname" id="" value={formData.firstname} />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="lastname">Lastname</label>
-                  <input type="text" name="lastname" id="" value="Ranta-aho" />
+                  <input onChange={onChange} type="text" name="lastname" id="" value={formData.lastname} />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="email">Email</label>
-                  <input type="text" name="email" id="" value="J9@gmail.com" />
+                  <input onChange={onChange} type="email" name="email" id="" value={formData.email} />
+                </div>
+                <Link to="/profile/password">Change Password</Link>
+                <div className="card-action ps-0">
+                  <a href="#!">Submit</a>
                 </div>
               </form>
-              <Link to="/profile/password">Change Password</Link>
-            </div>
-            <div className="card-action">
-              <a href="#!">Submit</a>
             </div>
           </div>
         </div>
@@ -43,14 +51,11 @@ const Profile = ({ getCurrentProfile, profile, auth }) => {
 };
 
 Profile.propTypes = {
-  profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  profile: state.profile,
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Profile);
+export default connect(mapStateToProps)(Profile);
