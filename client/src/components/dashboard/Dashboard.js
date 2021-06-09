@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import AccountList from "./AccountList";
 import Chart from "../chart/Chart";
-import AddAccountModal from "../account/AddAccountModal";
 import { Link } from "react-router-dom";
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
@@ -27,7 +26,6 @@ const Dashboard = () => {
       <Fragment>
         <div className="container">
           <AccountList />
-          <AddAccountModal />
           <hr />
           <Chart />
         </div>

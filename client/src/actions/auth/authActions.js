@@ -99,7 +99,7 @@ export const login =
         payload: res.data,
       });
 
-      //dispatch(loadUser());
+      dispatch(loadUser());
       dispatch(setAlert("Welcome back!", "success"));
     } catch (err) {
       const errors = err.response.data.error;

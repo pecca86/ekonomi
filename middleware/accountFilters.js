@@ -3,12 +3,18 @@ const ErrorResponse = require("../utils/errorResponse");
 const Transaction = require("../models/Transaction");
 const Account = require("../models/Account");
 const mongoose = require("mongoose");
-const { EJSON } = require('bson')
-const { v4: uuidv4 } = require('uuid');
+const { EJSON } = require("bson");
+const { v4: uuidv4 } = require("uuid");
 
 const accountFilters =
   (model, populate, type = "") =>
   async (req, res, next) => {
+    // Check if there is a logged in user
+    if (!req.user) {
+      return next(
+        new ErrorResponse("You need to be logged in to access this route!", 400)
+      );
+    }
     // If there is a accountId passed in by the params, check if it is a valid one
     if (req.params.accountId) {
       if (!mongoose.Types.ObjectId.isValid(req.params.accountId)) {
@@ -16,13 +22,13 @@ const accountFilters =
       }
 
       // This saves the query to the account, so that we can fetch old queries upon loading the object
-      const account = await Account.findById(req.params.accountId)
+      const account = await Account.findById(req.params.accountId);
       // create a unique id for this query and put it inside the query
-      req.query.id = uuidv4()
-      account.accountQueries.push(EJSON.stringify(req.query))
-      await account.save()
+      req.query.id = uuidv4();
+      account.accountQueries.push(EJSON.stringify(req.query));
+      await account.save();
       // nullify the id so that it does not break the other queries
-      req.query.id = null
+      req.query.id = null;
     }
 
     // === QUERIES ===
