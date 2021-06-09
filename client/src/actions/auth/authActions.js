@@ -6,6 +6,10 @@ import {
   LOGOUT_SUCCESS,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  UPDATE_USER,
+  UPDATE_PASSWORD,
+  UPDATE_USER_FAIL,
+  UPDATE_PASSWORD_FAIL,
 } from "./authTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -95,7 +99,7 @@ export const login =
         payload: res.data,
       });
 
-      dispatch(loadUser());
+      //dispatch(loadUser());
       dispatch(setAlert("Welcome back!", "success"));
     } catch (err) {
       const errors = err.response.data.error;
@@ -119,5 +123,33 @@ export const logout = () => async (dispatch) => {
     dispatch(setAlert("Log out successful!", "success"));
   } catch (err) {
     dispatch(setAlert(err.response.data.error, "danger"));
+  }
+};
+
+// Update user
+export const updateUser = (formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify(formData);
+
+  try {
+    const res = await axios.put("/api/v1/users", body, config);
+    dispatch({
+      type: UPDATE_USER,
+      payload: res.data,
+    });
+
+    dispatch(loadUser());
+    dispatch(setAlert("Profile updated!", "success"));
+  } catch (err) {
+    dispatch(setAlert("Email address already exists!", "danger"));
+
+    dispatch({
+      type: UPDATE_USER_FAIL,
+    });
   }
 };

@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { updateUser, loadUser } from "../../actions/auth/authActions";
 
-const Profile = ({ auth }) => {
+const Profile = ({ auth, updateUser }) => {
   const { firstname, lastname, email } = auth.user.data;
+
+  /*   useEffect(() => {
+    loadUser()
+  }, [loadUser]) */
 
   const [formData, setFormData] = useState({
     firstname: firstname,
@@ -17,6 +22,18 @@ const Profile = ({ auth }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const data = {
+      firstname: formData.firstname,
+      lastname: formData.lastname,
+      email: formData.email,
+    };
+
+    updateUser(data);
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -24,22 +41,44 @@ const Profile = ({ auth }) => {
           <div className="card darken-1">
             <div className="card-content black-text">
               <span className="card-title">Edit Profile</span>
-              <form>
+              <form onSubmit={onSubmit} className="form">
                 <div className="mb-3">
                   <label htmlFor="firstname">Firstname</label>
-                  <input onChange={onChange} type="text" name="firstname" id="" value={formData.firstname} />
+                  <input
+                    onChange={onChange}
+                    type="text"
+                    name="firstname"
+                    id=""
+                    value={formData.firstname}
+                  />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="lastname">Lastname</label>
-                  <input onChange={onChange} type="text" name="lastname" id="" value={formData.lastname} />
+                  <input
+                    onChange={onChange}
+                    type="text"
+                    name="lastname"
+                    id=""
+                    value={formData.lastname}
+                  />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="email">Email</label>
-                  <input onChange={onChange} type="email" name="email" id="" value={formData.email} />
+                  <input
+                    onChange={onChange}
+                    type="email"
+                    name="email"
+                    id=""
+                    value={formData.email}
+                  />
                 </div>
                 <Link to="/profile/password">Change Password</Link>
                 <div className="card-action ps-0">
-                  <a href="#!">Submit</a>
+                  <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value="SUBMIT"
+                  />
                 </div>
               </form>
             </div>
@@ -52,10 +91,11 @@ const Profile = ({ auth }) => {
 
 Profile.propTypes = {
   auth: PropTypes.object.isRequired,
+  updateUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps, { updateUser })(Profile);

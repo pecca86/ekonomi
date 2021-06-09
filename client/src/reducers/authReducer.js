@@ -6,6 +6,10 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
   LOGIN_FAIL,
+  UPDATE_USER,
+  UPDATE_PASSWORD,
+  UPDATE_USER_FAIL,
+  UPDATE_PASSWORD_FAIL,
 } from "../actions/auth/authTypes";
 
 const initialState = {
@@ -42,6 +46,11 @@ export default function (state = initialState, action) {
         user: null,
         token: null,
         isAuthenticated: null,
+      };
+    case UPDATE_USER:
+      return {
+        ...state,
+        user: action.payload,
       };
     default:
       return state;
