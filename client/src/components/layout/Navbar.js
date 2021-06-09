@@ -89,7 +89,7 @@ const profileIcon = (
 
 Navbar.propTypes = {
   logout: PropTypes.func,
-  isAuthenticated: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({

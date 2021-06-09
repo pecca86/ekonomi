@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import AddAccountModal from "../account/AddAccountModal";
 import AddAccountBtn from "../account/AddAccountBtn";
 import AccountListItem from "./AccountListItem";

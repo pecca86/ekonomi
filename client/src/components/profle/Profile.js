@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { updateUser, loadUser } from "../../actions/auth/authActions";
+import { updateUser } from "../../actions/auth/authActions";
 
 const Profile = ({ auth, updateUser }) => {
   const { firstname, lastname, email } = auth.user.data;
-
-  /*   useEffect(() => {
-    loadUser()
-  }, [loadUser]) */
 
   const [formData, setFormData] = useState({
     firstname: firstname,

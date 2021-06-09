@@ -8,8 +8,6 @@ import {
   LOGIN_FAIL,
   UPDATE_USER,
   UPDATE_PASSWORD,
-  UPDATE_USER_FAIL,
-  UPDATE_PASSWORD_FAIL,
 } from "../actions/auth/authTypes";
 
 const initialState = {
@@ -24,6 +22,7 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case REGISTER_SUCCES:
     case LOGIN_SUCCESS:
+    case UPDATE_PASSWORD:
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
@@ -52,6 +51,7 @@ export default function (state = initialState, action) {
         ...state,
         user: action.payload,
       };
+
     default:
       return state;
   }

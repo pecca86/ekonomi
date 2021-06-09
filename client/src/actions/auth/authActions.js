@@ -153,3 +153,34 @@ export const updateUser = (formData) => async (dispatch) => {
     });
   }
 };
+
+// Update user Password
+export const updateUserPassword = (formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify(formData);
+  console.log(body);
+
+  try {
+    const res = await axios.put("/api/v1/users/password", body, config);
+    dispatch({
+      type: UPDATE_PASSWORD,
+      payload: res.data,
+    });
+
+    dispatch(loadUser());
+    dispatch(setAlert("Password updated!", "success"));
+  } catch (err) {
+    const error = err.response.data.error;
+
+    dispatch(setAlert(error, "danger"));
+
+    dispatch({
+      type: UPDATE_PASSWORD_FAIL,
+    });
+  }
+};

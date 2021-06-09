@@ -47,8 +47,9 @@ exports.updateUserPassword = wrapAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id).select("+password");
 
   // check if old password is correct using our models matchPassword method
-  if (!user.matchPassword(req.body.currentPassword)) {
-    return next(new ErrorResponse("Password is incorrect!", 401));
+  const passwordValidated = await user.matchPassword(req.body.currentPassword);
+  if (!passwordValidated) {
+    return next(new ErrorResponse("Invalid login credentials", 401));
   }
 
   // assign the new password
