@@ -1,18 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-const AccountListItem = () => {
+const AccountListItem = ({account}) => {
   return (
     <tr>
       <td>
-        <Link to="/account">Varsinainen</Link>
+        <Link to="/account">{account.name}</Link>
       </td>
-      <td>340,50€</td>
+      <td>{account.balance}€</td>
       <td>
         <i className="material-icons">insert_chart</i>
       </td>
     </tr>
   );
 };
+
+AccountListItem.propTypes ={
+  account: PropTypes.object.isRequired,
+}
 
 export default AccountListItem;

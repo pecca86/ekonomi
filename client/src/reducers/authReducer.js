@@ -8,12 +8,13 @@ import {
   LOGIN_FAIL,
   UPDATE_USER,
   UPDATE_PASSWORD,
+  SET_LOADING,
 } from "../actions/auth/authTypes";
 
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
-  loading: false,
+  loading: true,
   user: null,
 };
 
@@ -34,6 +35,7 @@ export default function (state = initialState, action) {
         ...state,
         isAuthenticated: true,
         user: action.payload,
+        loading: false,
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:
@@ -45,13 +47,18 @@ export default function (state = initialState, action) {
         user: null,
         token: null,
         isAuthenticated: null,
+        loading: true,
       };
     case UPDATE_USER:
       return {
         ...state,
         user: action.payload,
       };
-
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
     default:
       return state;
   }

@@ -13,6 +13,7 @@ import ChangePassword from "./components/profle/ChangePassword";
 import Alert from "./components/layout/Alert";
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth/authActions";
+import { getAccounts } from "./actions/account/accountActions";
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
@@ -30,6 +31,7 @@ const App = () => {
       setAuthToken(localStorage.token);
     }
     store.dispatch(loadUser());
+    store.dispatch(getAccounts());
   }, []);
 
   return (
@@ -45,7 +47,11 @@ const App = () => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <PrivateRoute exact path="/profile" component={Profile} />
-            <PrivateRoute exact path="/profile/password" component={ChangePassword} />
+            <PrivateRoute
+              exact
+              path="/profile/password"
+              component={ChangePassword}
+            />
           </Switch>
         </Fragment>
       </Router>

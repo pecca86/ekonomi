@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { updateUser } from "../../actions/auth/authActions";
 
 const Profile = ({ auth, updateUser }) => {
-  const { firstname, lastname, email } = auth.user.data;
+  const { firstname, lastname, email } = auth.user;
 
   const [formData, setFormData] = useState({
     firstname: firstname,

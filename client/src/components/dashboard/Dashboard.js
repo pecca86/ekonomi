@@ -2,14 +2,24 @@ import React, { Fragment, useEffect } from "react";
 import AccountList from "./AccountList";
 import Chart from "../chart/Chart";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
 
-const Dashboard = () => {
+const Dashboard = ({ auth, account }) => {
   useEffect(() => {
     M.AutoInit();
-  }, []);
+  });
+
+  if (auth.loading || account.loading || !auth.isAuthenticated || (auth.user === null) ) {
+    return (
+      <div className="container">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <Fragment>
@@ -18,7 +28,7 @@ const Dashboard = () => {
         {profileIcon}
         <span className="ps-2">
           <Link to="/profile" className="text-dark">
-            Janina Ranta-aho
+            {`${auth.user.firstname} ${auth.user.lastname}`}
           </Link>
         </span>
       </div>
@@ -51,4 +61,14 @@ const profileIcon = (
   </svg>
 );
 
-export default Dashboard;
+Dashboard.propTypes = {
+  getAccounts: PropTypes.func,
+  auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  account: state.account,
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(Dashboard);

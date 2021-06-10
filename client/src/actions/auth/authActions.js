@@ -10,6 +10,7 @@ import {
   UPDATE_PASSWORD,
   UPDATE_USER_FAIL,
   UPDATE_PASSWORD_FAIL,
+  SET_LOADING,
 } from "./authTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -23,11 +24,13 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
+    setLoading();
+
     const res = await axios.get("/api/v1/users/me");
 
     dispatch({
       type: USER_LOADED,
-      payload: res.data,
+      payload: res.data.data,
     });
   } catch (err) {
     dispatch({
@@ -57,6 +60,8 @@ export const register =
     const body = JSON.stringify(formData);
 
     try {
+      setLoading();
+
       const res = await axios.post("/api/v1/users", body, config);
       dispatch({
         type: REGISTER_SUCCES,
@@ -93,6 +98,8 @@ export const login =
     const body = JSON.stringify(formData);
 
     try {
+      setLoading();
+
       const res = await axios.post("/api/v1/users/login", body, config);
       dispatch({
         type: LOGIN_SUCCESS,
@@ -137,6 +144,8 @@ export const updateUser = (formData) => async (dispatch) => {
   const body = JSON.stringify(formData);
 
   try {
+    setLoading();
+
     const res = await axios.put("/api/v1/users", body, config);
     dispatch({
       type: UPDATE_USER,
@@ -183,4 +192,11 @@ export const updateUserPassword = (formData) => async (dispatch) => {
       type: UPDATE_PASSWORD_FAIL,
     });
   }
+};
+
+// Set loading to true
+export const setLoading = () => {
+  return {
+    type: SET_LOADING,
+  };
 };

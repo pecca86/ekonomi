@@ -6,17 +6,20 @@ import {
   DELETE_ACCOUNT,
   DELETE_TIMEINTERVALL,
   ACCOUNT_ERROR,
+  SET_LOADING,
 } from "./accountTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
 
 export const getAccounts = () => async (dispatch) => {
   try {
+    setLoading();
+
     const res = await axios.get("/api/v1/accounts");
 
     dispatch({
       type: GET_ACCOUNTS,
-      payload: res.data,
+      payload: res.data.data,
     });
   } catch (err) {
     dispatch({
@@ -37,21 +40,23 @@ export const createAccount = (formData) => async (dispatch) => {
   };
 
   // In order to make sure the balance gets passed in as a number
-  const body = JSON.stringify({...formData, 'balance': parseFloat(formData.balance) });
-
+  const body = JSON.stringify(formData);
   try {
+    setLoading();
     const res = await axios.post("/api/v1/accounts", body, config);
     dispatch({
       type: ADD_ACCOUNT,
-      payload: res.data,
+      payload: res.data.data,
     });
+    console.log(res.data.data);
+
     dispatch(setAlert("Account added!", "success"));
   } catch (err) {
     dispatch({
       type: ACCOUNT_ERROR,
-      payload: err.response.data.error,
     });
-    dispatch(setAlert("IBAN Already Taken!", "danger"));
+    console.log(err);
+    dispatch(setAlert("homo", "danger"));
   }
 };
 
@@ -65,4 +70,11 @@ export const deleteAccount = () => async (dispatch) => {
 
 export const deleteTimeintervall = () => async (dispatch) => {
   console.log("TOME HOMO");
+};
+
+// Set loading to true
+export const setLoading = () => {
+  return {
+    type: SET_LOADING,
+  };
 };

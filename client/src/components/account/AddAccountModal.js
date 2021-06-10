@@ -1,12 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import {createAccount} from '../../actions/account/accountActions'
+import { createAccount } from "../../actions/account/accountActions";
 
-const AddAccountModal = ({createAccount}) => {
+const AddAccountModal = ({ createAccount }) => {
   const [formData, setFormData] = useState({
     name: "",
-    balance: "",
     IBAN: "",
     balance: 0,
     accountType: "",
@@ -19,7 +18,7 @@ const AddAccountModal = ({createAccount}) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    createAccount(formData)
+    createAccount(formData);
   };
 
   return (
@@ -78,4 +77,8 @@ const AddAccountModal = ({createAccount}) => {
   );
 };
 
-export default connect(null, {createAccount})(AddAccountModal)
+AddAccountModal.propTypes = {
+  createAccount: PropTypes.func.isRequired,
+};
+
+export default connect(null, { createAccount })(AddAccountModal);
