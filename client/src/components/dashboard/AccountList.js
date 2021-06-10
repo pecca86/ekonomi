@@ -38,7 +38,11 @@ const AccountList = ({ account, getAccounts }) => {
               <AccountListItem key={account._id} account={account} />
             ))
           ) : (
-            <p>Create a new Account!</p>
+            <tr>
+              <td>
+                <p>Create a new Account!</p>
+              </td>
+            </tr>
           )}
         </tbody>
       </table>

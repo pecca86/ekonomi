@@ -48,7 +48,6 @@ export const createAccount = (formData) => async (dispatch) => {
       type: ADD_ACCOUNT,
       payload: res.data.data,
     });
-    console.log(res.data.data);
 
     dispatch(setAlert("Account added!", "success"));
   } catch (err) {
