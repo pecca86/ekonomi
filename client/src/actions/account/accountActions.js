@@ -28,8 +28,17 @@ export const getAccounts = () => async (dispatch) => {
   }
 };
 
-export const getAccount = () => async (dispatch) => {
-  console.log("bög");
+export const getAccount = (accountId) => async (dispatch) => {
+  setLoading();
+  try {
+    const res = await axios.get(`/api/v1/accounts/${accountId}`);
+    dispatch({
+      type: GET_ACCOUNT,
+      payload: res.data.data,
+    });
+  } catch (err) {
+    dispatch(setAlert("Failed to get the account", "danger"));
+  }
 };
 
 export const createAccount = (formData) => async (dispatch) => {
@@ -39,7 +48,6 @@ export const createAccount = (formData) => async (dispatch) => {
     },
   };
 
-  // In order to make sure the balance gets passed in as a number
   const body = JSON.stringify(formData);
   try {
     setLoading();
@@ -55,21 +63,45 @@ export const createAccount = (formData) => async (dispatch) => {
       type: ACCOUNT_ERROR,
     });
     console.log(err);
-    dispatch(setAlert("homo", "danger"));
+    dispatch(
+      setAlert(
+        "Error in creating account (TIP! Check if IBAN already exists)",
+        "danger"
+      )
+    );
   }
 };
 
-export const updateAccount = () => async (dispatch) => {
+export const updateAccount = (accountId) => async (dispatch) => {
   console.log("bög");
 };
 
-export const deleteAccount = () => async (dispatch) => {
-  console.log("bög");
+export const deleteAccount = (accountId) => async (dispatch) => {
+  //TODO: CLEAR ACCOUNT TRANSACTIONS WITH REDUCER CLEAR_TRANSACTIONS
+  setLoading();
+  try {
+    await axios.delete(`/api/v1/accounts/${accountId}`);
+    const res = await axios.get("/api/v1/accounts");
+    dispatch({
+      type: DELETE_ACCOUNT,
+      payload: accountId,
+    });
+    dispatch({
+      type: GET_ACCOUNTS,
+      payload: res.data.data,
+    });
+    dispatch(
+      setAlert("Account and all related transactions were deleted!", "success")
+    );
+  } catch (err) {
+    dispatch(setAlert("Failed to delete the account", "danger"));
+  }
 };
 
-export const deleteTimeintervall = () => async (dispatch) => {
-  console.log("TOME HOMO");
-};
+export const deleteTimeintervall =
+  (accountId, timeIntervallId) => async (dispatch) => {
+    console.log("TOME HOMO");
+  };
 
 // Set loading to true
 export const setLoading = () => {

@@ -1,29 +1,41 @@
 import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import TimeIntervall from "./TimeIntervall";
 import AccountTransactions from "./AccountTransactions";
 import AddBtn from "./AddBtn";
-import AddTransactionModal from "./AddTransactionModal";
+import AddTransactionModal from "../transaction/AddTransactionModal";
 import AddTimeintervallModal from "./AddTimeintervallModal";
 import DeleteAccountModal from "./DeleteAccountModal";
+import { getAccount } from "../../actions/account/accountActions";
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
 
-const Account = () => {
+const Account = ({ auth, getAccount, match, account }) => {
   useEffect(() => {
+    getAccount(match.params.accountId);
     M.AutoInit();
-  },[]);
+  }, [getAccount, M.AutoInit]);
+
+  if (account.loading || !account.account) {
+    return <p>Loading...</p>
+  }
+
+  const {
+    account: { IBAN, name, accountType, balance, _id },
+  } = account;
 
   return (
     <Fragment>
       <div className="container">
-        <h5>FI29 4434 4032 2405 33 - Varsinainen</h5>
-        <h6>Balance: 340,50€</h6>
+        <h5>{`${IBAN} - ${name} (${accountType})`}</h5>
+        <h6>Balance: {balance}€</h6>
         {profileIcon}
         <span className="ps-2">
           <Link to="/profile" className="text-dark">
-            Janina Ranta-aho
+            {`${auth.user.firstname} ${auth.user.lastname}`}
           </Link>
         </span>
       </div>
@@ -60,4 +72,15 @@ const profileIcon = (
   </svg>
 );
 
-export default Account;
+Account.propTypes = {
+  auth: PropTypes.object.isRequired,
+  account: PropTypes.object.isRequired,
+  getAccount: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  account: state.account,
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { getAccount })(Account);

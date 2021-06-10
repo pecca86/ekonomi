@@ -8,8 +8,8 @@ import Navbar from "./components/layout/Navbar";
 import Account from "./components/account/Account";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-import Profile from "./components/profle/Profile";
-import ChangePassword from "./components/profle/ChangePassword";
+import Profile from "./components/profile/Profile";
+import ChangePassword from "./components/profile/ChangePassword";
 import Alert from "./components/layout/Alert";
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth/authActions";
@@ -43,7 +43,7 @@ const App = () => {
           <Alert />
           <Switch>
             <PrivateRoute exact path="/" component={Dashboard} />
-            <PrivateRoute exact path="/account" component={Account} />
+            <PrivateRoute exact path="/account/:accountId" component={Account} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <PrivateRoute exact path="/profile" component={Profile} />

@@ -26,7 +26,11 @@ export default (state = initialState, action) => {
         loading: false
       };
     case GET_ACCOUNT:
-      return "";
+      return {
+        ...state,
+        account: action.payload,
+        loading: false
+      };
     case UPDATE_ACCOUNT:
       return "";
     case ADD_ACCOUNT:
@@ -36,7 +40,11 @@ export default (state = initialState, action) => {
         loading: false
       };
     case DELETE_ACCOUNT:
-      return "";
+      return {
+        ...state,
+        accounts: state.accounts.filter(account => account.id !== action.payload),
+        loading: false
+      };
     case DELETE_TIMEINTERVALL:
       return "";
     case ACCOUNT_ERROR:
