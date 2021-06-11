@@ -5,11 +5,11 @@ import {
   DELETE_TRANSACTION,
   SET_TIMEINTERVALL,
   //GET_TIMEINTERVALLS,
-  SET_QUERIES
+  SET_QUERIES,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
-import { getAccount } from '../account/accountActions'
+import { getAccount } from "../account/accountActions";
 
 export const getAllAccountTransactions = (accountId) => async (dispatch) => {
   try {
@@ -27,7 +27,6 @@ export const getAllAccountTransactions = (accountId) => async (dispatch) => {
 // EXAMPLE URL: /api/v1/accounts/60c330ea14b8c440ec8e5eee/transactions?transactionDate[gte]=2021-05-02&transactionDate[lte]=2021-06-27
 export const setTimeintervallTransactions =
   (formData, accountId) => async (dispatch) => {
-
     const { startDate, endDate } = formData;
     try {
       setLoading();
@@ -35,28 +34,27 @@ export const setTimeintervallTransactions =
         `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${startDate}&transactionDate[lte]=${endDate}`
       );
 
-      console.log(res.data)
       //put the sum into the data object
       //res.data.data.transactionSum = res.data.calculatedTransactionSum
       dispatch({
         type: SET_TIMEINTERVALL,
         payload: res.data,
       });
-      dispatch(getAccount(accountId))
+      dispatch(getAccount(accountId));
     } catch (err) {
-      console.log("timeIntFail");
+      dispatch(setAlert("Failed at creating a new timeintervall!", "danger"));
     }
   };
 
 // Puts the querystrings that recide in the account object to a list in the transaction state
-export const setQueries = queryStringList => async dispatch => {
-  const parsedQuery = []
-  queryStringList.map(q => parsedQuery.push(JSON.parse(q.toString())))
+export const setQueries = (queryStringList) => async (dispatch) => {
+  const parsedQuery = [];
+  queryStringList.map((q) => parsedQuery.push(JSON.parse(q.toString())));
   dispatch({
     type: SET_QUERIES,
-    payload: parsedQuery
-  })
-}
+    payload: parsedQuery,
+  });
+};
 
 export const createTransaction = (formData, accountId) => async (dispatch) => {
   const config = {

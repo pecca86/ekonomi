@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Moment from "react-moment";
-
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import TimeIntervallTransaction from "./TimeIntervallTransaction";
 
-const TimeIntervallItem = ({ startDate, endDate, id }) => {
+const TimeIntervallItem = ({ startDate, endDate, id, sum, transactions }) => {
   return (
     <div className="accordion" id={`timeAccordion-${id}`}>
       <div className="accordion-item">
@@ -26,7 +27,7 @@ const TimeIntervallItem = ({ startDate, endDate, id }) => {
             <div className="col-4">
               <Moment format="DD.MM.YYYY">{endDate}</Moment>
             </div>
-            <div className="col-3">200.40€</div>
+            <div className="col-3">{sum}€</div>
             <div className="col-1 trash-icon">{trash}</div>
           </button>
         </h2>
@@ -36,7 +37,7 @@ const TimeIntervallItem = ({ startDate, endDate, id }) => {
           aria-labelledby={`account-${id}`}
           data-bs-parent="#accordionExample"
         >
-          <div className="accordion-body">
+          <div className="accordion-body ">
             <div className="col">
               <strong> Incomes:</strong> 20€
             </div>
@@ -47,7 +48,30 @@ const TimeIntervallItem = ({ startDate, endDate, id }) => {
               <strong>Total including Balance:</strong> 40€
             </div>
           </div>
-          <TimeIntervallTransaction />
+
+          <div className="mb-0 mt-0 pb-0 pt-0" style={{ overflow: "auto" }}>
+            <table className="table-sm mb-2 mt-0 pb-0 pt-0">
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Sum</th>
+                  <th scope="col">{""}</th>
+                </tr>
+              </thead>
+              <tbody className="bg-light">
+                {transactions.map((e) => (
+                  <TimeIntervallTransaction
+                    key={e._id}
+                    sum={e.sum}
+                    date={e.transactionDate}
+                    description={e.description}
+                    id={e.id}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -70,4 +94,13 @@ const trash = (
     />
   </svg>
 );
-export default TimeIntervallItem;
+
+TimeIntervallItem.propTypes = {
+  transaction: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  account: state.account,
+});
+
+export default connect(mapStateToProps)(TimeIntervallItem);

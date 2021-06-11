@@ -42,10 +42,13 @@ const Account = ({ auth, getAccount, match, account, getAllAccountTransactions, 
         </span>
       </div>
       {/* FRAGMENT FOR ACCOUNT LIST */}
+      <hr />
       <Fragment>
         <div className="container">
+          <h5>Time Intervals</h5>
           <TimeIntervall />
           <hr />
+          <h5>All account Transactions</h5>
           <AccountTransactions />
         </div>
       </Fragment>

@@ -9,25 +9,6 @@ const { v4: uuidv4 } = require("uuid");
 const accountFilters =
   (model, populate, type = "") =>
   async (req, res, next) => {
-    // If there is a accountId passed in by the params, check if it is a valid one
-    if (req.params.accountId && req.query.transactionDate) {
-      if (!mongoose.Types.ObjectId.isValid(req.params.accountId)) {
-        return next(new ErrorResponse("Invalid account ID", 400));
-      }
-
-      console.log('transdate: ', req.query.transactionDate);
-
-      // This saves the query to the account, so that we can fetch old queries upon loading the object
-      const account = await Account.findById(req.params.accountId);
-      // create a unique id for this query and put it inside the query
-      req.query.id = uuidv4();
-      //await account.accountQueries.push(EJSON.stringify(req.query));
-      await account.accountQueries.push(req.query);
-      await account.save();
-      // nullify the id so that it does not break the other queries
-      req.query.id = null;
-    }
-
     // === QUERIES ===
     let query;
     // Enable selecting specific fields with specific values
@@ -110,6 +91,28 @@ const accountFilters =
     if (type === "transaction" && req.params.accountId) {
       calculatedTransactionSum = 0;
       results.forEach((result) => (calculatedTransactionSum += result.sum));
+    }
+
+    // If there is a accountId passed in by the params, check if it is a valid one
+    if (req.params.accountId && req.query.transactionDate) {
+      if (!mongoose.Types.ObjectId.isValid(req.params.accountId)) {
+        return next(new ErrorResponse("Invalid account ID", 400));
+      }
+
+      // This saves the query to the account, so that we can fetch old queries upon loading the object
+      const account = await Account.findById(req.params.accountId);
+      // create a unique id for this query and put it inside the query
+      req.query.id = uuidv4();
+      req.query.timeintervalSum = calculatedTransactionSum;
+      req.query.timeintervalTransactions = results;
+      //await account.accountQueries.push(EJSON.stringify(req.query));
+      await account.accountQueries.push(req.query);
+
+      await account.save();
+      // nullify the id so that it does not break the other queries
+      req.query.id = null;
+      req.query.timeintervalSum = null;
+      req.query.timeintervalTransactions = null;
     }
 
     // pagination result that enables checking next and previous page

@@ -1,14 +1,11 @@
 import React from "react";
-import Moment from "react-moment";
 
-const TimeIntervallTransaction = ({ sum, date, description, id }) => {
+const TimeintervallTransactionItem = ({transaction}) => {
   return (
     <tr>
-      <td>
-        <Moment format="DD.MM.YYYY">{date}</Moment>
-      </td>
-      <td>{description}</td>
-      <td>{sum}€</td>
+      <td>{transaction.transactionDate}</td>
+      <td>{transaction.description}</td>
+      <td>{transaction.sum}€</td>
       <td>{trash}</td>
     </tr>
   );
@@ -31,4 +28,4 @@ const trash = (
   </svg>
 );
 
-export default TimeIntervallTransaction;
+export default TimeintervallTransactionItem;

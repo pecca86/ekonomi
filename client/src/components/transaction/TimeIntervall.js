@@ -21,12 +21,14 @@ const TimeIntervall = ({
     <div className="mt-5" style={{ height: "300px", overflow: "auto" }}>
       <Fragment>
         <ul>
-          {account.account.accountQueries.map((intervall) => (
+          {account.account.accountQueries.map((interval) => (
             <TimeIntervallItem
-              key={intervall.id}
-              startDate={intervall.transactionDate.gte}
-              endDate={intervall.transactionDate.lte}
-              id={intervall.id}
+              key={interval.id}
+              startDate={interval.transactionDate.gte}
+              endDate={interval.transactionDate.lte}
+              sum={interval.timeintervalSum}
+              id={interval.id}
+              transactions={interval.timeintervalTransactions}
             />
           ))}
         </ul>
