@@ -19,24 +19,6 @@ const TimeIntervallTransaction = () => {
             <td>340,50€</td>
             <td>{trash}</td>
           </tr>
-          <tr>
-            <td>25.2.2021</td>
-            <td>Hyra</td>
-            <td>-1400,50€</td>
-            <td>{trash}</td>
-          </tr>
-          <tr>
-            <td>3.3.2021</td>
-            <td>Hyra</td>
-            <td>400,50€</td>
-            <td>{trash}</td>
-          </tr>
-          <tr>
-            <td>19.3.2021</td>
-            <td>Hyra</td>
-            <td>-10,50€</td>
-            <td>{trash}</td>
-          </tr>
         </tbody>
       </table>
     </div>

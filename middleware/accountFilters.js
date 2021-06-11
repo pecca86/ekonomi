@@ -10,10 +10,12 @@ const accountFilters =
   (model, populate, type = "") =>
   async (req, res, next) => {
     // If there is a accountId passed in by the params, check if it is a valid one
-    if (req.params.accountId) {
+    if (req.params.accountId && req.query.transactionDate) {
       if (!mongoose.Types.ObjectId.isValid(req.params.accountId)) {
         return next(new ErrorResponse("Invalid account ID", 400));
       }
+
+      console.log('transdate: ', req.query.transactionDate);
 
       // This saves the query to the account, so that we can fetch old queries upon loading the object
       const account = await Account.findById(req.params.accountId);

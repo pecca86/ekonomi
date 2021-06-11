@@ -18,7 +18,6 @@ const AddTransactionModal = ({ createTransaction, account }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    //TODO change sum to negative if type is spending
     createTransaction(formData, account.account._id);
   };
 
@@ -36,6 +35,7 @@ const AddTransactionModal = ({ createTransaction, account }) => {
             name="transactionDate"
             value={formData.transactionDate}
             onChange={onChange}
+            required
           />
 
           {/* TYPE */}

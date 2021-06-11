@@ -1,3 +1,11 @@
 .trash-icon:hover {
     color: red
 }
+
+.spending {
+    color: red
+}
+
+.income {
+    color: green
+}

@@ -3,6 +3,8 @@ import {
   SET_LOADING,
   GET_TRANSACTIONS,
   DELETE_TRANSACTION,
+  SET_TIMEINTERVALL,
+  //GET_TIMEINTERVALLS,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -20,6 +22,26 @@ export const getAllAccountTransactions = (accountId) => async (dispatch) => {
   }
 };
 
+// EXAMPLE URL: /api/v1/accounts/60c330ea14b8c440ec8e5eee/transactions?transactionDate[gte]=2021-05-02&transactionDate[lte]=2021-06-27
+export const setTimeintervallTransactions =
+  (formData, accountId) => async (dispatch) => {
+
+    const { startDate, endDate } = formData;
+    try {
+      setLoading();
+      const res = await axios.get(
+        `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${startDate}&transactionDate[lte]=${endDate}`
+      );
+      console.log(res.data.data);
+      dispatch({
+        type: SET_TIMEINTERVALL,
+        payload: res.data.data,
+      });
+    } catch (err) {
+      console.log("timeIntFail");
+    }
+  };
+
 export const createTransaction = (formData, accountId) => async (dispatch) => {
   const config = {
     headers: {
@@ -29,15 +51,10 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
   };
 
   const body = JSON.stringify(formData);
-  console.log(body);
+
   try {
     setLoading();
 
-    /*     const res = await axios.post(
-      "/api/v1/transactions/60c258ea6234b72b0c5574c9",
-      body,
-      config
-    ); */
     const res = await fetch(`/api/v1/transactions/${accountId}`, {
       method: "POST",
       body: body,
@@ -55,7 +72,6 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
 
     dispatch(setAlert("Transaction added!", "success"));
   } catch (err) {
-    console.log(err);
     dispatch(setAlert("Failed to create a new Transaction", "danger"));
   }
 };
@@ -66,7 +82,7 @@ export const deleteTransaction = (transactionId) => async (dispatch) => {
     await axios.delete(`/api/v1/transactions/${transactionId}`);
     dispatch({
       type: DELETE_TRANSACTION,
-      payload: transactionId
+      payload: transactionId,
     });
   } catch (err) {
     dispatch(setAlert("Failed to delete the transaction", "danger"));

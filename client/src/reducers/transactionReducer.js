@@ -3,6 +3,8 @@ import {
   GET_TRANSACTIONS,
   SET_LOADING,
   DELETE_TRANSACTION,
+  SET_TIMEINTERVALL,
+  //GET_TIMEINTERVALLS,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -33,6 +35,14 @@ export default (state = initialState, action) => {
         transactions: state.transactions.filter(
           (transaction) => transaction._id !== action.payload
         ),
+      };
+    case SET_TIMEINTERVALL:
+      return {
+        ...state,
+        timeintervalTransactions: [
+          ...state.timeintervalTransactions,
+          action.payload,
+        ],
       };
     case SET_LOADING:
       return {

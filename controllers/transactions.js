@@ -52,6 +52,11 @@ exports.createTransaction = wrapAsync(async (req, res, next) => {
     return next(new ErrorResponse("Not authorized!", 400));
   }
 
+  // Check if transaction type is of Spending and turn the value into negative
+  if (req.body.transactionType === 'Spending') {
+    req.body.sum = -Math.abs(req.body.sum);
+  }
+
   // create a transaction that is associated with this account
   const transaction = new Transaction(req.body);
   await transaction.save();
@@ -106,7 +111,7 @@ exports.deleteTransaction = wrapAsync(async (req, res, next) => {
     return next(new ErrorResponse("Not authorized!", 400));
   }
 
-  await transaction.remove()
+  await transaction.remove();
 
   res.status(200).json({
     msg: "Transaction deleted!",

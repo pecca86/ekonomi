@@ -5,7 +5,8 @@ import Moment from "react-moment";
 import { deleteTransaction } from "../../actions/transaction/transactionActions";
 
 const AccountTransactionItem = ({ transaction, deleteTransaction }) => {
-  const { sum, transactionDate, description, _id } = transaction;
+  const { sum, transactionDate, description, _id, transactionType } =
+    transaction;
 
   const onDelete = (e) => {
     e.preventDefault();
@@ -18,8 +19,14 @@ const AccountTransactionItem = ({ transaction, deleteTransaction }) => {
         <Moment format="DD.MM.YYYY">{transactionDate}</Moment>
       </td>
       <td>{description}</td>
-      <td>{sum}</td>
-      <td className="trash-icon" onClick={onDelete}>{trash}</td>
+      {transactionType === "Spending" ? (
+        <td className="spending">{sum}€</td>
+      ) : (
+        <td className="income">{sum}€</td>
+      )}
+      <td className="trash-icon" onClick={onDelete}>
+        {trash}
+      </td>
     </tr>
   );
 };
@@ -43,7 +50,7 @@ const trash = (
 
 AccountTransactionItem.propTypes = {
   transaction: PropTypes.object.isRequired,
-  deleteTransaction: PropTypes.object.isRequired,
+  deleteTransaction: PropTypes.func.isRequired,
 };
 
 export default connect(null, { deleteTransaction })(AccountTransactionItem);
