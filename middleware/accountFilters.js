@@ -21,7 +21,8 @@ const accountFilters =
       const account = await Account.findById(req.params.accountId);
       // create a unique id for this query and put it inside the query
       req.query.id = uuidv4();
-      await account.accountQueries.push(EJSON.stringify(req.query));
+      //await account.accountQueries.push(EJSON.stringify(req.query));
+      await account.accountQueries.push(req.query);
       await account.save();
       // nullify the id so that it does not break the other queries
       req.query.id = null;

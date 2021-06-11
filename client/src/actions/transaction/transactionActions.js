@@ -5,9 +5,11 @@ import {
   DELETE_TRANSACTION,
   SET_TIMEINTERVALL,
   //GET_TIMEINTERVALLS,
+  SET_QUERIES
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
+import { getAccount } from '../account/accountActions'
 
 export const getAllAccountTransactions = (accountId) => async (dispatch) => {
   try {
@@ -33,16 +35,28 @@ export const setTimeintervallTransactions =
         `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${startDate}&transactionDate[lte]=${endDate}`
       );
 
+      console.log(res.data)
       //put the sum into the data object
       //res.data.data.transactionSum = res.data.calculatedTransactionSum
       dispatch({
         type: SET_TIMEINTERVALL,
-        payload: res.data.data,
+        payload: res.data,
       });
+      dispatch(getAccount(accountId))
     } catch (err) {
       console.log("timeIntFail");
     }
   };
+
+// Puts the querystrings that recide in the account object to a list in the transaction state
+export const setQueries = queryStringList => async dispatch => {
+  const parsedQuery = []
+  queryStringList.map(q => parsedQuery.push(JSON.parse(q.toString())))
+  dispatch({
+    type: SET_QUERIES,
+    payload: parsedQuery
+  })
+}
 
 export const createTransaction = (formData, accountId) => async (dispatch) => {
   const config = {

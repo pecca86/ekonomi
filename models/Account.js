@@ -28,7 +28,7 @@ const AccountSchema = new mongoose.Schema(
     },
     accountQueries: [
       {
-        type: String
+        type: mongoose.Schema.Types.Mixed
       }
     ],
     createdAt: {

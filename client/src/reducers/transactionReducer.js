@@ -5,11 +5,13 @@ import {
   DELETE_TRANSACTION,
   SET_TIMEINTERVALL,
   //GET_TIMEINTERVALLS,
+  SET_QUERIES,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
   transactions: [],
   timeintervalTransactions: [],
+  transactionQueries: [],
   transaction: null,
   loading: true,
 };
@@ -41,8 +43,13 @@ export default (state = initialState, action) => {
         ...state,
         timeintervalTransactions: [
           ...state.timeintervalTransactions,
-          ...action.payload,
+          action.payload,
         ],
+      };
+    case SET_QUERIES:
+      return {
+        ...state,
+        transactionQueries: [...action.payload],
       };
     case SET_LOADING:
       return {
