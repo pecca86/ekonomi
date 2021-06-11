@@ -2,24 +2,26 @@ import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import TimeIntervall from "./TimeIntervall";
-import AccountTransactions from "./AccountTransactions";
+import TimeIntervall from "../transaction/TimeIntervall";
+import AccountTransactions from "../transaction/AccountTransactions";
 import AddBtn from "./AddBtn";
 import AddTransactionModal from "../transaction/AddTransactionModal";
-import AddTimeintervallModal from "./AddTimeintervallModal";
+import AddTimeintervallModal from "../transaction/AddTimeintervallModal";
 import DeleteAccountModal from "./DeleteAccountModal";
 import { getAccount } from "../../actions/account/accountActions";
+import { getAllAccountTransactions } from '../../actions/transaction/transactionActions'
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
 
-const Account = ({ auth, getAccount, match, account }) => {
+const Account = ({ auth, getAccount, match, account, getAllAccountTransactions, transaction }) => {
   useEffect(() => {
     getAccount(match.params.accountId);
+    getAllAccountTransactions(match.params.accountId);
     M.AutoInit();
-  }, [getAccount, M.AutoInit]);
+  }, [getAccount, getAllAccountTransactions, M.AutoInit]);
 
-  if (account.loading || !account.account) {
+  if (account.loading || !account.account || transaction.loading) {
     return <p>Loading...</p>
   }
 
@@ -75,12 +77,15 @@ const profileIcon = (
 Account.propTypes = {
   auth: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired,
+  transaction: PropTypes.object.isRequired,
   getAccount: PropTypes.func.isRequired,
+  getAllAccountTransactions: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   account: state.account,
   auth: state.auth,
+  transaction: state.transaction
 });
 
-export default connect(mapStateToProps, { getAccount })(Account);
+export default connect(mapStateToProps, { getAccount, getAllAccountTransactions })(Account);

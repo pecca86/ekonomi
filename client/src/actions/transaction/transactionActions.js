@@ -1,6 +1,21 @@
-import { CREATE_TRANSACTION, SET_LOADING } from "./transactionTypes";
+import { CREATE_TRANSACTION, SET_LOADING, GET_TRANSACTIONS } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
+
+export const getAllAccountTransactions = (accountId) => async dispatch => {
+  console.log("get all account transactions");
+  try {
+    setLoading()
+    const res = await axios.get(`/api/v1/accounts/${accountId}/transactions`)
+    dispatch({
+      type: GET_TRANSACTIONS,
+      payload: res.data.data
+    })
+  } catch (err) {
+    dispatch(setAlert("Failed retrieving transactions from server", "danger"))
+  }
+
+}
 
 export const createTransaction = (formData, accountId) => async (dispatch) => {
   const config = {
@@ -33,7 +48,7 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
 
     dispatch({
       type: CREATE_TRANSACTION,
-      payload: data,
+      payload: data.data,
     });
 
     dispatch(setAlert("Transaction added!", "success"));
