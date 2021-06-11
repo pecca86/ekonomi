@@ -1,21 +1,24 @@
-import { CREATE_TRANSACTION, SET_LOADING, GET_TRANSACTIONS } from "./transactionTypes";
+import {
+  CREATE_TRANSACTION,
+  SET_LOADING,
+  GET_TRANSACTIONS,
+  DELETE_TRANSACTION,
+} from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
 
-export const getAllAccountTransactions = (accountId) => async dispatch => {
-  console.log("get all account transactions");
+export const getAllAccountTransactions = (accountId) => async (dispatch) => {
   try {
-    setLoading()
-    const res = await axios.get(`/api/v1/accounts/${accountId}/transactions`)
+    setLoading();
+    const res = await axios.get(`/api/v1/accounts/${accountId}/transactions`);
     dispatch({
       type: GET_TRANSACTIONS,
-      payload: res.data.data
-    })
+      payload: res.data.data,
+    });
   } catch (err) {
-    dispatch(setAlert("Failed retrieving transactions from server", "danger"))
+    dispatch(setAlert("Failed retrieving transactions from server", "danger"));
   }
-
-}
+};
 
 export const createTransaction = (formData, accountId) => async (dispatch) => {
   const config = {
@@ -25,7 +28,6 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
     },
   };
 
-  
   const body = JSON.stringify(formData);
   console.log(body);
   try {
@@ -55,6 +57,19 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
   } catch (err) {
     console.log(err);
     dispatch(setAlert("Failed to create a new Transaction", "danger"));
+  }
+};
+
+// DELETE a transaction
+export const deleteTransaction = (transactionId) => async (dispatch) => {
+  try {
+    await axios.delete(`/api/v1/transactions/${transactionId}`);
+    dispatch({
+      type: DELETE_TRANSACTION,
+      payload: transactionId
+    });
+  } catch (err) {
+    dispatch(setAlert("Failed to delete the transaction", "danger"));
   }
 };
 

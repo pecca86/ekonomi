@@ -1,9 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Moment from "react-moment";
+import { deleteTransaction } from "../../actions/transaction/transactionActions";
 
-const AccountTransactionItem = ({ transaction }) => {
-  const { sum, transactionDate, description } = transaction;
+const AccountTransactionItem = ({ transaction, deleteTransaction }) => {
+  const { sum, transactionDate, description, _id } = transaction;
+
+  const onDelete = (e) => {
+    e.preventDefault();
+    deleteTransaction(_id);
+  };
 
   return (
     <tr>
@@ -12,7 +19,7 @@ const AccountTransactionItem = ({ transaction }) => {
       </td>
       <td>{description}</td>
       <td>{sum}</td>
-      <td>{trash}</td>
+      <td className="trash-icon" onClick={onDelete}>{trash}</td>
     </tr>
   );
 };
@@ -36,6 +43,7 @@ const trash = (
 
 AccountTransactionItem.propTypes = {
   transaction: PropTypes.object.isRequired,
+  deleteTransaction: PropTypes.object.isRequired,
 };
 
-export default AccountTransactionItem;
+export default connect(null, { deleteTransaction })(AccountTransactionItem);

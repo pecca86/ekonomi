@@ -6,6 +6,10 @@ import AccounTransactionItem from "./AccountTransactionItem";
 
 const AccountTransactions = ({transaction}) => {
 
+  if (transaction.loading) {
+    return (<p>Loading...</p>)
+  }
+
   return (
     <div style={{ height: "300px", overflow: "auto" }}>
       <table className="table-sm">

@@ -19,7 +19,7 @@ const TimeIntervall = () => {
               <div className="col-sm-1">-</div>
               <div className="col-4">15.3.2021</div>
               <div className="col-3">200.40€</div>
-              <div className="col-1">{trash}</div>
+              <div className="col-1 trash-icon">{trash}</div>
             </button>
           </h2>
           <div

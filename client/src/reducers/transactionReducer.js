@@ -2,6 +2,7 @@ import {
   CREATE_TRANSACTION,
   GET_TRANSACTIONS,
   SET_LOADING,
+  DELETE_TRANSACTION,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -24,7 +25,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         transactions: action.payload,
-        loading: false
+        loading: false,
+      };
+    case DELETE_TRANSACTION:
+      return {
+        ...state,
+        transactions: state.transactions.filter(
+          (transaction) => transaction._id !== action.payload
+        ),
       };
     case SET_LOADING:
       return {
