@@ -41,7 +41,7 @@ export default (state = initialState, action) => {
         ...state,
         timeintervalTransactions: [
           ...state.timeintervalTransactions,
-          action.payload,
+          ...action.payload,
         ],
       };
     case SET_LOADING:

@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import TimeIntervallItem from "./TimeIntervallItem";
 
 const TimeIntervall = ({ account, transaction }) => {
+  useEffect(()=> {
+    parseTimeintervalls();
+  })
   const timeIntervallArray = [];
 
   const parseTimeintervalls = () => {

@@ -32,7 +32,9 @@ export const setTimeintervallTransactions =
       const res = await axios.get(
         `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${startDate}&transactionDate[lte]=${endDate}`
       );
-      console.log(res.data.data);
+
+      //put the sum into the data object
+      //res.data.data.transactionSum = res.data.calculatedTransactionSum
       dispatch({
         type: SET_TIMEINTERVALL,
         payload: res.data.data,
