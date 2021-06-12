@@ -27,6 +27,7 @@ export const getAllAccountTransactions = (accountId) => async (dispatch) => {
 // EXAMPLE URL: /api/v1/accounts/60c330ea14b8c440ec8e5eee/transactions?transactionDate[gte]=2021-05-02&transactionDate[lte]=2021-06-27
 export const setTimeintervallTransactions =
   (formData, accountId) => async (dispatch) => {
+    console.log("FORMDATA: ", formData);
     const { startDate, endDate } = formData;
     try {
       setLoading();
@@ -40,6 +41,7 @@ export const setTimeintervallTransactions =
         type: SET_TIMEINTERVALL,
         payload: res.data,
       });
+      //updates the account so that the new intervall is shown in the UI
       dispatch(getAccount(accountId));
     } catch (err) {
       dispatch(setAlert("Failed at creating a new timeintervall!", "danger"));
@@ -48,11 +50,9 @@ export const setTimeintervallTransactions =
 
 // Puts the querystrings that recide in the account object to a list in the transaction state
 export const setQueries = (queryStringList) => async (dispatch) => {
-  const parsedQuery = [];
-  queryStringList.map((q) => parsedQuery.push(JSON.parse(q.toString())));
   dispatch({
     type: SET_QUERIES,
-    payload: parsedQuery,
+    payload: queryStringList,
   });
 };
 

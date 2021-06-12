@@ -3,7 +3,28 @@ const wrapAsync = require("../middleware/wrapAsync");
 const ErrorResponse = require("../utils/errorResponse");
 const { EJSON } = require("bson");
 
-// TODO: Controller function for verifying user to account
+// @desc    Add a transaction query date span
+// @route   PUT /api/v1/accounts/:accountId/addQuery
+// @access  Private
+exports.addTimeSpan = wrapAsync(async (req, res, next) => {
+  let account = await Account.findById(req.params.accountId);
+  if (!account) {
+    return next(new ErrorResponse("No account found.", 404));
+  }
+  // Check if the user requesting for the account details is the owner of the account
+  if (account.user.toString() !== req.user.id) {
+    return next(new ErrorResponse("Not authorized!", 400));
+  }
+
+  account = await Account.findByIdAndUpdate(req.params.accountId, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  res.status(202).json({
+    data: account,
+  });
+})
 
 // @desc    Register a new account
 // @route   POST /api/v1/accounts

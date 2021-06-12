@@ -28,17 +28,27 @@ const AccountSchema = new mongoose.Schema(
     },
     accountQueries: [
       {
-        type: mongoose.Schema.Types.Mixed
-      }
+        type: mongoose.Schema.Types.Mixed,
+      },
     ],
     createdAt: {
       type: Date,
-      default: Date.now
+      default: Date.now,
     },
     accountTransactions: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Transaction",
+      },
+    ],
+    queryTimeSpans: [
+      {
+        startDate: {
+          type: String,
+        },
+        endDate: {
+          type: String,
+        },
       },
     ],
   },

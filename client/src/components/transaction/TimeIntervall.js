@@ -7,6 +7,8 @@ import {
   setTimeintervallTransactions,
 } from "../../actions/transaction/transactionActions";
 
+import TESTITEM from "./TESTITEM";
+
 const TimeIntervall = ({
   account,
   transaction,
@@ -15,6 +17,20 @@ const TimeIntervall = ({
 }) => {
   useEffect(() => {
     setQueries(account.account.accountQueries);
+    // MAKE A REQ BASED ON ACCOUNT QUERIES
+    if (account.account.accountQueries) {
+      {
+        account.account.accountQueries.map((query) =>
+          setTimeintervallTransactions(
+            {
+              startDate: query.transactionDate.gte,
+              endDate: query.transactionDate.lte,
+            },
+            account.account._id
+          )
+        );
+      }
+    }
   }, [setQueries]);
 
   return (
@@ -32,6 +48,11 @@ const TimeIntervall = ({
             />
           ))}
         </ul>
+      </Fragment>
+      <Fragment>
+        {transaction.timeintervalTransactions.map((tit) => (
+          <TESTITEM data={tit} />
+        ))}
       </Fragment>
     </div>
   );

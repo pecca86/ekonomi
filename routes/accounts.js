@@ -7,6 +7,7 @@ const {
   updateAccount,
   deleteAccount,
   deleteAccountQuery,
+  addTimeSpan,
 } = require("../controllers/accounts");
 const { protectedRoute } = require("../middleware/auth");
 const accountFilters = require("../middleware/accountFilters");
@@ -36,5 +37,6 @@ router
   .delete(protectedRoute, deleteAccount);
 
 router.route("/:accountId/:queryId").delete(protectedRoute, deleteAccountQuery);
+router.route("/:accountId/addQuery").put(protectedRoute, addTimeSpan);
 
 module.exports = router;

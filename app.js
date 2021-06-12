@@ -79,6 +79,9 @@ app.use("/api/v1/accounts", accounts);
 const transactions = require("./routes/transactions");
 app.use("/api/v1/transactions", transactions);
 
+const timeSpans = require('./routes/timeSpans')
+app.use('/api/v1/timespans', timeSpans)
+
 // Errorhandling middleware for routes
 // NEEDS TO COME AFTER ALL OTHER MIDDLEWARE!
 const errorHandler = require("./middleware/error");

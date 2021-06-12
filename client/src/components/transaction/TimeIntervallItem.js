@@ -96,7 +96,7 @@ const trash = (
 );
 
 TimeIntervallItem.propTypes = {
-  transaction: PropTypes.object.isRequired,
+  transaction: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

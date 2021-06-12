@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { findByIdAndUpdate } = require("./Account");
 
 const TransactionSchema = new mongoose.Schema({
   sum: {
