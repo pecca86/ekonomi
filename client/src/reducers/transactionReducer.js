@@ -6,6 +6,8 @@ import {
   SET_TIMEINTERVALL,
   //GET_TIMEINTERVALLS,
   SET_QUERIES,
+  GET_TIMESPANS,
+  FLUSH_TIMEINTERVALLS
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -14,6 +16,7 @@ const initialState = {
   transactionQueries: [],
   transaction: null,
   loading: true,
+  timeSpans: [],
 };
 
 // eslint-disable-next-line
@@ -38,14 +41,22 @@ export default (state = initialState, action) => {
           (transaction) => transaction._id !== action.payload
         ),
       };
+    case GET_TIMESPANS:
+      return {
+        ...state,
+        timeSpans: action.payload,
+        loading: false,
+      };
     case SET_TIMEINTERVALL:
       return {
         ...state,
-        timeintervalTransactions: [
-          ...state.timeintervalTransactions,
-          action.payload,
-        ],
+        timeintervalTransactions: [...state.timeintervalTransactions, action.payload]
       };
+      case FLUSH_TIMEINTERVALLS:
+        return {
+          ...state,
+          timeintervalTransactions: []
+        }
     case SET_QUERIES:
       return {
         ...state,

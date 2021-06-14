@@ -3,9 +3,22 @@ const express = require("express");
 // into router that merges the url params
 const router = express.Router({ mergeParams: true });
 
-const { createTimeSpan } = require("../controllers/timeSpans");
+const {
+  createTimeSpan,
+  deleteTimeSpan,
+  updateTimeSpan,
+  getTimeSpans,
+} = require("../controllers/timeSpans");
 const { protectedRoute } = require("../middleware/auth");
 
-router.route("/:accountId").post(protectedRoute, createTimeSpan);
+router
+  .route("/:accountId")
+  .post(protectedRoute, createTimeSpan)
+  .get(protectedRoute, getTimeSpans);
+
+router
+  .route("/:timeSpanId")
+  .delete(protectedRoute, deleteTimeSpan)
+  .put(protectedRoute, updateTimeSpan);
 
 module.exports = router;
