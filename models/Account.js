@@ -26,11 +26,6 @@ const AccountSchema = new mongoose.Schema(
       type: String,
       enum: ["savings", "checking"],
     },
-    accountQueries: [
-      {
-        type: mongoose.Schema.Types.Mixed,
-      },
-    ],
     createdAt: {
       type: Date,
       default: Date.now,

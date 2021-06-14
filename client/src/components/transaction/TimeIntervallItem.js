@@ -60,7 +60,7 @@ const TimeIntervallItem = ({ startDate, endDate, id, sum, transactions }) => {
                 </tr>
               </thead>
               <tbody className="bg-light">
-                {transactions.map((e) => (
+{/*                 {transactions.map((e) => (
                   <TimeIntervallTransaction
                     key={e._id}
                     sum={e.sum}
@@ -68,7 +68,7 @@ const TimeIntervallItem = ({ startDate, endDate, id, sum, transactions }) => {
                     description={e.description}
                     id={e.id}
                   />
-                ))}
+                ))} */}
               </tbody>
             </table>
           </div>

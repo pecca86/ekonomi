@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import TimeIntervallItem from "./TimeIntervallItem";
 import {
-  setQueries,
   setTimeintervallTransactions,
   flushTimeIntervalls,
 } from "../../actions/transaction/transactionActions";
@@ -33,21 +32,36 @@ const TimeIntervall = ({
         );
       }
     }
-  }, []);
+  }, [setTimeintervallTransactions]);
 
   if (transaction.loading || account.loading) {
     return <p>loading...</p>;
   }
 
   return (
-    <div className="mt-5" style={{ height: "300px", overflow: "auto" }}></div>
+    <div className="mt-5" style={{ height: "300px", overflow: "auto" }}>
+      <Fragment>
+        <ul>
+          {transaction.timeintervalTransactions.length > 0 &&
+            transaction.timeintervalTransactions.map((interval) => (
+              <TimeIntervallItem
+                key={interval.id}
+                startDate={interval.timeSpan.startDate}
+                endDate={interval.timeSpan.endDate}
+                sum={interval.calculatedTransactionSum}
+                id={interval.id}
+                transactions={interval.timeintervalTransactions}
+              />
+            ))}
+        </ul>
+      </Fragment>
+    </div>
   );
 };
 
 TimeIntervall.propTypes = {
   account: PropTypes.object.isRequired,
   transaction: PropTypes.object.isRequired,
-  setQueries: PropTypes.func,
   setTimeintervallTransactions: PropTypes.func,
 };
 
@@ -57,7 +71,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  setQueries,
   setTimeintervallTransactions,
   flushTimeIntervalls,
 })(TimeIntervall);

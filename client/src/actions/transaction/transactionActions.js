@@ -5,13 +5,13 @@ import {
   DELETE_TRANSACTION,
   SET_TIMEINTERVALL,
   //GET_TIMEINTERVALLS,
-  SET_QUERIES,
   GET_TIMESPANS,
   FLUSH_TIMEINTERVALLS,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
 import { getAccount } from "../account/accountActions";
+import { v4 as uuidv4 } from 'uuid';
 
 export const getAllAccountTransactions = (accountId) => async (dispatch) => {
   try {
@@ -32,12 +32,13 @@ export const getTimeSpans = (accountId) => async (dispatch) => {
     setLoading();
     const res = await axios.get(`/api/v1/timespans/${accountId}`);
 
+    // Create an array with all time spans
     const timeIntervalRes = [];
     res.data.data.map((date) =>
       timeIntervalRes.push({ startDate: date.startDate, endDate: date.endDate })
     );
 
-    console.log(timeIntervalRes);
+    // Push to frontend
     timeIntervalRes.forEach((date) =>
       setTimeintervallTransactions(
         { startDate: date.startDate, endDate: date.endDate },
@@ -65,7 +66,9 @@ export const setTimeintervallTransactions =
         `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${startDate}&transactionDate[lte]=${endDate}`
       );
 
-      console.log("RES: ", res.data.data);
+      // Put time span inside the res.data so we can access it in our UI
+      res.data.timeSpan = formData
+      res.data.id = uuidv4()
 
       //put the sum into the data object
       //res.data.data.transactionSum = res.data.calculatedTransactionSum
@@ -80,21 +83,7 @@ export const setTimeintervallTransactions =
     }
   };
 
-// Puts the querystrings that recide in the account object to a list in the transaction state
-export const setQueries = (queryStringList) => async (dispatch) => {
-  dispatch({
-    type: SET_QUERIES,
-    payload: queryStringList,
-  });
-};
-
 export const createTransaction = (formData, accountId) => async (dispatch) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-      withCredentials: true,
-    },
-  };
 
   const body = JSON.stringify(formData);
 

@@ -5,9 +5,8 @@ import {
   DELETE_TRANSACTION,
   SET_TIMEINTERVALL,
   //GET_TIMEINTERVALLS,
-  SET_QUERIES,
   GET_TIMESPANS,
-  FLUSH_TIMEINTERVALLS
+  FLUSH_TIMEINTERVALLS,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -50,18 +49,17 @@ export default (state = initialState, action) => {
     case SET_TIMEINTERVALL:
       return {
         ...state,
-        timeintervalTransactions: [...state.timeintervalTransactions, action.payload]
+        timeintervalTransactions: [
+          ...state.timeintervalTransactions,
+          action.payload,
+        ],
       };
-      case FLUSH_TIMEINTERVALLS:
-        return {
-          ...state,
-          timeintervalTransactions: []
-        }
-    case SET_QUERIES:
+    case FLUSH_TIMEINTERVALLS:
       return {
         ...state,
-        transactionQueries: [...action.payload],
+        timeintervalTransactions: [],
       };
+
     case SET_LOADING:
       return {
         ...state,
