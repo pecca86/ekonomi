@@ -49,7 +49,6 @@ const trash = (
 );
 
 AccountTransactionItem.propTypes = {
-  transaction: PropTypes.object.isRequired,
   deleteTransaction: PropTypes.func.isRequired,
 };
 

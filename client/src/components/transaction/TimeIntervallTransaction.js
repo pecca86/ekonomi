@@ -1,7 +1,22 @@
 import React from "react";
 import Moment from "react-moment";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { deleteTransaction } from "../../actions/transaction/transactionActions";
 
-const TimeIntervallTransaction = ({ sum, date, description, id }) => {
+const TimeIntervallTransaction = ({
+  sum,
+  date,
+  description,
+  id,
+  deleteTransaction,
+}) => {
+
+  const onDelete = (e) => {
+    e.preventDefault();
+    deleteTransaction(id);
+  };
+
   return (
     <tr>
       <td>
@@ -9,7 +24,9 @@ const TimeIntervallTransaction = ({ sum, date, description, id }) => {
       </td>
       <td>{description}</td>
       <td>{sum}€</td>
-      <td>{trash}</td>
+      <td onClick={onDelete} className="trash-icon">
+        {trash}
+      </td>
     </tr>
   );
 };
@@ -31,4 +48,8 @@ const trash = (
   </svg>
 );
 
-export default TimeIntervallTransaction;
+TimeIntervallTransaction.propTypes = {
+  deleteTransaction: PropTypes.func.isRequired,
+};
+
+export default connect(null, { deleteTransaction })(TimeIntervallTransaction);

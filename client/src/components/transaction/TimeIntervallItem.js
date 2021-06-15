@@ -110,7 +110,7 @@ const TimeIntervallItem = ({
                     sum={transaction.sum}
                     date={transaction.transactionDate}
                     description={transaction.description}
-                    id={transaction.id}
+                    id={transaction._id}
                   />
                 ))}
               </tbody>
