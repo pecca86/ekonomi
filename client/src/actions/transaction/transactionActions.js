@@ -12,7 +12,6 @@ import {
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
 import { getAccount } from "../account/accountActions";
-import { v4 as uuidv4 } from "uuid";
 
 export const getAllAccountTransactions = (accountId) => async (dispatch) => {
   try {
@@ -46,7 +45,7 @@ export const addTimeSpan = (formData, accountId) => async (dispatch) => {
     );
     dispatch({
       type: ADD_TIMESPAN,
-      payload: res.data,
+      payload: res.data.data,
     });
     dispatch(setAlert("Time Span added!", "success"));
   } catch (err) {
@@ -70,8 +69,6 @@ export const getTimeSpans = (accountId) => async (dispatch) => {
       })
     );
 
-    console.log("TIMEINT RES", timeIntervalRes);
-
     // Push to frontend
     timeIntervalRes.forEach((date) =>
       setTimeintervallTransactions(
@@ -83,10 +80,9 @@ export const getTimeSpans = (accountId) => async (dispatch) => {
         accountId
       )
     );
-
     dispatch({
       type: GET_TIMESPANS,
-      payload: res.data,
+      payload: res.data.data,
     });
     // Make this function dispatch setTimeinterval?
   } catch (err) {
@@ -106,11 +102,7 @@ export const setTimeintervallTransactions =
 
       // Put time span inside the res.data so we can access it in our UI
       res.data.timeSpan = formData;
-      //res.data.id = uuidv4();
-      console.log("FORMDATA IN STIT", formData);
 
-      //put the sum into the data object
-      //res.data.data.transactionSum = res.data.calculatedTransactionSum
       dispatch({
         type: SET_TIMEINTERVALL,
         payload: res.data,

@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -27,16 +28,21 @@ const Account = ({
   useEffect(() => {
     getAccount(match.params.accountId);
     getAllAccountTransactions(match.params.accountId);
-    getTimeSpans(match.params.accountId)
+    getTimeSpans(match.params.accountId);
     M.AutoInit();
-  }, [getAccount, getAllAccountTransactions, getTimeSpans, M.AutoInit]);
+  }, [
+    getAccount,
+    getAllAccountTransactions,
+    getTimeSpans,
+    match.params.accountId,
+  ]);
 
   if (account.loading || !account.account || transaction.loading) {
     return <p>Loading...</p>;
   }
 
   const {
-    account: { IBAN, name, accountType, balance, _id },
+    account: { IBAN, name, accountType, balance },
   } = account;
 
   return (
@@ -56,10 +62,10 @@ const Account = ({
       <Fragment>
         <div className="container">
           <h5>Time Intervals</h5>
-          <TimeIntervall />
+          <TimeIntervall key={account.account._id}/>
           <hr />
           <h5>All account Transactions</h5>
-          <AccountTransactions />
+          <AccountTransactions key={uuidv4()} />
         </div>
       </Fragment>
       <AddBtn />

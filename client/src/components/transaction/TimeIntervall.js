@@ -7,7 +7,6 @@ import {
   flushTimeIntervalls,
 } from "../../actions/transaction/transactionActions";
 
-
 const TimeIntervall = ({
   account,
   transaction,
@@ -18,21 +17,27 @@ const TimeIntervall = ({
     flushTimeIntervalls();
     //setQueries(account.account.accountQueries);
     // MAKE A REQ BASED ON ACCOUNT QUERIES
-    if (transaction.timeSpans.data) {
+    if (transaction.timeSpans) {
+      // eslint-disable-next-line no-lone-blocks
       {
-        transaction.timeSpans.data.map((query) =>
+        transaction.timeSpans.map((query) =>
           setTimeintervallTransactions(
             {
               startDate: query.startDate,
               endDate: query.endDate,
-              timeSpanId: query._id
+              timeSpanId: query._id,
             },
             account.account._id
           )
         );
       }
     }
-  }, [setTimeintervallTransactions]);
+  }, [
+    setTimeintervallTransactions,
+    flushTimeIntervalls,
+    account.account._id,
+    transaction.timeSpans,
+  ]);
 
   if (transaction.loading || account.loading) {
     return <p>loading...</p>;

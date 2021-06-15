@@ -48,7 +48,6 @@ exports.createTimeSpan = wrapAsync(async (req, res, next) => {
     return next(new ErrorResponse("Not authorized!", 400));
   }
 
-  console.log(req.body);
   // create a transaction that is associated with this account
   const timeSpan = new TimeSpan(req.body);
   await timeSpan.save();

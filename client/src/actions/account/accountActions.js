@@ -73,6 +73,10 @@ export const createAccount = (formData) => async (dispatch) => {
 
 export const updateAccount = (accountId) => async (dispatch) => {
   console.log("bög");
+  dispatch({
+    type: UPDATE_ACCOUNT,
+    payload: "payload",
+  });
 };
 
 export const deleteAccount = (accountId) => async (dispatch) => {

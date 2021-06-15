@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -10,12 +10,13 @@ const TimeIntervallItem = ({
   endDate,
   id,
   sum,
-  timeSpanId,
   transactions,
   deleteTimeSpan,
+  account,
+  transaction,
 }) => {
   useEffect(() => {
-    countPositiveTransactions();
+    countTransactionsSums();
   }, []);
 
   const [transactionData, setTransactionData] = useState({
@@ -25,7 +26,7 @@ const TimeIntervallItem = ({
   const { incomes, spendings } = transactionData;
 
   // Count the negative transaction, positive transactions and balance with today's balance
-  const countPositiveTransactions = async () => {
+  const countTransactionsSums = async () => {
     if (transactions.length > 0) {
       const transData = { income: 0, spending: 0 };
 
@@ -40,8 +41,6 @@ const TimeIntervallItem = ({
         incomes: transData.income,
         spendings: transData.spending,
       });
-    } else {
-      console.log("No trans data");
     }
   };
 
@@ -49,6 +48,10 @@ const TimeIntervallItem = ({
     e.preventDefault();
     deleteTimeSpan(id);
   };
+
+  if (transaction.loading || account.loading) {
+    return <p>loading...</p>;
+  }
 
   return (
     <div className="accordion" id={`timeAccordion-${id}`}>
@@ -146,6 +149,7 @@ TimeIntervallItem.propTypes = {
 
 const mapStateToProps = (state) => ({
   account: state.account,
+  transaction: state.transaction,
 });
 
 export default connect(mapStateToProps, { deleteTimeSpan })(TimeIntervallItem);

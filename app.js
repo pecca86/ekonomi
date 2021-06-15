@@ -52,7 +52,7 @@ const limiter = expressRateLimit({
   // 10 mins
   windowMs: 10 * 60 * 1000,
   // max requests per windowMs
-  max: 100,
+  max: 1000,
 });
 app.use(limiter);
 

@@ -172,7 +172,6 @@ export const updateUserPassword = (formData) => async (dispatch) => {
   };
 
   const body = JSON.stringify(formData);
-  console.log(body);
 
   try {
     const res = await axios.put("/api/v1/users/password", body, config);

@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
-import { deleteTransaction } from "../../actions/transaction/transactionActions";
+import {
+  deleteTransaction,
+  getTimeSpans,
+} from "../../actions/transaction/transactionActions";
 
-const AccountTransactionItem = ({ transaction, deleteTransaction }) => {
+const AccountTransactionItem = ({
+  transaction,
+  deleteTransaction,
+  getTimeSpans,
+  account,
+}) => {
   const { sum, transactionDate, description, _id, transactionType } =
     transaction;
 
@@ -52,4 +60,10 @@ AccountTransactionItem.propTypes = {
   deleteTransaction: PropTypes.func.isRequired,
 };
 
-export default connect(null, { deleteTransaction })(AccountTransactionItem);
+const mapStateToProps = (state) => ({
+  account: state.account,
+});
+
+export default connect(mapStateToProps, { deleteTransaction, getTimeSpans })(
+  AccountTransactionItem
+);

@@ -19,7 +19,6 @@ const AccountList = ({ account, getAccounts }) => {
     );
   }
 
-  const { accounts } = account;
   return (
     <div className="mt-5" style={{ height: "300px", overflow: "auto" }}>
       <AddAccountBtn />
