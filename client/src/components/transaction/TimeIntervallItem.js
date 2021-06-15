@@ -3,8 +3,17 @@ import Moment from "react-moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import TimeIntervallTransaction from "./TimeIntervallTransaction";
+import { deleteTimeSpan } from "../../actions/transaction/transactionActions";
 
-const TimeIntervallItem = ({ startDate, endDate, id, sum, transactions }) => {
+const TimeIntervallItem = ({
+  startDate,
+  endDate,
+  id,
+  sum,
+  timeSpanId,
+  transactions,
+  deleteTimeSpan,
+}) => {
   useEffect(() => {
     countPositiveTransactions();
   }, []);
@@ -36,6 +45,11 @@ const TimeIntervallItem = ({ startDate, endDate, id, sum, transactions }) => {
     }
   };
 
+  const onDelete = (e) => {
+    e.preventDefault();
+    deleteTimeSpan(id);
+  };
+
   return (
     <div className="accordion" id={`timeAccordion-${id}`}>
       <div className="accordion-item">
@@ -59,7 +73,9 @@ const TimeIntervallItem = ({ startDate, endDate, id, sum, transactions }) => {
               <Moment format="DD.MM.YYYY">{endDate}</Moment>
             </div>
             <div className="col-3">{sum}€</div>
-            <div className="col-1 trash-icon">{trash}</div>
+            <div onClick={onDelete} className="col-1 trash-icon">
+              {trash}
+            </div>
           </button>
         </h2>
         <div
@@ -125,10 +141,11 @@ const trash = (
 
 TimeIntervallItem.propTypes = {
   transaction: PropTypes.object,
+  deleteTimeSpan: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   account: state.account,
 });
 
-export default connect(mapStateToProps)(TimeIntervallItem);
+export default connect(mapStateToProps, { deleteTimeSpan })(TimeIntervallItem);

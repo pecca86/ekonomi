@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { setAlert } from "../../actions/alerts/alertActions";
+import { addTimeSpan } from "../../actions/transaction/transactionActions";
 
-const AddTimeintervallModal = ({ setAlert, setTimeintervallTransactions, account }) => {
+const AddTimeintervallModal = ({ setAlert, addTimeSpan, account }) => {
   const [formData, setFormData] = useState({
     startDate: "",
     endDate: "",
@@ -19,7 +20,7 @@ const AddTimeintervallModal = ({ setAlert, setTimeintervallTransactions, account
     if (formData.endDate < formData.startDate) {
       setAlert("Start Date can not be greater than End Date!", "danger");
     } else {
-      alert('TODO: Add Time Span function')
+      addTimeSpan(formData, account.account._id)
     }
   };
 
@@ -62,10 +63,11 @@ const AddTimeintervallModal = ({ setAlert, setTimeintervallTransactions, account
 AddTimeintervallModal.propTypes = {
   setAlert: PropTypes.func,
   account: PropTypes.object.isRequired,
+  addTimeSpan: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   account: state.account,
 });
 
-export default connect(mapStateToProps, { setAlert })(AddTimeintervallModal);
+export default connect(mapStateToProps, { setAlert, addTimeSpan })(AddTimeintervallModal);

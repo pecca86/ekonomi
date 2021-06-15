@@ -4,7 +4,6 @@ import {
   UPDATE_ACCOUNT,
   ADD_ACCOUNT,
   DELETE_ACCOUNT,
-  DELETE_TIMEINTERVALL,
   ACCOUNT_ERROR,
   SET_LOADING,
 } from "./accountTypes";

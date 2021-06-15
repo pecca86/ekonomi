@@ -7,7 +7,6 @@ import {
   flushTimeIntervalls,
 } from "../../actions/transaction/transactionActions";
 
-import TESTITEM from "./TESTITEM";
 
 const TimeIntervall = ({
   account,
@@ -26,6 +25,7 @@ const TimeIntervall = ({
             {
               startDate: query.startDate,
               endDate: query.endDate,
+              timeSpanId: query._id
             },
             account.account._id
           )
@@ -45,11 +45,11 @@ const TimeIntervall = ({
           {transaction.timeintervalTransactions.length > 0 &&
             transaction.timeintervalTransactions.map((interval) => (
               <TimeIntervallItem
-                key={interval.id}
+                key={interval.timeSpanId}
                 startDate={interval.timeSpan.startDate}
                 endDate={interval.timeSpan.endDate}
                 sum={interval.calculatedTransactionSum}
-                id={interval.id}
+                id={interval.timeSpan.timeSpanId}
                 transactions={interval.data}
               />
             ))}

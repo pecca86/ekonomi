@@ -4,7 +4,6 @@ import {
   UPDATE_ACCOUNT,
   ADD_ACCOUNT,
   DELETE_ACCOUNT,
-  DELETE_TIMEINTERVALL,
   ACCOUNT_ERROR,
   SET_LOADING,
 } from "../actions/account/accountTypes";
@@ -45,8 +44,6 @@ export default (state = initialState, action) => {
         accounts: state.accounts.filter(account => account.id !== action.payload),
         loading: false
       };
-    case DELETE_TIMEINTERVALL:
-      return "";
     case ACCOUNT_ERROR:
       return "";
     case SET_LOADING:

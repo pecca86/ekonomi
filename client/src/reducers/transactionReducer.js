@@ -7,6 +7,8 @@ import {
   //GET_TIMEINTERVALLS,
   GET_TIMESPANS,
   FLUSH_TIMEINTERVALLS,
+  ADD_TIMESPAN,
+  REMOVE_TIMESPAN,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -40,10 +42,23 @@ export default (state = initialState, action) => {
           (transaction) => transaction._id !== action.payload
         ),
       };
+    case REMOVE_TIMESPAN:
+      return {
+        ...state,
+        timeSpans: state.timeSpans.filter(
+          (timespan) => timespan._id !== action.payload
+        ),
+      };
     case GET_TIMESPANS:
       return {
         ...state,
         timeSpans: action.payload,
+        loading: false,
+      };
+    case ADD_TIMESPAN:
+      return {
+        ...state,
+        timeSpans: [...state.timeSpans, action.payload],
         loading: false,
       };
     case SET_TIMEINTERVALL:
@@ -53,13 +68,13 @@ export default (state = initialState, action) => {
           ...state.timeintervalTransactions,
           action.payload,
         ],
+        loading: false,
       };
     case FLUSH_TIMEINTERVALLS:
       return {
         ...state,
         timeintervalTransactions: [],
       };
-
     case SET_LOADING:
       return {
         ...state,

@@ -4,14 +4,15 @@ import {
   GET_TRANSACTIONS,
   DELETE_TRANSACTION,
   SET_TIMEINTERVALL,
-  //GET_TIMEINTERVALLS,
   GET_TIMESPANS,
   FLUSH_TIMEINTERVALLS,
+  ADD_TIMESPAN,
+  REMOVE_TIMESPAN,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
 import { getAccount } from "../account/accountActions";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export const getAllAccountTransactions = (accountId) => async (dispatch) => {
   try {
@@ -26,6 +27,33 @@ export const getAllAccountTransactions = (accountId) => async (dispatch) => {
   }
 };
 
+// Create a new Time Span for the account
+// takes in an object with startDate and endDate as formdata
+export const addTimeSpan = (formData, accountId) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const body = JSON.stringify(formData);
+
+  try {
+    setLoading();
+    const res = await axios.post(
+      `/api/v1/timespans/${accountId}`,
+      body,
+      config
+    );
+    dispatch({
+      type: ADD_TIMESPAN,
+      payload: res.data,
+    });
+    dispatch(setAlert("Time Span added!", "success"));
+  } catch (err) {
+    dispatch(setAlert("Failed at creating a new time span!", "danger"));
+  }
+};
+
 // Gets all the time spans set for the account
 export const getTimeSpans = (accountId) => async (dispatch) => {
   try {
@@ -35,13 +63,23 @@ export const getTimeSpans = (accountId) => async (dispatch) => {
     // Create an array with all time spans
     const timeIntervalRes = [];
     res.data.data.map((date) =>
-      timeIntervalRes.push({ startDate: date.startDate, endDate: date.endDate })
+      timeIntervalRes.push({
+        startDate: date.startDate,
+        endDate: date.endDate,
+        timeSpanId: date._id,
+      })
     );
+
+    console.log("TIMEINT RES", timeIntervalRes);
 
     // Push to frontend
     timeIntervalRes.forEach((date) =>
       setTimeintervallTransactions(
-        { startDate: date.startDate, endDate: date.endDate },
+        {
+          startDate: date.startDate,
+          endDate: date.endDate,
+          timeSpanId: date._id,
+        },
         accountId
       )
     );
@@ -52,7 +90,7 @@ export const getTimeSpans = (accountId) => async (dispatch) => {
     });
     // Make this function dispatch setTimeinterval?
   } catch (err) {
-    dispatch(setAlert("Failed retrieving Account Time Spans", "danger"));
+    dispatch(setAlert(`Failed retrieving Account Time Spans: ${err}`, "danger"));
   }
 };
 
@@ -67,8 +105,9 @@ export const setTimeintervallTransactions =
       );
 
       // Put time span inside the res.data so we can access it in our UI
-      res.data.timeSpan = formData
-      res.data.id = uuidv4()
+      res.data.timeSpan = formData;
+      //res.data.id = uuidv4();
+      console.log("FORMDATA IN STIT", formData);
 
       //put the sum into the data object
       //res.data.data.transactionSum = res.data.calculatedTransactionSum
@@ -84,7 +123,6 @@ export const setTimeintervallTransactions =
   };
 
 export const createTransaction = (formData, accountId) => async (dispatch) => {
-
   const body = JSON.stringify(formData);
 
   try {
@@ -124,6 +162,19 @@ export const deleteTransaction = (transactionId) => async (dispatch) => {
   }
 };
 
+// Delete a Time Span that is associated with current account
+export const deleteTimeSpan = (timeSpanId) => async (dispatch) => {
+  try {
+    await axios.delete(`/api/v1/timespans/${timeSpanId}`);
+    dispatch({
+      type: REMOVE_TIMESPAN,
+      payload: timeSpanId,
+    });
+    dispatch(setAlert("Time Span removed!", "success"));
+  } catch (err) {
+    dispatch(setAlert("Failed to delete the timespan", "danger"));
+  }
+};
 // Flush the timeintervall array
 export const flushTimeIntervalls = () => (dispatch) => {
   dispatch({
