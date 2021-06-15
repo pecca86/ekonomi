@@ -1,10 +1,41 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import TimeIntervallTransaction from "./TimeIntervallTransaction";
 
 const TimeIntervallItem = ({ startDate, endDate, id, sum, transactions }) => {
+  useEffect(() => {
+    countPositiveTransactions();
+  }, []);
+
+  const [transactionData, setTransactionData] = useState({
+    incomes: 0,
+    spendings: 0,
+  });
+  const { incomes, spendings } = transactionData;
+
+  // Count the negative transaction, positive transactions and balance with today's balance
+  const countPositiveTransactions = async () => {
+    if (transactions.length > 0) {
+      const transData = { income: 0, spending: 0 };
+
+      transactions.map((transaction) =>
+        transaction.transactionType === "Income"
+          ? (transData.income += transaction.sum)
+          : (transData.spending += transaction.sum)
+      );
+
+      setTransactionData({
+        ...transactionData,
+        incomes: transData.income,
+        spendings: transData.spending,
+      });
+    } else {
+      console.log("No trans data");
+    }
+  };
+
   return (
     <div className="accordion" id={`timeAccordion-${id}`}>
       <div className="accordion-item">
@@ -39,13 +70,10 @@ const TimeIntervallItem = ({ startDate, endDate, id, sum, transactions }) => {
         >
           <div className="accordion-body ">
             <div className="col">
-              <strong> Incomes:</strong> 20€
+              <strong> Incomes:</strong> {incomes}€
             </div>
             <div className="col">
-              <strong>Spendings:</strong> -200€
-            </div>
-            <div className="col">
-              <strong>Total including Balance:</strong> 40€
+              <strong>Spendings:</strong> {spendings}€
             </div>
           </div>
 
@@ -60,15 +88,15 @@ const TimeIntervallItem = ({ startDate, endDate, id, sum, transactions }) => {
                 </tr>
               </thead>
               <tbody className="bg-light">
-{/*                 {transactions.map((e) => (
+                {transactions.map((transaction) => (
                   <TimeIntervallTransaction
-                    key={e._id}
-                    sum={e.sum}
-                    date={e.transactionDate}
-                    description={e.description}
-                    id={e.id}
+                    key={transaction._id}
+                    sum={transaction.sum}
+                    date={transaction.transactionDate}
+                    description={transaction.description}
+                    id={transaction.id}
                   />
-                ))} */}
+                ))}
               </tbody>
             </table>
           </div>

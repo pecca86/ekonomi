@@ -50,7 +50,7 @@ const TimeIntervall = ({
                 endDate={interval.timeSpan.endDate}
                 sum={interval.calculatedTransactionSum}
                 id={interval.id}
-                transactions={interval.timeintervalTransactions}
+                transactions={interval.data}
               />
             ))}
         </ul>
