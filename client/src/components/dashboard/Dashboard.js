@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getAccounts } from "../../actions/account/accountActions";
 
-import TestBtn from "./TestBtn";
+import AddAccountBtn from "./AddAccountBtn";
 
 const Dashboard = ({ auth, account, getAccounts }) => {
   useEffect(() => {
@@ -36,7 +36,7 @@ const Dashboard = ({ auth, account, getAccounts }) => {
             {`${auth.user.firstname} ${auth.user.lastname}`}
           </Link>
         </span>
-        <TestBtn />
+        <AddAccountBtn />
       </div>
       {/* FRAGMENT FOR ACCOUNT LIST */}
       <Fragment>

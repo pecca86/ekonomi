@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createAccount } from "../../actions/account/accountActions";
 
-const TestBtn = ({ createAccount }) => {
+const AddAccountBtn = ({ createAccount }) => {
   const [formData, setFormData] = useState({
     name: "",
     IBAN: "",
@@ -73,8 +73,8 @@ const TestBtn = ({ createAccount }) => {
   );
 };
 
-TestBtn.propTypes = {
+AddAccountBtn.propTypes = {
   createAccount: PropTypes.func.isRequired,
 };
 
-export default connect(null, { createAccount })(TestBtn);
+export default connect(null, { createAccount })(AddAccountBtn);

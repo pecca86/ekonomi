@@ -12,9 +12,7 @@ import DeleteAccountModal from "./DeleteAccountModal";
 import { getAccount } from "../../actions/account/accountActions";
 import { getAllAccountTransactions } from "../../actions/transaction/transactionActions";
 import { getTimeSpans } from "../../actions/transaction/transactionActions";
-// Materialize-css
-import "materialize-css/dist/css/materialize.min.css";
-import M from "materialize-css/dist/js/materialize.min.js";
+
 
 const Account = ({
   auth,
@@ -29,7 +27,6 @@ const Account = ({
     getAccount(match.params.accountId);
     getAllAccountTransactions(match.params.accountId);
     getTimeSpans(match.params.accountId);
-    M.AutoInit();
   }, [
     getAccount,
     getAllAccountTransactions,
@@ -62,7 +59,7 @@ const Account = ({
       <Fragment>
         <div className="container">
           <h5>Time Intervals</h5>
-          <TimeIntervall key={account.account._id}/>
+          <TimeIntervall key={account.account._id} />
           <hr />
           <h5>All account Transactions</h5>
           <AccountTransactions key={uuidv4()} />

@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+// Materialize-css
+import "materialize-css/dist/css/materialize.min.css";
+import M from "materialize-css/dist/js/materialize.min.js";
 
 const AddBtn = () => {
+  useEffect(() => {
+    M.AutoInit();
+  });
+
   return (
     <div className="fixed-action-btn">
-      <button
-        className="btn-floating btn-large blue darken-2"
-      >
+      <button className="btn-floating btn-large blue darken-2">
         <i className="large material-icons">add</i>
       </button>
       <ul>
