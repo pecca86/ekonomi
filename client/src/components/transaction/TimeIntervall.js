@@ -4,40 +4,16 @@ import PropTypes from "prop-types";
 import TimeIntervallItem from "./TimeIntervallItem";
 import {
   setTimeintervallTransactions,
-  flushTimeIntervalls,
+  getTimeSpans
 } from "../../actions/transaction/transactionActions";
 
 const TimeIntervall = ({
   account,
   transaction,
   setTimeintervallTransactions,
-  flushTimeIntervalls,
+  getTimeSpans
 }) => {
-  useEffect(() => {
-    flushTimeIntervalls();
-    //setQueries(account.account.accountQueries);
-    // MAKE A REQ BASED ON ACCOUNT QUERIES
-    if (transaction.timeSpans) {
-      // eslint-disable-next-line no-lone-blocks
-      {
-        transaction.timeSpans.map((query) =>
-          setTimeintervallTransactions(
-            {
-              startDate: query.startDate,
-              endDate: query.endDate,
-              timeSpanId: query._id,
-            },
-            account.account._id
-          )
-        );
-      }
-    }
-  }, [
-    setTimeintervallTransactions,
-    flushTimeIntervalls,
-    account.account._id,
-    transaction.timeSpans,
-  ]);
+
 
   if (transaction.loading || account.loading) {
     return <p>loading...</p>;
@@ -77,5 +53,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   setTimeintervallTransactions,
-  flushTimeIntervalls,
+  getTimeSpans
 })(TimeIntervall);

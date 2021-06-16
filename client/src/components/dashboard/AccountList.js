@@ -5,11 +5,13 @@ import { getAccounts } from "../../actions/account/accountActions";
 import AddAccountModal from "../account/AddAccountModal";
 import AddAccountBtn from "../account/AddAccountBtn";
 import AccountListItem from "./AccountListItem";
+import { flushTimeIntervalls } from "../../actions/transaction/transactionActions";
 
-const AccountList = ({ account, getAccounts }) => {
+const AccountList = ({ account, getAccounts, flushTimeIntervalls }) => {
   useEffect(() => {
     getAccounts();
-  }, [getAccounts]);
+    flushTimeIntervalls()
+  }, [getAccounts, flushTimeIntervalls]);
 
   if (account.loading) {
     return (
@@ -51,11 +53,11 @@ const AccountList = ({ account, getAccounts }) => {
 
 AccountList.propTypes = {
   getAccounts: PropTypes.func.isRequired,
-  //post: PropTypes.object.isRequired
+  flushTimeIntervalls: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   account: state.account,
 });
 
-export default connect(mapStateToProps, { getAccounts })(AccountList);
+export default connect(mapStateToProps, { getAccounts, flushTimeIntervalls })(AccountList);

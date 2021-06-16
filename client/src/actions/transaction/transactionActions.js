@@ -70,23 +70,27 @@ export const getTimeSpans = (accountId) => async (dispatch) => {
     );
 
     // Push to frontend
-    timeIntervalRes.forEach((date) =>
-      setTimeintervallTransactions(
-        {
-          startDate: date.startDate,
-          endDate: date.endDate,
-          timeSpanId: date._id,
-        },
-        accountId
+    timeIntervalRes.map((date) =>
+      dispatch(
+        setTimeintervallTransactions(
+          {
+            startDate: date.startDate,
+            endDate: date.endDate,
+            timeSpanId: date._id,
+          },
+          accountId
+        )
       )
     );
+
     dispatch({
       type: GET_TIMESPANS,
       payload: res.data.data,
     });
-    // Make this function dispatch setTimeinterval?
   } catch (err) {
-    dispatch(setAlert(`Failed retrieving Account Time Spans: ${err}`, "danger"));
+    dispatch(
+      setAlert(`Failed retrieving Account Time Spans: ${err}`, "danger")
+    );
   }
 };
 
@@ -94,6 +98,7 @@ export const getTimeSpans = (accountId) => async (dispatch) => {
 export const setTimeintervallTransactions =
   (formData, accountId) => async (dispatch) => {
     const { startDate, endDate } = formData;
+    console.log("CALLING SET TIME");
     try {
       setLoading();
       const res = await axios.get(
