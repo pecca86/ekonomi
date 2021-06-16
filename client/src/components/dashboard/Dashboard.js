@@ -4,14 +4,17 @@ import Chart from "../chart/Chart";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { getAccounts } from "../../actions/account/accountActions";
+
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
 
-const Dashboard = ({ auth, account }) => {
+const Dashboard = ({ auth, account, getAccounts }) => {
   useEffect(() => {
+    getAccounts();
     M.AutoInit();
-  });
+  }, [getAccounts]);
 
   if (auth.loading || account.loading || !auth.isAuthenticated || (auth.user === null) ) {
     return (
@@ -71,4 +74,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, { getAccounts})(Dashboard);

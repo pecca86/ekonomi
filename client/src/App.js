@@ -30,9 +30,8 @@ const App = () => {
     // Check if there is a token
     if (localStorage.token) {
       setAuthToken(localStorage.token);
+      store.dispatch(loadUser());
     }
-    store.dispatch(loadUser());
-    store.dispatch(getAccounts());
   }, []);
 
   return (

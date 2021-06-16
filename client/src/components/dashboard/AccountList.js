@@ -9,7 +9,7 @@ import { flushTimeIntervalls } from "../../actions/transaction/transactionAction
 
 const AccountList = ({ account, getAccounts, flushTimeIntervalls }) => {
   useEffect(() => {
-    getAccounts();
+    
     flushTimeIntervalls()
   }, [getAccounts, flushTimeIntervalls]);
 
