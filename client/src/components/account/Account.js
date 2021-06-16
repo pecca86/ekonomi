@@ -60,7 +60,7 @@ const Account = ({
           <h5>Time Intervals</h5>
           <TimeIntervall />
           <hr />
-          <h5>All account Transactions</h5>
+          <h5>All Account Transactions</h5>
           <AccountTransactions />
         </div>
       </Fragment>
