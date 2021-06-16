@@ -26,11 +26,11 @@ const TimeIntervall = ({
           {transaction.timeintervalTransactions.length > 0 &&
             transaction.timeintervalTransactions.map((interval) => (
               <TimeIntervallItem
-                key={interval.timeSpanId}
+                key={interval.timeSpan._id}
                 startDate={interval.timeSpan.startDate}
                 endDate={interval.timeSpan.endDate}
                 sum={interval.calculatedTransactionSum}
-                id={interval.timeSpan.timeSpanId}
+                id={interval.timeSpan._id}
                 transactions={interval.data}
               />
             ))}

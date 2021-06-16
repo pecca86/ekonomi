@@ -8,10 +8,10 @@ import {
   FLUSH_TIMEINTERVALLS,
   ADD_TIMESPAN,
   REMOVE_TIMESPAN,
+  REMOVE_TIMEINTERVAL_TRANSACTION
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
-import { getAccount } from "../account/accountActions";
 
 export const getAllAccountTransactions = (accountId) => async (dispatch) => {
   try {
@@ -48,6 +48,8 @@ export const addTimeSpan = (formData, accountId) => async (dispatch) => {
       payload: res.data.data,
     });
     dispatch(setAlert("Time Span added!", "success"));
+    //dispatch(getTimeSpans(accountId))
+    dispatch(setTimeintervallTransactions(res.data.data, accountId))
   } catch (err) {
     dispatch(setAlert("Failed at creating a new time span!", "danger"));
   }
@@ -68,7 +70,6 @@ export const getTimeSpans = (accountId) => async (dispatch) => {
         timeSpanId: date._id,
       })
     );
-
     // Push to frontend
     timeIntervalRes.map((date) =>
       dispatch(
@@ -76,7 +77,7 @@ export const getTimeSpans = (accountId) => async (dispatch) => {
           {
             startDate: date.startDate,
             endDate: date.endDate,
-            timeSpanId: date._id,
+            _id: date.timeSpanId,
           },
           accountId
         )
@@ -98,13 +99,11 @@ export const getTimeSpans = (accountId) => async (dispatch) => {
 export const setTimeintervallTransactions =
   (formData, accountId) => async (dispatch) => {
     const { startDate, endDate } = formData;
-    console.log("CALLING SET TIME");
     try {
       setLoading();
       const res = await axios.get(
         `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${startDate}&transactionDate[lte]=${endDate}`
       );
-
       // Put time span inside the res.data so we can access it in our UI
       res.data.timeSpan = formData;
 
@@ -112,13 +111,12 @@ export const setTimeintervallTransactions =
         type: SET_TIMEINTERVALL,
         payload: res.data,
       });
-      //updates the account so that the new intervall is shown in the UI
-      dispatch(getAccount(accountId));
     } catch (err) {
       dispatch(setAlert("Failed at creating a new timeintervall!", "danger"));
     }
   };
 
+// Create a new Transaction
 export const createTransaction = (formData, accountId) => async (dispatch) => {
   const body = JSON.stringify(formData);
 
@@ -159,8 +157,16 @@ export const deleteTransaction = (transactionId) => async (dispatch) => {
   }
 };
 
+// Deletes a timeinterval Transaction upon deleteTimeSpan 
+export const deleteTimeIntervalTransaction = (timeSpanId) => dispatch => {
+  dispatch({
+    type: REMOVE_TIMEINTERVAL_TRANSACTION,
+    payload: timeSpanId
+  })
+}
+
 // Delete a Time Span that is associated with current account
-export const deleteTimeSpan = (timeSpanId) => async (dispatch) => {
+export const deleteTimeSpan = (timeSpanId, accountId="") => async (dispatch) => {
   try {
     await axios.delete(`/api/v1/timespans/${timeSpanId}`);
     dispatch({
@@ -168,6 +174,9 @@ export const deleteTimeSpan = (timeSpanId) => async (dispatch) => {
       payload: timeSpanId,
     });
     dispatch(setAlert("Time Span removed!", "success"));
+    if (accountId) {
+      dispatch(getTimeSpans(accountId))
+    }
   } catch (err) {
     dispatch(setAlert("Failed to delete the timespan", "danger"));
   }

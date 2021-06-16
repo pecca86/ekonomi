@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -59,10 +58,10 @@ const Account = ({
       <Fragment>
         <div className="container">
           <h5>Time Intervals</h5>
-          <TimeIntervall key={account.account._id} />
+          <TimeIntervall />
           <hr />
           <h5>All account Transactions</h5>
-          <AccountTransactions key={uuidv4()} />
+          <AccountTransactions />
         </div>
       </Fragment>
       <AddBtn />

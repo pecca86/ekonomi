@@ -3,7 +3,7 @@ import Moment from "react-moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import TimeIntervallTransaction from "./TimeIntervallTransaction";
-import { deleteTimeSpan } from "../../actions/transaction/transactionActions";
+import { deleteTimeSpan, deleteTimeIntervalTransaction } from "../../actions/transaction/transactionActions";
 
 const TimeIntervallItem = ({
   startDate,
@@ -12,11 +12,15 @@ const TimeIntervallItem = ({
   sum,
   transactions,
   deleteTimeSpan,
+  deleteTimeIntervalTransaction,
   account,
   transaction,
 }) => {
   useEffect(() => {
     countTransactionsSums();
+    console.log("TIMEINTERVALLITEM ID: ", id);
+    console.log("START: ", startDate);
+    console.log("END: ", endDate);
     // eslint-disable-next-line
   }, []);
 
@@ -45,9 +49,13 @@ const TimeIntervallItem = ({
     }
   };
 
+
   const onDelete = (e) => {
     e.preventDefault();
+    //deleteTimeSpan(id, account.account._id);
+    console.log("DELETED: ", id);
     deleteTimeSpan(id);
+    deleteTimeIntervalTransaction(id)
   };
 
   if (transaction.loading || account.loading) {
@@ -153,4 +161,4 @@ const mapStateToProps = (state) => ({
   transaction: state.transaction,
 });
 
-export default connect(mapStateToProps, { deleteTimeSpan })(TimeIntervallItem);
+export default connect(mapStateToProps, { deleteTimeSpan, deleteTimeIntervalTransaction })(TimeIntervallItem);

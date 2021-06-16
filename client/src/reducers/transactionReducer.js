@@ -9,6 +9,7 @@ import {
   FLUSH_TIMEINTERVALLS,
   ADD_TIMESPAN,
   REMOVE_TIMESPAN,
+  REMOVE_TIMEINTERVAL_TRANSACTION,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -34,6 +35,13 @@ export default (state = initialState, action) => {
         ...state,
         transactions: action.payload,
         loading: false,
+      };
+    case REMOVE_TIMEINTERVAL_TRANSACTION:
+      return {
+        ...state,
+        timeintervalTransactions: state.timeintervalTransactions.filter(
+          (tit) => tit.timeSpan._id !== action.payload
+        ),
       };
     case DELETE_TRANSACTION:
       return {
