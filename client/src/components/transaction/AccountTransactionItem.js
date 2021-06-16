@@ -4,13 +4,11 @@ import { connect } from "react-redux";
 import Moment from "react-moment";
 import {
   deleteTransaction,
-  getTimeSpans,
 } from "../../actions/transaction/transactionActions";
 
 const AccountTransactionItem = ({
   transaction,
   deleteTransaction,
-  getTimeSpans,
   account,
 }) => {
   const { sum, transactionDate, description, _id, transactionType } =
@@ -18,7 +16,7 @@ const AccountTransactionItem = ({
 
   const onDelete = (e) => {
     e.preventDefault();
-    deleteTransaction(_id);
+    deleteTransaction(_id, account.account._id);
   };
 
   return (
@@ -64,6 +62,6 @@ const mapStateToProps = (state) => ({
   account: state.account,
 });
 
-export default connect(mapStateToProps, { deleteTransaction, getTimeSpans })(
+export default connect(mapStateToProps, { deleteTransaction })(
   AccountTransactionItem
 );

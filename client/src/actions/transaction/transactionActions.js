@@ -52,25 +52,29 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
     });
 
     dispatch(setAlert("Transaction added!", "success"));
-    dispatch(flushTimeIntervalls())
-    dispatch(getTimeSpans(accountId))
+    dispatch(flushTimeIntervalls());
+    dispatch(getTimeSpans(accountId));
   } catch (err) {
     dispatch(setAlert("Failed to create a new Transaction", "danger"));
   }
 };
 
 // DELETE a transaction
-export const deleteTransaction = (transactionId) => async (dispatch) => {
-  try {
-    await axios.delete(`/api/v1/transactions/${transactionId}`);
-    dispatch({
-      type: DELETE_TRANSACTION,
-      payload: transactionId,
-    });
-  } catch (err) {
-    dispatch(setAlert("Failed to delete the transaction", "danger"));
-  }
-};
+export const deleteTransaction =
+  (transactionId, accountId = "") =>
+  async (dispatch) => {
+    try {
+      await axios.delete(`/api/v1/transactions/${transactionId}`);
+      dispatch({
+        type: DELETE_TRANSACTION,
+        payload: transactionId,
+      });
+      dispatch(flushTimeIntervalls());
+      dispatch(getTimeSpans(accountId));
+    } catch (err) {
+      dispatch(setAlert("Failed to delete the transaction", "danger"));
+    }
+  };
 
 // ======= TIME INTERVALS / SPANS ========
 
