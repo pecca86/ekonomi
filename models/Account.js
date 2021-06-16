@@ -22,10 +22,6 @@ const AccountSchema = new mongoose.Schema(
       default: 0,
     },
     allTransactionsSum: Number,
-    accountType: {
-      type: String,
-      enum: ["savings", "checking"],
-    },
     createdAt: {
       type: Date,
       default: Date.now,

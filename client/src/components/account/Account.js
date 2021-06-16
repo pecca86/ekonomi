@@ -12,7 +12,6 @@ import DeleteAccountModal from "./DeleteAccountModal";
 import { getAccount } from "../../actions/account/accountActions";
 import { getAllAccountTransactions } from "../../actions/transaction/transactionActions";
 import { getTimeSpans } from "../../actions/transaction/transactionActions";
-import { flushTimeIntervalls } from "../../actions/transaction/transactionActions";
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";

@@ -2,14 +2,11 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getAccounts } from "../../actions/account/accountActions";
-import AddAccountModal from "../account/AddAccountModal";
-import AddAccountBtn from "../account/AddAccountBtn";
 import AccountListItem from "./AccountListItem";
 import { flushTimeIntervalls } from "../../actions/transaction/transactionActions";
 
 const AccountList = ({ account, getAccounts, flushTimeIntervalls }) => {
   useEffect(() => {
-    
     flushTimeIntervalls()
   }, [getAccounts, flushTimeIntervalls]);
 
@@ -23,8 +20,6 @@ const AccountList = ({ account, getAccounts, flushTimeIntervalls }) => {
 
   return (
     <div className="mt-5" style={{ height: "300px", overflow: "auto" }}>
-      <AddAccountBtn />
-      <AddAccountModal />
       <table className="table">
         <thead>
           <tr>

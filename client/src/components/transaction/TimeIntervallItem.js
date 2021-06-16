@@ -17,6 +17,7 @@ const TimeIntervallItem = ({
 }) => {
   useEffect(() => {
     countTransactionsSums();
+    // eslint-disable-next-line
   }, []);
 
   const [transactionData, setTransactionData] = useState({

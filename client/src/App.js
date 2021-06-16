@@ -13,7 +13,6 @@ import ChangePassword from "./components/profile/ChangePassword";
 import Alert from "./components/layout/Alert";
 import setAuthToken from "./utils/setAuthToken";
 import { loadUser } from "./actions/auth/authActions";
-import { getAccounts } from "./actions/account/accountActions";
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";

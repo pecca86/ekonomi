@@ -6,17 +6,19 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getAccounts } from "../../actions/account/accountActions";
 
-// Materialize-css
-import "materialize-css/dist/css/materialize.min.css";
-import M from "materialize-css/dist/js/materialize.min.js";
+import TestBtn from "./TestBtn";
 
 const Dashboard = ({ auth, account, getAccounts }) => {
   useEffect(() => {
     getAccounts();
-    M.AutoInit();
   }, [getAccounts]);
 
-  if (auth.loading || account.loading || !auth.isAuthenticated || (auth.user === null) ) {
+  if (
+    auth.loading ||
+    account.loading ||
+    !auth.isAuthenticated ||
+    auth.user === null
+  ) {
     return (
       <div className="container">
         <p>Loading...</p>
@@ -34,6 +36,7 @@ const Dashboard = ({ auth, account, getAccounts }) => {
             {`${auth.user.firstname} ${auth.user.lastname}`}
           </Link>
         </span>
+        <TestBtn />
       </div>
       {/* FRAGMENT FOR ACCOUNT LIST */}
       <Fragment>
@@ -74,4 +77,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getAccounts})(Dashboard);
+export default connect(mapStateToProps, { getAccounts })(Dashboard);
