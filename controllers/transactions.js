@@ -61,10 +61,6 @@ exports.createTransaction = wrapAsync(async (req, res, next) => {
   const transaction = new Transaction(req.body);
   await transaction.save();
 
-  // push the newly created transaction to the account that it is associated with
-  account.accountTransactions.push(transaction);
-  await account.save();
-
   res.status(201).json({
     data: transaction,
   });

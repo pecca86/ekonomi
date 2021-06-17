@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const Transaction = require("./Transaction");
-const TimeSpan = require('./TimeSpan')
 
 const AccountSchema = new mongoose.Schema(
   {
@@ -27,12 +25,6 @@ const AccountSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    accountTransactions: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Transaction",
-      },
-    ],
   },
   {
     toJSON: { virtuals: true },
@@ -40,23 +32,14 @@ const AccountSchema = new mongoose.Schema(
   }
 );
 
-// Mongoose middleware for deletion of Accounts and any model's data that is refered to (transactions)
-// mongoose findOneAndDelete is used with findByIdAndDelete
-// doc referes to the model passed in (this case campground)
-// this is a query middleware that passes in the doc to the function
-AccountSchema.post("remove", async function (doc) {
-  if (doc) {
-    await Transaction.deleteMany({
-      //passes in the id for each transaction...
-      _id: {
-        $in: doc.accountTransactions,
-      },
-    });
-
-    await TimeSpan.deleteMany({
-
-    })
-  }
+// Cascade delete Account related transactions when a Account is deleted
+// IMPORTANT! This pre hook does not work with mongoose findByIdAndDelete
+// use findById to get the Account, then Account.remove() => this will trigger this middleware
+AccountSchema.pre("remove", async function (next) {
+  // delete only those courses that are in this Account
+  await this.model("Transaction").deleteMany({ account: this._id });
+  await this.model("TimeSpan").deleteMany({ account: this._id });
+  next();
 });
 
 module.exports = mongoose.model("Account", AccountSchema);
