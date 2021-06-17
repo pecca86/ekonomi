@@ -12,7 +12,7 @@ const initialState = {
   accounts: null,
   account: null,
   loading: true,
-  error: null
+  error: null,
 };
 
 // eslint-disable-next-line
@@ -22,27 +22,28 @@ export default (state = initialState, action) => {
       return {
         ...state,
         accounts: action.payload,
-        loading: false
+        loading: false,
       };
     case GET_ACCOUNT:
+    case UPDATE_ACCOUNT:
       return {
         ...state,
         account: action.payload,
-        loading: false
+        loading: false,
       };
-    case UPDATE_ACCOUNT:
-      return "";
     case ADD_ACCOUNT:
       return {
         ...state,
         accounts: [...state.accounts, action.payload],
-        loading: false
+        loading: false,
       };
     case DELETE_ACCOUNT:
       return {
         ...state,
-        accounts: state.accounts.filter(account => account.id !== action.payload),
-        loading: false
+        accounts: state.accounts.filter(
+          (account) => account.id !== action.payload
+        ),
+        loading: false,
       };
     case ACCOUNT_ERROR:
       return "";
@@ -54,4 +55,4 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
-}
+};

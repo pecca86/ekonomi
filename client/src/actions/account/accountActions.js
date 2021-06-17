@@ -71,12 +71,28 @@ export const createAccount = (formData) => async (dispatch) => {
   }
 };
 
-export const updateAccount = (accountId) => async (dispatch) => {
-  console.log("bög");
-  dispatch({
-    type: UPDATE_ACCOUNT,
-    payload: "payload",
-  });
+export const updateAccount = (formData, accountId) => async (dispatch) => {
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify(formData);
+
+  try {
+    setLoading();
+
+    const res = await axios.put(`/api/v1/accounts/${accountId}`, body, config);
+
+    dispatch({
+      type: UPDATE_ACCOUNT,
+      payload: res.data.data,
+    });
+  } catch (err) {
+    dispatch(setAlert("Failed to update Account details!", "danger"));
+  }
 };
 
 export const deleteAccount = (accountId) => async (dispatch) => {
@@ -101,10 +117,6 @@ export const deleteAccount = (accountId) => async (dispatch) => {
   }
 };
 
-export const deleteTimeintervall =
-  (accountId, timeIntervallId) => async (dispatch) => {
-    console.log("TOME HOMO");
-  };
 
 // Set loading to true
 export const setLoading = () => {
