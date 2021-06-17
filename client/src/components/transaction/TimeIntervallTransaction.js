@@ -10,11 +10,12 @@ const TimeIntervallTransaction = ({
   description,
   id,
   deleteTransaction,
+  account
 }) => {
 
   const onDelete = (e) => {
     e.preventDefault();
-    deleteTransaction(id);
+    deleteTransaction(id, account.account._id);
   };
 
   return (
@@ -52,6 +53,11 @@ const trash = (
 
 TimeIntervallTransaction.propTypes = {
   deleteTransaction: PropTypes.func.isRequired,
+  account: PropTypes.object.isRequired,
 };
 
-export default connect(null, { deleteTransaction })(TimeIntervallTransaction);
+const mapStateToProps = (state) => ({
+  account: state.account,
+});
+
+export default connect(mapStateToProps, { deleteTransaction })(TimeIntervallTransaction);

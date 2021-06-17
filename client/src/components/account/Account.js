@@ -12,7 +12,6 @@ import { getAccount } from "../../actions/account/accountActions";
 import { getAllAccountTransactions } from "../../actions/transaction/transactionActions";
 import { getTimeSpans } from "../../actions/transaction/transactionActions";
 
-
 const Account = ({
   auth,
   getAccount,

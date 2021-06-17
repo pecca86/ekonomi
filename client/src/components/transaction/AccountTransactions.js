@@ -1,13 +1,14 @@
-import React, {Fragment} from "react";
+import React, { Fragment, Suspense } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import AccounTransactionItem from "./AccountTransactionItem";
+//import AccounTransactionItem from "./AccountTransactionItem";
+const AccounTransactionItem = React.lazy(() =>
+  import("./AccountTransactionItem")
+);
 
-
-const AccountTransactions = ({transaction}) => {
-
+const AccountTransactions = ({ transaction }) => {
   if (transaction.loading) {
-    return (<p>Loading...</p>)
+    return <p>Loading...</p>;
   }
 
   return (
@@ -22,17 +23,21 @@ const AccountTransactions = ({transaction}) => {
           </tr>
         </thead>
         <tbody>
-          {transaction.transactions.map(transaction => (
-            <Fragment>
-              <AccounTransactionItem key={transaction._id} transaction={transaction} />
-            </Fragment>
-          ))}
+          <Fragment>
+            <Suspense fallback={<p>Loading transactions...</p>}>
+              {transaction.transactions.map((transaction) => (
+                <AccounTransactionItem
+                  key={transaction._id}
+                  transaction={transaction}
+                />
+              ))}
+            </Suspense>
+          </Fragment>
         </tbody>
       </table>
     </div>
   );
 };
-
 
 AccountTransactions.propTypes = {
   transaction: PropTypes.object.isRequired,
@@ -42,4 +47,4 @@ const mapStateToProps = (state) => ({
   transaction: state.transaction,
 });
 
-export default connect(mapStateToProps)(AccountTransactions)
+export default connect(mapStateToProps)(AccountTransactions);
