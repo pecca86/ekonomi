@@ -1,21 +1,43 @@
 import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { deleteAccount } from "../../actions/account/accountActions";
 
-const DeleteAccountModal = () => {
+const DeleteAccountModal = ({ account, deleteAccount }) => {
+
+  const onDelete = (e) => {
+    deleteAccount(account.account._id);
+  };
+
   return (
     <div id="delete-account-modal" className="modal mt-5">
       <div className="modal-content mb-1">
-        <h4>Confirm deletion of account and corresponding transactions</h4>
-        <a href="!#" className="modal-close waves-effect waves-green btn-flat">
-          <button className="btn red">DELETE</button>
-        </a>
+        <h4>
+          Are you sure you want to delete this Account and all Transactions?
+        </h4>
+        <Link to="/" className="">
+          <button onClick={onDelete} className="btn red modal-close">
+            Delete
+          </button>
+        </Link>
         <hr />
 
-        <a href="!#" className="modal-close waves-effect waves-green btn-flat">
-          <button className="btn">CANCEL</button>
-        </a>
+        <button className="btn  green modal-close">Cancel</button>
       </div>
     </div>
   );
 };
 
-export default DeleteAccountModal;
+DeleteAccountModal.propTypes = {
+  account: PropTypes.object.isRequired,
+  deleteAccount: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  account: state.account,
+});
+
+export default connect(mapStateToProps, { deleteAccount })(
+  DeleteAccountModal
+);

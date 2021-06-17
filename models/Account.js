@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Transaction = require("./Transaction");
+const TimeSpan = require('./TimeSpan')
 
 const AccountSchema = new mongoose.Schema(
   {
@@ -32,16 +33,6 @@ const AccountSchema = new mongoose.Schema(
         ref: "Transaction",
       },
     ],
-    queryTimeSpans: [
-      {
-        startDate: {
-          type: String,
-        },
-        endDate: {
-          type: String,
-        },
-      },
-    ],
   },
   {
     toJSON: { virtuals: true },
@@ -61,6 +52,10 @@ AccountSchema.post("remove", async function (doc) {
         $in: doc.accountTransactions,
       },
     });
+
+    await TimeSpan.deleteMany({
+
+    })
   }
 });
 

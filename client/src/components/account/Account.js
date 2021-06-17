@@ -43,7 +43,7 @@ const Account = ({
   return (
     <Fragment>
       <div className="container">
-        <h5>{`${IBAN} - ${name} (${accountType})`}</h5>
+        <h5>{`${IBAN} - ${name}`}</h5>
         <h6>Balance: {balance}€</h6>
         {profileIcon}
         <span className="ps-2">
