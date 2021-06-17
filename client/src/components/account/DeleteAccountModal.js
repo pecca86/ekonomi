@@ -13,9 +13,9 @@ const DeleteAccountModal = ({ account, deleteAccount }) => {
   return (
     <div id="delete-account-modal" className="modal mt-5">
       <div className="modal-content mb-1">
-        <h4>
+        <h6>
           Are you sure you want to delete this Account and all Transactions?
-        </h4>
+        </h6>
         <Link to="/" className="">
           <button onClick={onDelete} className="btn red modal-close">
             Delete
