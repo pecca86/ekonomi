@@ -48,11 +48,38 @@ const Account = ({
       <hr />
       <Fragment>
         <div className="container">
-          <h5>Time Intervals</h5>
-          <TimeIntervall />
+          <p
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseTimeSpan"
+            aria-expanded="false"
+            aria-controls="collapseTimeSpan"
+          >
+            <span className="d-flex justify-content-between align-items-end fs-3">
+                Time Intervals
+              <i className="material-icons prefix">expand_more</i>
+            </span>
+          </p>
+          <div className="collapse" id="collapseTimeSpan">
+            <TimeIntervall />
+          </div>
           <hr />
-          <h5>All Account Transactions</h5>
-          <AccountTransactions />
+
+          <p
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseTransactions"
+            aria-expanded="false"
+            aria-controls="collapseTransactions"
+          >
+            <span className="d-flex justify-content-between align-items-end fs-3">
+                Account Transactions
+              <i className="material-icons prefix">expand_more</i>
+            </span>
+          </p>
+          <div className="collapse" id="collapseTransactions">
+            <AccountTransactions />
+          </div>
         </div>
       </Fragment>
       <AddBtn />

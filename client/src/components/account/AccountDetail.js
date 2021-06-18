@@ -60,12 +60,12 @@ const AccountDetail = ({ account, updateAccount }) => {
   };
 
   return (
-    <div className="container shadow-sm p-3 mb-2 mt-1 bg-body rounded">
+    <div className="container shadow-sm p-3 mb-0 mt-1 bg-body rounded">
       {/* BALANCE */}
       <div class="row justify-content-start mt-3">
-        <div class="col-4 fs-4">Balance:</div>
+        <div class="col-4 fs-4 ">Balance:</div>
         <div
-          class={`col-6 fs-4 ${balance >= 0 ? "text-success" : "text-danger"}`}
+          class={`col-6 fs-4 ${balance >= 0 ? "text-success" : "text-danger"} fw-bold font-monospace`}
           fs-2
         >
           {balance}€
@@ -156,7 +156,7 @@ const AccountDetail = ({ account, updateAccount }) => {
 
       {/* NAME */}
       <div class="row justify-content-start mt-0">
-        <div class="col-10 fs-6">{name}</div>
+        <div class="col-10 fs-6 fw-light">{name}</div>
         <div class="col-1 fs-6">
           <span>
             {hideItem.hideName ? (
