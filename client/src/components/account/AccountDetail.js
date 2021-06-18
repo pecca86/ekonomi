@@ -60,137 +60,141 @@ const AccountDetail = ({ account, updateAccount }) => {
   };
 
   return (
-    <div className="container">
+    <div className="container shadow-sm p-3 mb-2 mt-1 bg-body rounded">
       {/* BALANCE */}
       <div class="row justify-content-start mt-3">
-      <h5>Account Details</h5>
-        <div class="col-3 fs-4">Balance:</div>
-        <div class={`col-3 fs-4 ${balance >= 0 ? "text-success" : "text-danger"}`} fs-2>{balance}€</div>
-      </div>
-
-
-      <h5 className={balance >= 0 ? "text-success" : "text-danger"}>
-        Balance: {balance}€{" "}
-        <span>
-          {hideItem.hideBalance ? (
-            <i
-              onClick={onToggleBalance}
-              className="material-icons prefix text-dark"
-            >
-              mode_edit
-            </i>
-          ) : (
-            <span>
+        <div class="col-4 fs-4">Balance:</div>
+        <div
+          class={`col-6 fs-4 ${balance >= 0 ? "text-success" : "text-danger"}`}
+          fs-2
+        >
+          {balance}€
+        </div>
+        <div class="col-1">
+          <span>
+            {hideItem.hideBalance ? (
               <i
                 onClick={onToggleBalance}
-                className="material-icons prefix text-danger"
+                className="material-icons prefix text-dark"
               >
-                close
+                mode_edit
               </i>
+            ) : (
+              <span>
+                <i
+                  onClick={onToggleBalance}
+                  className="material-icons prefix text-danger"
+                >
+                  close
+                </i>
 
-              <i
-                onClick={onSubmit}
-                className="material-icons prefix text-success"
-              >
-                check
-              </i>
-            </span>
-          )}
-        </span>
-      </h5>
-      {hideItem.hideBalance ? (
-        ""
-      ) : (
-        <h6>
-          <input
-            onChange={onChange}
-            type="number"
-            name="balance"
-            value={formData.balance}
-          />
-        </h6>
-      )}
+                <i
+                  onClick={onSubmit}
+                  className="material-icons prefix text-success"
+                >
+                  check
+                </i>
+              </span>
+            )}
+          </span>
+        </div>
+        {hideItem.hideBalance ? (
+          ""
+        ) : (
+          <p>
+            <input
+              onChange={onChange}
+              type="number"
+              name="balance"
+              value={formData.balance}
+            />
+          </p>
+        )}
+      </div>
+
       {/* IBAN */}
-      <h6>
-        {`${IBAN}`}{" "}
-        <span>
-          {hideItem.hideIban ? (
-            <i onClick={onToggleIban} className="material-icons prefix">
-              mode_edit
-            </i>
-          ) : (
-            <span>
-              <i
-                onClick={onToggleIban}
-                className="material-icons prefix text-danger"
-              >
-                close
+      <div class="row justify-content-start mt-3 mb-1">
+        <div class="col-10 fs-6">{IBAN}</div>
+        <div class="col-1 fs-6">
+          <span>
+            {hideItem.hideIban ? (
+              <i onClick={onToggleIban} className="material-icons prefix">
+                mode_edit
               </i>
+            ) : (
+              <span>
+                <i
+                  onClick={onToggleIban}
+                  className="material-icons prefix text-danger"
+                >
+                  close
+                </i>
 
-              <i
-                onClick={onSubmit}
-                className="material-icons prefix text-success"
-              >
-                check
-              </i>
-            </span>
-          )}
-        </span>
-      </h6>
-
-      {hideItem.hideIban ? (
-        ""
-      ) : (
-        <h5>
-          <input
-            onChange={onChange}
-            type="text"
-            name="iban"
-            value={formData.iban}
-          />
-        </h5>
-      )}
+                <i
+                  onClick={onSubmit}
+                  className="material-icons prefix text-success"
+                >
+                  check
+                </i>
+              </span>
+            )}
+          </span>
+        </div>
+        {hideItem.hideIban ? (
+          ""
+        ) : (
+          <p>
+            <input
+              onChange={onChange}
+              type="text"
+              name="iban"
+              value={formData.iban}
+            />
+          </p>
+        )}
+      </div>
 
       {/* NAME */}
-      <h6>
-        {name}{" "}
-        <span>
-          {hideItem.hideName ? (
-            <i onClick={onToggleName} className="material-icons prefix">
-              mode_edit
-            </i>
-          ) : (
-            <span>
-              <i
-                onClick={onToggleName}
-                className="material-icons prefix text-danger"
-              >
-                close
+      <div class="row justify-content-start mt-0">
+        <div class="col-10 fs-6">{name}</div>
+        <div class="col-1 fs-6">
+          <span>
+            {hideItem.hideName ? (
+              <i onClick={onToggleName} className="material-icons prefix">
+                mode_edit
               </i>
+            ) : (
+              <span>
+                <i
+                  onClick={onToggleName}
+                  className="material-icons prefix text-danger"
+                >
+                  close
+                </i>
 
-              <i
-                onClick={onSubmit}
-                className="material-icons prefix text-success"
-              >
-                check
-              </i>
-            </span>
-          )}
-        </span>
-      </h6>
-
-      {hideItem.hideName ? (
-        ""
-      ) : (
-        <h6>
-          <input
-            onChange={onChange}
-            type="text"
-            name="name"
-            value={formData.name}
-          />
-        </h6>
-      )}
+                <i
+                  onClick={onSubmit}
+                  className="material-icons prefix text-success"
+                >
+                  check
+                </i>
+              </span>
+            )}
+          </span>
+        </div>
+        {hideItem.hideName ? (
+          ""
+        ) : (
+          <p>
+            <input
+              onChange={onChange}
+              type="text"
+              name="name"
+              value={formData.name}
+            />
+          </p>
+        )}
+      </div>
     </div>
   );
 };
