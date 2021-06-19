@@ -75,7 +75,7 @@ const AccountDetail = ({ account, updateAccount }) => {
             {hideItem.hideBalance ? (
               <i
                 onClick={onToggleBalance}
-                className="material-icons prefix text-dark"
+                className="material-icons prefix text-dark action-icon"
               >
                 mode_edit
               </i>
@@ -83,14 +83,14 @@ const AccountDetail = ({ account, updateAccount }) => {
               <span>
                 <i
                   onClick={onToggleBalance}
-                  className="material-icons prefix text-danger"
+                  className="material-icons prefix text-danger action-icon"
                 >
                   close
                 </i>
 
                 <i
                   onClick={onSubmit}
-                  className="material-icons prefix text-success"
+                  className="material-icons prefix text-success action-icon"
                 >
                   check
                 </i>
@@ -117,21 +117,21 @@ const AccountDetail = ({ account, updateAccount }) => {
         <div class="col-1 fs-6">
           <span>
             {hideItem.hideName ? (
-              <i onClick={onToggleName} className="tiny material-icons prefix">
+              <i onClick={onToggleName} className="tiny material-icons prefix action-icon">
                 mode_edit
               </i>
             ) : (
               <span>
                 <i
                   onClick={onToggleName}
-                  className="material-icons prefix text-danger"
+                  className="material-icons prefix text-danger action-icon"
                 >
                   close
                 </i>
 
                 <i
                   onClick={onSubmit}
-                  className="material-icons prefix text-success"
+                  className="material-icons prefix text-success action-icon"
                 >
                   check
                 </i>
@@ -159,21 +159,21 @@ const AccountDetail = ({ account, updateAccount }) => {
         <div class="col-1 fs-6">
           <span>
             {hideItem.hideIban ? (
-              <i onClick={onToggleIban} className=" tiny material-icons prefix">
+              <i onClick={onToggleIban} className=" tiny material-icons prefix action-icon">
                 mode_edit
               </i>
             ) : (
               <span>
                 <i
                   onClick={onToggleIban}
-                  className="material-icons prefix text-danger"
+                  className="material-icons prefix text-danger action-icon"
                 >
                   close
                 </i>
 
                 <i
                   onClick={onSubmit}
-                  className="material-icons prefix text-success"
+                  className="material-icons prefix text-success action-icon"
                 >
                   check
                 </i>

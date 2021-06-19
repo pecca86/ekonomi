@@ -1,11 +1,16 @@
 .trash-icon:hover {
-    color: red
+  color: red;
 }
 
 .spending {
-    color: red
+  color: red;
 }
 
 .income {
-    color: green
+  color: green;
+}
+
+.action-icon:hover {
+  cursor: pointer;
+  color: red;
 }

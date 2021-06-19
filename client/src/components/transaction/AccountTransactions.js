@@ -20,6 +20,7 @@ const AccountTransactions = ({ transaction }) => {
             <th scope="col">Description</th>
             <th scope="col">Sum</th>
             <th scope="col">{""}</th>
+            <th scope="col">{""}</th>
           </tr>
         </thead>
         <tbody>
