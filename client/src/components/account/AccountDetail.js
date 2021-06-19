@@ -63,9 +63,9 @@ const AccountDetail = ({ account, updateAccount }) => {
     <div className="container shadow-sm p-3 mb-0 mt-1 bg-body rounded">
       {/* BALANCE */}
       <div class="row justify-content-start mt-3">
-        <div class="col-4 fs-4 ">Balance:</div>
+        <div class="col-7 fs-4 ">Balance</div>
         <div
-          class={`col-6 fs-4 ${balance >= 0 ? "text-success" : "text-danger"} fw-bold font-monospace`}
+          class={`col-3 fs-4 ${balance >= 0 ? "text-success" : "text-danger"} `}
           fs-2
         >
           {balance}€
@@ -111,14 +111,55 @@ const AccountDetail = ({ account, updateAccount }) => {
           </p>
         )}
       </div>
+            {/* NAME */}
+            <div class="row justify-content-start mt-0 mb-1">
+        <div class="col-10 fs-6 fw-light">{name}</div>
+        <div class="col-1 fs-6">
+          <span>
+            {hideItem.hideName ? (
+              <i onClick={onToggleName} className="tiny material-icons prefix">
+                mode_edit
+              </i>
+            ) : (
+              <span>
+                <i
+                  onClick={onToggleName}
+                  className="material-icons prefix text-danger"
+                >
+                  close
+                </i>
+
+                <i
+                  onClick={onSubmit}
+                  className="material-icons prefix text-success"
+                >
+                  check
+                </i>
+              </span>
+            )}
+          </span>
+        </div>
+        {hideItem.hideName ? (
+          ""
+        ) : (
+          <p>
+            <input
+              onChange={onChange}
+              type="text"
+              name="name"
+              value={formData.name}
+            />
+          </p>
+        )}
+      </div>
 
       {/* IBAN */}
-      <div class="row justify-content-start mt-3 mb-1">
-        <div class="col-10 fs-6">{IBAN}</div>
+      <div class="row justify-content-start mt-0 mb-0">
+        <div class="col-10 fs-6 fw-light">{IBAN}</div>
         <div class="col-1 fs-6">
           <span>
             {hideItem.hideIban ? (
-              <i onClick={onToggleIban} className="material-icons prefix">
+              <i onClick={onToggleIban} className=" tiny material-icons prefix">
                 mode_edit
               </i>
             ) : (
@@ -154,47 +195,7 @@ const AccountDetail = ({ account, updateAccount }) => {
         )}
       </div>
 
-      {/* NAME */}
-      <div class="row justify-content-start mt-0">
-        <div class="col-10 fs-6 fw-light">{name}</div>
-        <div class="col-1 fs-6">
-          <span>
-            {hideItem.hideName ? (
-              <i onClick={onToggleName} className="material-icons prefix">
-                mode_edit
-              </i>
-            ) : (
-              <span>
-                <i
-                  onClick={onToggleName}
-                  className="material-icons prefix text-danger"
-                >
-                  close
-                </i>
 
-                <i
-                  onClick={onSubmit}
-                  className="material-icons prefix text-success"
-                >
-                  check
-                </i>
-              </span>
-            )}
-          </span>
-        </div>
-        {hideItem.hideName ? (
-          ""
-        ) : (
-          <p>
-            <input
-              onChange={onChange}
-              type="text"
-              name="name"
-              value={formData.name}
-            />
-          </p>
-        )}
-      </div>
     </div>
   );
 };

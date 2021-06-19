@@ -3,7 +3,10 @@ import Moment from "react-moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import TimeIntervallTransaction from "./TimeIntervallTransaction";
-import { deleteTimeSpan, deleteTimeIntervalTransaction } from "../../actions/transaction/transactionActions";
+import {
+  deleteTimeSpan,
+  deleteTimeIntervalTransaction,
+} from "../../actions/transaction/transactionActions";
 
 const TimeIntervallItem = ({
   startDate,
@@ -49,13 +52,12 @@ const TimeIntervallItem = ({
     }
   };
 
-
   const onDelete = (e) => {
     e.preventDefault();
     //deleteTimeSpan(id, account.account._id);
     console.log("DELETED: ", id);
     deleteTimeSpan(id);
-    deleteTimeIntervalTransaction(id)
+    deleteTimeIntervalTransaction(id);
   };
 
   if (transaction.loading || account.loading) {
@@ -84,7 +86,11 @@ const TimeIntervallItem = ({
             <div className="col-4">
               <Moment format="DD.MM.YYYY">{endDate}</Moment>
             </div>
-            <div className="col-3">{sum}€</div>
+            {sum >= 0 ? (
+              <div className={`col-3 text-success`}>{sum}€</div>
+            ) : (
+              <div className={`col-3 text-danger`}>{sum}€</div>
+            )}
             <div onClick={onDelete} className="col-1 trash-icon">
               {trash}
             </div>
@@ -97,10 +103,10 @@ const TimeIntervallItem = ({
           data-bs-parent="#accordionExample"
         >
           <div className="accordion-body ">
-            <div className="col">
+            <div className="col text-success">
               <strong> Incomes:</strong> {incomes}€
             </div>
-            <div className="col">
+            <div className="col text-danger">
               <strong>Spendings:</strong> {spendings}€
             </div>
           </div>
@@ -161,4 +167,7 @@ const mapStateToProps = (state) => ({
   transaction: state.transaction,
 });
 
-export default connect(mapStateToProps, { deleteTimeSpan, deleteTimeIntervalTransaction })(TimeIntervallItem);
+export default connect(mapStateToProps, {
+  deleteTimeSpan,
+  deleteTimeIntervalTransaction,
+})(TimeIntervallItem);

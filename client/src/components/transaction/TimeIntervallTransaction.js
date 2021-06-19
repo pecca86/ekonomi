@@ -10,9 +10,8 @@ const TimeIntervallTransaction = ({
   description,
   id,
   deleteTransaction,
-  account
+  account,
 }) => {
-
   const onDelete = (e) => {
     e.preventDefault();
     deleteTransaction(id, account.account._id);
@@ -24,14 +23,17 @@ const TimeIntervallTransaction = ({
         <Moment format="DD.MM.YYYY">{date}</Moment>
       </td>
       <td>{description}</td>
-      <td>{sum}€</td>
+      {sum >= 0 ? (
+        <td className="text-success">{sum}€</td>
+      ) : (
+        <td className="text-danger">{sum}€</td>
+      )}
       <td onClick={onDelete} className="trash-icon">
         {trash}
       </td>
     </tr>
   );
 };
-
 
 // Trash icon
 const trash = (
@@ -60,4 +62,6 @@ const mapStateToProps = (state) => ({
   account: state.account,
 });
 
-export default connect(mapStateToProps, { deleteTransaction })(TimeIntervallTransaction);
+export default connect(mapStateToProps, { deleteTransaction })(
+  TimeIntervallTransaction
+);
