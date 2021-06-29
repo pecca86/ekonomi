@@ -9,6 +9,9 @@ import {
   ADD_TIMESPAN,
   REMOVE_TIMESPAN,
   REMOVE_TIMEINTERVAL_TRANSACTION,
+  SET_CURRENT_TRANSACTION,
+  CLEAR_CURRENT_TRANSACTION,
+  UPDATE_TRANSACTION
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -75,6 +78,54 @@ export const deleteTransaction =
       dispatch(setAlert("Failed to delete the transaction", "danger"));
     }
   };
+
+  export const updateTransaction = (formData, accountId) => async dispatch => {
+    const { id } = formData
+    const body = JSON.stringify(formData);
+
+    try {
+      setLoading();
+  
+      const res = await fetch(`/api/v1/transactions/${id}`, {
+        method: "PUT",
+        body: body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const data = await res.json();
+      console.log("DATA: ",data.data._id);
+  
+      dispatch({
+        type: UPDATE_TRANSACTION,
+        payload: data.data,
+      });
+  
+      dispatch(setAlert("Transaction updated!", "success"));
+      dispatch(flushTimeIntervalls());
+      dispatch(getTimeSpans(accountId));
+    } catch (err) {
+      dispatch(setAlert("Failed to create a new Transaction", "danger"));
+    }
+  }
+
+
+// Set the current transaction to be the one the user clicked on
+export const setCurrentTransaction = (transaction) => {
+  return {
+    type: SET_CURRENT_TRANSACTION,
+    payload: transaction
+  }
+}
+
+
+// Clear the current transaction 
+export const clearCurrentTransaction = () => {
+  return {
+    type: CLEAR_CURRENT_TRANSACTION
+  }
+}
 
 // ======= TIME INTERVALS / SPANS ========
 

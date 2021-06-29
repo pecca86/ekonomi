@@ -7,9 +7,9 @@ import AddBtn from "./AddBtn";
 import AddTransactionModal from "../transaction/AddTransactionModal";
 import AddTimeintervallModal from "../transaction/AddTimeintervallModal";
 import DeleteAccountModal from "./DeleteAccountModal";
+import EditTransactionModal from "../transaction/EditTransactionModal";
 import { getAccount } from "../../actions/account/accountActions";
-import { getAllAccountTransactions } from "../../actions/transaction/transactionActions";
-import { getTimeSpans } from "../../actions/transaction/transactionActions";
+import { getTimeSpans, getAllAccountTransactions } from "../../actions/transaction/transactionActions";
 import AccountDetail from "./AccountDetail";
 
 const Account = ({
@@ -86,6 +86,7 @@ const Account = ({
       <AddTransactionModal />
       <AddTimeintervallModal />
       <DeleteAccountModal />
+      <EditTransactionModal />
     </Fragment>
   );
 };

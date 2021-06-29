@@ -2,13 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
-import { deleteTransaction } from "../../actions/transaction/transactionActions";
+import {
+  deleteTransaction,
+  setCurrentTransaction,
+} from "../../actions/transaction/transactionActions";
 
 const AccountTransactionItem = ({
   transaction,
   deleteTransaction,
+  setCurrentTransaction,
   account,
 }) => {
+
   const { sum, transactionDate, description, _id, transactionType } =
     transaction;
 
@@ -31,10 +36,20 @@ const AccountTransactionItem = ({
       <td className="trash-icon" onClick={onDelete}>
         {trash}{" "}
       </td>
-      <td className="action-icon">
-        <i className="tiny material-icons prefix text-dark action-icon">
-          mode_edit
-        </i>
+      <td className="">
+        <a
+          class="waves-effect waves-light modal-trigger"
+          href="#edit-transaction-modal"
+        >
+          <i
+            onClick={() => setCurrentTransaction(transaction)}
+            className="tiny material-icons prefix text-dark action-icon"
+            data-toggle="modal"
+            data-target="#edit-transaction-modal"
+          >
+            mode_edit
+          </i>
+        </a>
       </td>
     </tr>
   );
@@ -57,27 +72,16 @@ const trash = (
   </svg>
 );
 
-const edit = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    fill="currentColor"
-    class="bi bi-pencil-fill"
-    viewBox="0 0 16 16"
-  >
-    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-  </svg>
-);
-
 AccountTransactionItem.propTypes = {
   deleteTransaction: PropTypes.func.isRequired,
+  setCurrentTransaction: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   account: state.account,
 });
 
-export default connect(mapStateToProps, { deleteTransaction })(
-  AccountTransactionItem
-);
+export default connect(mapStateToProps, {
+  deleteTransaction,
+  setCurrentTransaction,
+})(AccountTransactionItem);

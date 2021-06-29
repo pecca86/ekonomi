@@ -21,9 +21,6 @@ const TimeIntervallItem = ({
 }) => {
   useEffect(() => {
     countTransactionsSums();
-    console.log("TIMEINTERVALLITEM ID: ", id);
-    console.log("START: ", startDate);
-    console.log("END: ", endDate);
     // eslint-disable-next-line
   }, []);
 

@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense } from "react";
+import React, { Fragment, Suspense, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 //import AccounTransactionItem from "./AccountTransactionItem";
@@ -7,9 +7,11 @@ const AccounTransactionItem = React.lazy(() =>
 );
 
 const AccountTransactions = ({ transaction }) => {
+
   if (transaction.loading) {
     return <p>Loading...</p>;
   }
+
 
   return (
     <div style={{ height: "300px", overflow: "auto" }}>

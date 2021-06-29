@@ -1,5 +1,6 @@
 .trash-icon:hover {
   color: red;
+  cursor: pointer;
 }
 
 .spending {

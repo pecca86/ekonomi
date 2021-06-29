@@ -10,6 +10,9 @@ import {
   ADD_TIMESPAN,
   REMOVE_TIMESPAN,
   REMOVE_TIMEINTERVAL_TRANSACTION,
+  SET_CURRENT_TRANSACTION,
+  CLEAR_CURRENT_TRANSACTION,
+  UPDATE_TRANSACTION,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -19,6 +22,7 @@ const initialState = {
   transaction: null,
   loading: true,
   timeSpans: [],
+  current: null,
 };
 
 // eslint-disable-next-line
@@ -42,6 +46,7 @@ export default (state = initialState, action) => {
         timeintervalTransactions: state.timeintervalTransactions.filter(
           (tit) => tit.timeSpan._id !== action.payload
         ),
+        loading: false
       };
     case DELETE_TRANSACTION:
       return {
@@ -49,6 +54,26 @@ export default (state = initialState, action) => {
         transactions: state.transactions.filter(
           (transaction) => transaction._id !== action.payload
         ),
+        loading: false
+      };
+    case UPDATE_TRANSACTION:
+      console.log("ACTION PAYLOAD: ", action.payload);
+      return {
+        ...state,
+        transactions: state.transactions.map((transaction) =>
+          transaction._id === action.payload._id ? action.payload : transaction
+        ),
+        loading: false
+      };
+    case SET_CURRENT_TRANSACTION:
+      return {
+        ...state,
+        current: action.payload,
+      };
+    case CLEAR_CURRENT_TRANSACTION:
+      return {
+        ...state,
+        current: null,
       };
     case REMOVE_TIMESPAN:
       return {
