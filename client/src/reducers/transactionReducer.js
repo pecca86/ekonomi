@@ -1,6 +1,8 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   CREATE_TRANSACTION,
   GET_TRANSACTIONS,
+  GET_TRANSACTIONS_BY_YEAR,
   SET_LOADING,
   DELETE_TRANSACTION,
   SET_TIMEINTERVALL,
@@ -19,6 +21,7 @@ import {
 
 const initialState = {
   transactions: [],
+  transactionsByYear: [],
   timeintervalTransactions: [],
   transactionQueries: [],
   transaction: null,
@@ -30,6 +33,11 @@ const initialState = {
 // eslint-disable-next-line
 export default (state = initialState, action) => {
   switch (action.type) {
+    case LOCATION_CHANGE:
+      return {
+        ...state,
+        transactionsByYear: []
+      }
     case CREATE_TRANSACTION:
       return {
         ...state,
@@ -42,6 +50,12 @@ export default (state = initialState, action) => {
         transactions: action.payload,
         loading: false,
       };
+      case GET_TRANSACTIONS_BY_YEAR:
+        return {
+          ...state,
+          transactionsByYear: [...state.transactionsByYear, action.payload],
+          loading: false
+        }
     case REMOVE_TIMEINTERVAL_TRANSACTION:
       return {
         ...state,

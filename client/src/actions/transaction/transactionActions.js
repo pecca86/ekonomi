@@ -2,6 +2,7 @@ import {
   CREATE_TRANSACTION,
   SET_LOADING,
   GET_TRANSACTIONS,
+  GET_TRANSACTIONS_BY_YEAR,
   DELETE_TRANSACTION,
   SET_TIMEINTERVALL,
   GET_TIMESPANS,
@@ -27,6 +28,20 @@ export const getAllAccountTransactions = (accountId) => async (dispatch) => {
     const res = await axios.get(`/api/v1/accounts/${accountId}/transactions`);
     dispatch({
       type: GET_TRANSACTIONS,
+      payload: res.data.data,
+    });
+  } catch (err) {
+    dispatch(setAlert("Failed retrieving transactions from server", "danger"));
+  }
+};
+
+// Gets all Transactions related to this Account by year
+export const getAllAccountTransactionsByYear = (accountId, year) => async (dispatch) => {
+  try {
+    setLoading();
+    const res = await axios.get(`/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${year}-01-01&transactionDate[lte]=${year}-12-31`);
+    dispatch({
+      type: GET_TRANSACTIONS_BY_YEAR,
       payload: res.data.data,
     });
   } catch (err) {
