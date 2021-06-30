@@ -12,10 +12,11 @@ const EditTransactionModal = ({
   account,
   clearCurrentTransaction,
 }) => {
+  // EFFECTS
   useEffect(() => {
     if (current) {
       setFormData({
-        sum: current.sum,
+        sum: Math.abs(current.sum),
         transactionType: current.transactionType,
         description: current.description,
         transactionDate: current.transactionDate.substring(0, 10),
@@ -24,6 +25,7 @@ const EditTransactionModal = ({
     }
   }, [current]);
 
+  // STATES
   const [formData, setFormData] = useState({
     id: "",
     sum: 0,
@@ -66,8 +68,12 @@ const EditTransactionModal = ({
           />
 
           {/* TYPE */}
-          <select className="" onChange={onChange} name="transactionType">
-            <option defaultValue>Transaction Type</option>
+          <select
+            className=""
+            value={formData.transactionType}
+            onChange={onChange}
+            name="transactionType"
+          >
             <option value="Income">Income</option>
             <option value="Spending">Spending</option>
           </select>
