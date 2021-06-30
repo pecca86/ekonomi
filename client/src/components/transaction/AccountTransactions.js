@@ -26,9 +26,7 @@ const AccountTransactions = ({
       <table className="table-sm">
         <thead>
           <tr>
-            <th scope="col">
-              Date <i class="material-icons">arrow_drop_down</i>
-            </th>
+            <th scope="col">Date</th>
             <th scope="col">Description</th>
             <th scope="col">Sum</th>
             <th scope="col">{""}</th>
