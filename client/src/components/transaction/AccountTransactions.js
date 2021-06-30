@@ -1,24 +1,34 @@
-import React, { Fragment, Suspense, useEffect } from "react";
+import React, { Fragment, Suspense } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import SortBtn from "../layout/SortBtn";
+import {
+  sortTransactionsAscending,
+  sortTransactionsDescending,
+} from "../../actions/transaction/transactionActions";
 //import AccounTransactionItem from "./AccountTransactionItem";
 const AccounTransactionItem = React.lazy(() =>
   import("./AccountTransactionItem")
 );
 
-const AccountTransactions = ({ transaction }) => {
-
+const AccountTransactions = ({
+  transaction,
+  sortTransactionsAscending,
+  sortTransactionsDescending,
+}) => {
   if (transaction.loading) {
     return <p>Loading...</p>;
   }
 
-
   return (
     <div style={{ height: "300px", overflow: "auto" }}>
+      <SortBtn />
       <table className="table-sm">
         <thead>
           <tr>
-            <th scope="col">Date</th>
+            <th scope="col">
+              Date <i class="material-icons">arrow_drop_down</i>
+            </th>
             <th scope="col">Description</th>
             <th scope="col">Sum</th>
             <th scope="col">{""}</th>
@@ -44,10 +54,15 @@ const AccountTransactions = ({ transaction }) => {
 
 AccountTransactions.propTypes = {
   transaction: PropTypes.object.isRequired,
+  sortTransactionsAscending: PropTypes.func,
+  sortTransactionsDescending: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   transaction: state.transaction,
 });
 
-export default connect(mapStateToProps)(AccountTransactions);
+export default connect(mapStateToProps, {
+  sortTransactionsAscending,
+  sortTransactionsDescending,
+})(AccountTransactions);

@@ -11,7 +11,9 @@ import {
   REMOVE_TIMEINTERVAL_TRANSACTION,
   SET_CURRENT_TRANSACTION,
   CLEAR_CURRENT_TRANSACTION,
-  UPDATE_TRANSACTION
+  UPDATE_TRANSACTION,
+  SORT_TRANSACTIONS_ASC,
+  SORT_TRANSACTIONS_DESC
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -124,6 +126,20 @@ export const setCurrentTransaction = (transaction) => {
 export const clearCurrentTransaction = () => {
   return {
     type: CLEAR_CURRENT_TRANSACTION
+  }
+}
+
+
+// Sorts the transaction ascending according to the date
+export const sortTransactionsAscending = () => {
+  return {
+    type: SORT_TRANSACTIONS_ASC
+  }
+}
+
+export const sortTransactionsDescending = () => {
+  return {
+    type: SORT_TRANSACTIONS_DESC
   }
 }
 

@@ -13,6 +13,8 @@ import {
   SET_CURRENT_TRANSACTION,
   CLEAR_CURRENT_TRANSACTION,
   UPDATE_TRANSACTION,
+  SORT_TRANSACTIONS_ASC,
+  SORT_TRANSACTIONS_DESC,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -46,7 +48,7 @@ export default (state = initialState, action) => {
         timeintervalTransactions: state.timeintervalTransactions.filter(
           (tit) => tit.timeSpan._id !== action.payload
         ),
-        loading: false
+        loading: false,
       };
     case DELETE_TRANSACTION:
       return {
@@ -54,7 +56,7 @@ export default (state = initialState, action) => {
         transactions: state.transactions.filter(
           (transaction) => transaction._id !== action.payload
         ),
-        loading: false
+        loading: false,
       };
     case UPDATE_TRANSACTION:
       console.log("ACTION PAYLOAD: ", action.payload);
@@ -63,7 +65,7 @@ export default (state = initialState, action) => {
         transactions: state.transactions.map((transaction) =>
           transaction._id === action.payload._id ? action.payload : transaction
         ),
-        loading: false
+        loading: false,
       };
     case SET_CURRENT_TRANSACTION:
       return {
@@ -74,6 +76,20 @@ export default (state = initialState, action) => {
       return {
         ...state,
         current: null,
+      };
+    case SORT_TRANSACTIONS_ASC:
+      return {
+        ...state,
+        transactions: state.transactions.sort((a, b) =>
+          a.transactionDate > b.transactionDate ? 1 : -1
+        ),
+      };
+    case SORT_TRANSACTIONS_DESC:
+      return {
+        ...state,
+        transactions: state.transactions
+          .sort((a, b) => (a.transactionDate > b.transactionDate ? 1 : -1))
+          .reverse(),
       };
     case REMOVE_TIMESPAN:
       return {
