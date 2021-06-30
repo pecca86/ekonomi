@@ -10,7 +10,7 @@ const SortBtn = ({ sortTransactionsDescending, sortTransactionsAscending }) => {
   return (
     <div class="dropdown">
       <button
-        class="btn btn-flat btn-small border-button grey lighten-3 dropdown-toggle"
+        class="btn btn-flat btn-small border-button dropdown-toggle ps-1"
         type="button"
         id="dropdownMenuButton1"
         data-bs-toggle="dropdown"

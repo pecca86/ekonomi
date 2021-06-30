@@ -41,7 +41,6 @@ const EditTransactionModal = ({
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     updateTransaction(formData, account.account._id);
     clearCurrentTransaction();
   };
@@ -70,10 +69,12 @@ const EditTransactionModal = ({
           {/* TYPE */}
           <select
             className=""
-            value={formData.transactionType}
             onChange={onChange}
             name="transactionType"
+            value={formData.transactionType}
+            required
           >
+            <option defaultValue>Transaction Type</option>
             <option value="Income">Income</option>
             <option value="Spending">Spending</option>
           </select>
