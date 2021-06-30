@@ -5,26 +5,33 @@ import { Link } from "react-router-dom";
 import { deleteAccount } from "../../actions/account/accountActions";
 
 const DeleteAccountModal = ({ account, deleteAccount }) => {
-
   const onDelete = (e) => {
     deleteAccount(account.account._id);
   };
 
   return (
-    <div id="delete-account-modal" className="modal mt-5">
-      <div className="modal-content mb-1">
-        <h6>
-          Are you sure you want to delete this Account and all Transactions?
-        </h6>
-        <Link to="/" className="">
-          <button onClick={onDelete} className="btn red modal-close">
-            Delete
-          </button>
-        </Link>
-        <hr />
-
-        <button className="btn  green modal-close">Cancel</button>
-      </div>
+    <div id="delete-account-modal" className="modal mt-5" style={{height: "275px"}}>
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+                <span class="card-title">Confirm Deletion of Account</span>
+                <p>
+                  This action will delete the account and all related
+                  transactions. <strong>It can not be undone!</strong>
+                </p>
+              </div>
+              <div class="card-action">
+                <Link to="/" className="">
+                  <button onClick={onDelete} className="btn red modal-close mb-2">
+                    Delete
+                  </button>
+                </Link>
+                <button className="btn  green modal-close mb-2">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   );
 };
@@ -38,6 +45,4 @@ const mapStateToProps = (state) => ({
   account: state.account,
 });
 
-export default connect(mapStateToProps, { deleteAccount })(
-  DeleteAccountModal
-);
+export default connect(mapStateToProps, { deleteAccount })(DeleteAccountModal);
