@@ -26,33 +26,39 @@ const Chart = ({
   // GRAPH DATA
   const accounts = [];
   const dataset = [];
-  const test = {
-    0: [],
-    1: [],
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: [],
-    7: [],
-    8: [],
-    9: [],
-    10: [],
-    11: [],
-    12: [],
-  };
 
 
-  
+
   transaction.transactionsByYear.forEach((account) => accounts.push(account));
-  //console.log("ACCOUNTS: ", accounts);
-
 
   for (let i = 0; i < accounts.length; i++) {
-    let randClr = `rgba(${Math.floor(Math.random() * 256)}, 99, ${Math.floor(Math.random() * 256)}, 02)`
+    //
+    const monthlyTransactions = {
+      "01": [0],
+      "02": [0],
+      "03": [0],
+      "04": [0],
+      "05": [0],
+      "06": [0],
+      "07": [0],
+      "08": [0],
+      "09": [0],
+      "10": [0],
+      "11": [0],
+      "12": [0],
+    };
+
+    const summedArr = []
+    let helpArr = []
+
+
+    //
+    let randClr = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
+      Math.random() * 256
+    )}, ${Math.floor(Math.random() * 256)}, 02)`;
 
     dataset.push({
-      label: `Test no ${i}`,
+      label: `${accounts[i][i].account.name}`,
       data: [],
       fill: false,
       backgroundColor: randClr,
@@ -60,15 +66,24 @@ const Chart = ({
     });
 
     for (let j = 0; j < accounts[i].length; j++) {
-
-      console.log(`ACC ARR ${i}: `, accounts[i][j].sum);
-      dataset[i].data.push(accounts[i][j].sum)
+      //dataset[i].data.push(accounts[i][j].sum);
+      monthlyTransactions[accounts[i][j].transactionDate.substring(5, 7)].push(
+        accounts[i][j].sum
+      );
     }
-      
-    
+
+    //
+    //console.log(`Month ${i} :`, monthlyTransactions);
+    for (const month in monthlyTransactions) {
+      summedArr.push(monthlyTransactions[month].reduce((a,b) => a+b, 0))
+    }
+    helpArr = summedArr.splice(0,3)
+    summedArr.push(...helpArr)
+    console.log(summedArr);
+    dataset[i].data.push(...summedArr)
   }
 
-
+  //console.log("TEST2: ", monthlyTransactions);
 
   // TESTING
   // CHART STUFF
