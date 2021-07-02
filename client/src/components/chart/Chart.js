@@ -62,7 +62,7 @@ const Chart = ({
       label:
         accounts[i].length > 0
           ? `${accounts[i][0].account.name}`
-          : "No transactios for this year",
+          : "No transactions",
       data: [],
       fill: false,
       backgroundColor: randClr,
