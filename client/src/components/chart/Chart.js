@@ -23,7 +23,7 @@ const Chart = ({
     );
   };
 
-  // GRAPH DATA
+  // === GRAPH DATA ===
   const accounts = [];
   const dataset = [];
 
@@ -43,9 +43,9 @@ const Chart = ({
       "07": [0],
       "08": [0],
       "09": [0],
-      10: [0],
-      11: [0],
-      12: [0],
+      "10": [0],
+      "11": [0],
+      "12": [0],
     };
 
     // Create helper arrays since reduce swithes the order from 1-12 to 10-12, 1-9

@@ -35,7 +35,13 @@ const AccountTransactions = ({
         </thead>
         <tbody>
           <Fragment>
-            <Suspense fallback={<p>Loading transactions...</p>}>
+            <Suspense
+              fallback={
+                <tr>
+                  <td>Loading transactions...</td>
+                </tr>
+              }
+            >
               {transaction.transactions.map((transaction) => (
                 <AccounTransactionItem
                   key={transaction._id}

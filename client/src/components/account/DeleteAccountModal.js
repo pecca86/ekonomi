@@ -11,17 +11,17 @@ const DeleteAccountModal = ({ account, deleteAccount }) => {
 
   return (
     <div id="delete-account-modal" className="modal mt-5" style={{height: "275px"}}>
-        <div class="row">
-          <div class="col s12 m6">
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">Confirm Deletion of Account</span>
+        <div className="row">
+          <div className="col s12 m6">
+            <div className="card blue-grey darken-1">
+              <div className="card-content white-text">
+                <span className="card-title">Confirm Deletion of Account</span>
                 <p>
                   This action will delete the account and all related
                   transactions. <strong>It can not be undone!</strong>
                 </p>
               </div>
-              <div class="card-action">
+              <div className="card-action">
                 <Link to="/" className="">
                   <button onClick={onDelete} className="btn red modal-close mb-2">
                     Delete

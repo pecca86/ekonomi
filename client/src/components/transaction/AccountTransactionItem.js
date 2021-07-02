@@ -38,7 +38,7 @@ const AccountTransactionItem = ({
       </td>
       <td className="">
         <a
-          class="waves-effect waves-light modal-trigger"
+          className="waves-effect waves-light modal-trigger"
           href="#edit-transaction-modal"
         >
           <i

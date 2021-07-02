@@ -62,15 +62,15 @@ const AccountDetail = ({ account, updateAccount }) => {
   return (
     <div className="container shadow-sm p-3 mb-0 mt-1 bg-body rounded">
       {/* BALANCE */}
-      <div class="row justify-content-start mt-3">
-        <div class="col-7 fs-4 ">Balance</div>
+      <div className="row justify-content-start mt-3">
+        <div className="col-7 fs-4 ">Balance</div>
         <div
-          class={`col-3 fs-4 ${balance >= 0 ? "text-success" : "text-danger"} `}
-          fs-2
+          className={`col-3 fs-4 ${balance >= 0 ? "text-success" : "text-danger"} `}
+          
         >
           {balance}€
         </div>
-        <div class="col-1">
+        <div className="col-1">
           <span>
             {hideItem.hideBalance ? (
               <i
@@ -112,9 +112,9 @@ const AccountDetail = ({ account, updateAccount }) => {
         )}
       </div>
             {/* NAME */}
-            <div class="row justify-content-start mt-0 mb-1">
-        <div class="col-10 fs-6 fw-light">{name}</div>
-        <div class="col-1 fs-6">
+            <div className="row justify-content-start mt-0 mb-1">
+        <div className="col-10 fs-6 fw-light">{name}</div>
+        <div className="col-1 fs-6">
           <span>
             {hideItem.hideName ? (
               <i onClick={onToggleName} className="tiny material-icons prefix action-icon">
@@ -154,9 +154,9 @@ const AccountDetail = ({ account, updateAccount }) => {
       </div>
 
       {/* IBAN */}
-      <div class="row justify-content-start mt-0 mb-0">
-        <div class="col-10 fs-6 fw-light">{IBAN}</div>
-        <div class="col-1 fs-6">
+      <div className="row justify-content-start mt-0 mb-0">
+        <div className="col-10 fs-6 fw-light">{IBAN}</div>
+        <div className="col-1 fs-6">
           <span>
             {hideItem.hideIban ? (
               <i onClick={onToggleIban} className=" tiny material-icons prefix action-icon">
