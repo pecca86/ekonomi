@@ -43,9 +43,9 @@ const Chart = ({
       "07": [0],
       "08": [0],
       "09": [0],
-      "10": [0],
-      "11": [0],
-      "12": [0],
+      10: [0],
+      11: [0],
+      12: [0],
     };
 
     // Create helper arrays since reduce swithes the order from 1-12 to 10-12, 1-9
@@ -74,9 +74,7 @@ const Chart = ({
       // Substring takes the month out of the string 2002-02-28
       // Also check if transaction is of type Spending and if it is make it negative
       monthlyTransactions[accounts[i][j].transactionDate.substring(5, 7)].push(
-        accounts[i][j].transactionType === "Income"
-          ? accounts[i][j].sum
-          : accounts[i][j].sum * -1
+        accounts[i][j].sum
       );
     }
 

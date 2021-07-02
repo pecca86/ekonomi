@@ -29,7 +29,7 @@ const TransactionSchema = new mongoose.Schema({
 
 // === STATIC MODEL FUNCTIONS ===
 
-// Total cost of bootcamp courses
+// Total sum of transactions
 TransactionSchema.statics.countAllTransactionsSum = async function (accountId) {
   // aggregate course costs and then count the average value
   const dataArray = await this.aggregate([
@@ -39,12 +39,12 @@ TransactionSchema.statics.countAllTransactionsSum = async function (accountId) {
     {
       $group: {
         _id: "$account",
-        allTransactionsSum: { $sum: "$sum" }, // which field we want to include when counting avg cost
+        allTransactionsSum: { $sum: "$sum" }, // which field we want to include when counting the sum
       },
     },
   ]);
 
-  // update the averageCost field inside bootcamp
+  // update the allTransactionsSum field inside Account
   try {
     await this.model("Account").findByIdAndUpdate(accountId, {
       // Math function to discard decimals
@@ -62,7 +62,7 @@ TransactionSchema.post('save', function () {
 })
 
 // Functions that are called before a model is removed
-TransactionSchema.pre('remove', function () {
+TransactionSchema.post('remove', function () {
   this.constructor.countAllTransactionsSum(this.account);
 })
 
