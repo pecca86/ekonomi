@@ -8,9 +8,9 @@ import {
 
 const SortBtn = ({ sortTransactionsDescending, sortTransactionsAscending }) => {
   return (
-    <div class="dropdown">
+    <div className="dropdown">
       <button
-        class="btn btn-flat btn-small border-button dropdown-toggle ps-1"
+        className="btn btn-flat btn-small border-button dropdown-toggle ps-1"
         type="button"
         id="dropdownMenuButton1"
         data-bs-toggle="dropdown"
@@ -18,7 +18,7 @@ const SortBtn = ({ sortTransactionsDescending, sortTransactionsAscending }) => {
       >
         Sort by
       </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
         <li>
           <a
             href="#!"

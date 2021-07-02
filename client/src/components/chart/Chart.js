@@ -27,12 +27,12 @@ const Chart = ({
   const accounts = [];
   const dataset = [];
 
-
-
+  // Push accounts from state into helper array
   transaction.transactionsByYear.forEach((account) => accounts.push(account));
 
+  // Iterate trough arrays and form the data so we can put it inside our graph
   for (let i = 0; i < accounts.length; i++) {
-    //
+    // Create a object with each month
     const monthlyTransactions = {
       "01": [0],
       "02": [0],
@@ -43,49 +43,56 @@ const Chart = ({
       "07": [0],
       "08": [0],
       "09": [0],
-      "10": [0],
-      "11": [0],
-      "12": [0],
+      10: [0],
+      11: [0],
+      12: [0],
     };
 
-    const summedArr = []
-    let helpArr = []
+    // Create helper arrays since reduce swithes the order from 1-12 to 10-12, 1-9
+    const summedArr = [];
+    let helpArr = [];
 
-
-    //
+    // Create a random color for each account
     let randClr = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
       Math.random() * 256
     )}, ${Math.floor(Math.random() * 256)}, 02)`;
 
+    // Push the initial account data to the graph with an empty data array
     dataset.push({
-      label: `${accounts[i][i].account.name}`,
+      label:
+        accounts[i].length > 0
+          ? `${accounts[i][0].account.name}`
+          : "No transactios for this year",
       data: [],
       fill: false,
       backgroundColor: randClr,
       borderColor: randClr,
     });
 
+    // Push data according to the key representing each month into our transaction object
     for (let j = 0; j < accounts[i].length; j++) {
-      //dataset[i].data.push(accounts[i][j].sum);
+      // Substring takes the month out of the string 2002-02-28
+      // Also check if transaction is of type Spending and if it is make it negative
       monthlyTransactions[accounts[i][j].transactionDate.substring(5, 7)].push(
-        accounts[i][j].sum
+        accounts[i][j].transactionType === "Income"
+          ? accounts[i][j].sum
+          : accounts[i][j].sum * -1
       );
     }
 
-    //
-    //console.log(`Month ${i} :`, monthlyTransactions);
+    // Count the combined value of each month and push it into our helper array
     for (const month in monthlyTransactions) {
-      summedArr.push(monthlyTransactions[month].reduce((a,b) => a+b, 0))
+      summedArr.push(monthlyTransactions[month].reduce((a, b) => a + b, 0));
     }
-    helpArr = summedArr.splice(0,3)
-    summedArr.push(...helpArr)
-    console.log(summedArr);
-    dataset[i].data.push(...summedArr)
+
+    // since reduce switches the order of months, we temporarely put the first three months (10-12)
+    // into an helperArray and then back to the end of summedArr
+    helpArr = summedArr.splice(0, 3);
+    summedArr.push(...helpArr);
+    // push the data into our dataset that is then sent to our graph
+    dataset[i].data.push(...summedArr);
   }
 
-  //console.log("TEST2: ", monthlyTransactions);
-
-  // TESTING
   // CHART STUFF
   const data = {
     labels: [
@@ -107,6 +114,12 @@ const Chart = ({
   };
 
   const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: "Account Transactions / Year",
+      },
+    },
     scales: {
       yAxes: [
         {
@@ -120,20 +133,7 @@ const Chart = ({
 
   return (
     <>
-      <div className="header">
-        <ul>
-          {transaction.transactionsByYear &&
-            transaction.transactionsByYear.map((transaction) =>
-              //<li>{transaction.sum}</li>
-              transaction.map((t) => (
-                <li>
-                  {t.sum} - {t.account.name} - {t.transactionType} -{" "}
-                  {t.transactionDate.substring(5, 7)}
-                </li>
-              ))
-            )}
-        </ul>
-
+      <div className="header ms-1">
         <Fragment>
           <div className="row">
             <form onSubmit={onSubmit} className="col s12">
@@ -145,7 +145,6 @@ const Chart = ({
                     id="graph-year"
                     name="graph-year"
                   />
-                  <label htmlFor="graph-year">Year</label>
                 </div>
                 <div className="input-field col s6">
                   <input
@@ -160,6 +159,7 @@ const Chart = ({
         </Fragment>
         <div className="links"></div>
       </div>
+
       <Line data={data} options={options} />
     </>
   );
