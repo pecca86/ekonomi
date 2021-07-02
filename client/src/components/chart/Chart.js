@@ -112,12 +112,20 @@ const Chart = ({
 
     datasets: dataset,
   };
-
   const options = {
+    aspectRatio: window.innerWidth < 400 ? 1.2 : 2,
     plugins: {
       title: {
         display: true,
         text: "Account Transactions / Year",
+      },
+      legend: {
+        fullSize: false,
+        position: "bottom",
+        labels: {
+          boxWidth: 5,
+          boxHeight: 5,
+        },
       },
     },
     scales: {
@@ -132,7 +140,7 @@ const Chart = ({
   };
 
   return (
-    <>
+    <div>
       <div className="header ms-1">
         <Fragment>
           <div className="row">
@@ -160,8 +168,8 @@ const Chart = ({
         <div className="links"></div>
       </div>
 
-      <Line data={data} options={options} />
-    </>
+      <Line data={data} options={options} id="account-chart" />
+    </div>
   );
 };
 
