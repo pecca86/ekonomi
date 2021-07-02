@@ -3,6 +3,7 @@ import {
   SET_LOADING,
   GET_TRANSACTIONS,
   GET_TRANSACTIONS_BY_YEAR,
+  CLEAR_TRANSACTIONS_BY_YEAR,
   DELETE_TRANSACTION,
   SET_TIMEINTERVALL,
   GET_TIMESPANS,
@@ -14,7 +15,7 @@ import {
   CLEAR_CURRENT_TRANSACTION,
   UPDATE_TRANSACTION,
   SORT_TRANSACTIONS_ASC,
-  SORT_TRANSACTIONS_DESC
+  SORT_TRANSACTIONS_DESC,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -36,17 +37,29 @@ export const getAllAccountTransactions = (accountId) => async (dispatch) => {
 };
 
 // Gets all Transactions related to this Account by year
-export const getAllAccountTransactionsByYear = (accountId, year) => async (dispatch) => {
-  try {
-    setLoading();
-    const res = await axios.get(`/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${year}-01-01&transactionDate[lte]=${year}-12-31`);
-    dispatch({
-      type: GET_TRANSACTIONS_BY_YEAR,
-      payload: res.data.data,
-    });
-  } catch (err) {
-    dispatch(setAlert("Failed retrieving transactions from server", "danger"));
-  }
+export const getAllAccountTransactionsByYear =
+  (accountId, year) => async (dispatch) => {
+    try {
+      setLoading();
+      const res = await axios.get(
+        `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${year}-01-01&transactionDate[lte]=${year}-12-31`
+      );
+      dispatch({
+        type: GET_TRANSACTIONS_BY_YEAR,
+        payload: res.data.data,
+      });
+    } catch (err) {
+      dispatch(
+        setAlert("Failed retrieving transactions from server", "danger")
+      );
+    }
+  };
+
+// Clears the transactionByYear array
+export const clearAccountTransactionsByYear = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_TRANSACTIONS_BY_YEAR,
+  });
 };
 
 // Creates a new Transaction
@@ -96,67 +109,64 @@ export const deleteTransaction =
     }
   };
 
-  export const updateTransaction = (formData, accountId) => async dispatch => {
-    const { id } = formData
-    const body = JSON.stringify(formData);
+export const updateTransaction = (formData, accountId) => async (dispatch) => {
+  const { id } = formData;
+  const body = JSON.stringify(formData);
 
-    try {
-      setLoading();
-  
-      const res = await fetch(`/api/v1/transactions/${id}`, {
-        method: "PUT",
-        body: body,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-  
-      const data = await res.json();
-      console.log("DATA: ",data.data._id);
-  
-      dispatch({
-        type: UPDATE_TRANSACTION,
-        payload: data.data,
-      });
-  
-      dispatch(setAlert("Transaction updated!", "success"));
-      dispatch(flushTimeIntervalls());
-      dispatch(getTimeSpans(accountId));
-    } catch (err) {
-      dispatch(setAlert("Failed to create a new Transaction", "danger"));
-    }
+  try {
+    setLoading();
+
+    const res = await fetch(`/api/v1/transactions/${id}`, {
+      method: "PUT",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+    console.log("DATA: ", data.data._id);
+
+    dispatch({
+      type: UPDATE_TRANSACTION,
+      payload: data.data,
+    });
+
+    dispatch(setAlert("Transaction updated!", "success"));
+    dispatch(flushTimeIntervalls());
+    dispatch(getTimeSpans(accountId));
+  } catch (err) {
+    dispatch(setAlert("Failed to create a new Transaction", "danger"));
   }
-
+};
 
 // Set the current transaction to be the one the user clicked on
 export const setCurrentTransaction = (transaction) => {
   return {
     type: SET_CURRENT_TRANSACTION,
-    payload: transaction
-  }
-}
+    payload: transaction,
+  };
+};
 
-
-// Clear the current transaction 
+// Clear the current transaction
 export const clearCurrentTransaction = () => {
   return {
-    type: CLEAR_CURRENT_TRANSACTION
-  }
-}
-
+    type: CLEAR_CURRENT_TRANSACTION,
+  };
+};
 
 // Sorts the transaction ascending according to the date
 export const sortTransactionsAscending = () => {
   return {
-    type: SORT_TRANSACTIONS_ASC
-  }
-}
+    type: SORT_TRANSACTIONS_ASC,
+  };
+};
 
 export const sortTransactionsDescending = () => {
   return {
-    type: SORT_TRANSACTIONS_DESC
-  }
-}
+    type: SORT_TRANSACTIONS_DESC,
+  };
+};
 
 // ======= TIME INTERVALS / SPANS ========
 

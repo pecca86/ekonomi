@@ -1,10 +1,108 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
-import { getAllAccountTransactionsByYear } from "../../actions/transaction/transactionActions";
+import {
+  getAllAccountTransactionsByYear,
+  clearAccountTransactionsByYear,
+} from "../../actions/transaction/transactionActions";
 
-const Chart = ({ getAllAccountTransactionsByYear, transaction }) => {
+const Chart = ({
+  getAllAccountTransactionsByYear,
+  clearAccountTransactionsByYear,
+  transaction,
+  account,
+}) => {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    clearAccountTransactionsByYear();
+    const year = e.target[0].value;
+
+    account.accounts.map((account) =>
+      getAllAccountTransactionsByYear(account._id, year)
+    );
+  };
+
+  // GRAPH DATA
+  const accounts = [];
+  const dataset = [];
+  const test = {
+    0: [],
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
+    8: [],
+    9: [],
+    10: [],
+    11: [],
+    12: [],
+  };
+
+
+  
+  transaction.transactionsByYear.forEach((account) => accounts.push(account));
+  //console.log("ACCOUNTS: ", accounts);
+
+
+  for (let i = 0; i < accounts.length; i++) {
+    let randClr = `rgba(${Math.floor(Math.random() * 256)}, 99, ${Math.floor(Math.random() * 256)}, 02)`
+
+    dataset.push({
+      label: `Test no ${i}`,
+      data: [],
+      fill: false,
+      backgroundColor: randClr,
+      borderColor: randClr,
+    });
+
+    for (let j = 0; j < accounts[i].length; j++) {
+
+      console.log(`ACC ARR ${i}: `, accounts[i][j].sum);
+      dataset[i].data.push(accounts[i][j].sum)
+    }
+      
+    
+  }
+
+
+
+  // TESTING
+  // CHART STUFF
+  const data = {
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
+
+    datasets: dataset,
+  };
+
+  const options = {
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
+        },
+      ],
+    },
+  };
+
   return (
     <>
       <div className="header">
@@ -14,14 +112,37 @@ const Chart = ({ getAllAccountTransactionsByYear, transaction }) => {
               //<li>{transaction.sum}</li>
               transaction.map((t) => (
                 <li>
-                  {t.sum} {t.account.name}
+                  {t.sum} - {t.account.name} - {t.transactionType} -{" "}
+                  {t.transactionDate.substring(5, 7)}
                 </li>
               ))
             )}
         </ul>
-        <h5 className="title">
-          Balance 2021 - Varsinainen (FI29 4434 4032 2405 33)
-        </h5>
+
+        <Fragment>
+          <div className="row">
+            <form onSubmit={onSubmit} className="col s12">
+              <div className="row">
+                <div className="input-field col s6">
+                  <input
+                    type="text"
+                    placeholder="Enter which year to recieve Graph data from"
+                    id="graph-year"
+                    name="graph-year"
+                  />
+                  <label htmlFor="graph-year">Year</label>
+                </div>
+                <div className="input-field col s6">
+                  <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value="Enter"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+        </Fragment>
         <div className="links"></div>
       </div>
       <Line data={data} options={options} />
@@ -29,57 +150,19 @@ const Chart = ({ getAllAccountTransactionsByYear, transaction }) => {
   );
 };
 
-const data = {
-  labels: [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ],
-  datasets: [
-    {
-      label: "Balance (€)",
-      data: [
-        1200, 1900, 3000, 5000, 2000, 3000, 600, 700, 800, 900, 1400, 2000,
-      ],
-      fill: false,
-      backgroundColor: "rgb(255, 99, 132)",
-      borderColor: "rgba(255, 99, 132, 0.2)",
-    },
-    {
-      label: "Sparkonto (€)",
-      data: [200, 900, 300, 500, 200, 300, 600, 70, 80, 90, 140, 200],
-      fill: false,
-      backgroundColor: "rgb(255, 200, 132)",
-      borderColor: "rgba(255, 200, 132, 0.2)",
-    },
-  ],
-};
-
-const options = {
-  scales: {
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true,
-        },
-      },
-    ],
-  },
+Chart.propTypes = {
+  transaction: PropTypes.object,
+  account: PropTypes.object,
+  getAllAccountTransactionsByYear: PropTypes.func,
+  clearAccountTransactionsByYear: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   transaction: state.transaction,
+  account: state.account,
 });
 
-export default connect(mapStateToProps, { getAllAccountTransactionsByYear })(
-  Chart
-);
+export default connect(mapStateToProps, {
+  getAllAccountTransactionsByYear,
+  clearAccountTransactionsByYear,
+})(Chart);

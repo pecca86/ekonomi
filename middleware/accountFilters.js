@@ -32,15 +32,9 @@ const accountFilters =
     // This means the user is requesting all transfers from a specific account
 
     if (type === "transaction" && req.params.accountId) {
-      query = model
-        .find({
-          $and: [
-            { account: req.params.accountId },
-            { user: req.user.id },
-            qStr,
-          ],
-        })
-        .select("-account");
+      query = model.find({
+        $and: [{ account: req.params.accountId }, { user: req.user.id }, qStr],
+      }).populate('account');
     } else {
       query = model.find({
         $and: [{ user: req.user.id }, qStr],

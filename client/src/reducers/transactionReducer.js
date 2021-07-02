@@ -1,8 +1,9 @@
-import { LOCATION_CHANGE } from 'react-router-redux';
+import { LOCATION_CHANGE } from "react-router-redux";
 import {
   CREATE_TRANSACTION,
   GET_TRANSACTIONS,
   GET_TRANSACTIONS_BY_YEAR,
+  CLEAR_TRANSACTIONS_BY_YEAR,
   SET_LOADING,
   DELETE_TRANSACTION,
   SET_TIMEINTERVALL,
@@ -25,7 +26,7 @@ const initialState = {
   timeintervalTransactions: [],
   transactionQueries: [],
   transaction: null,
-  loading: true,
+  loading: false,
   timeSpans: [],
   current: null,
 };
@@ -36,8 +37,8 @@ export default (state = initialState, action) => {
     case LOCATION_CHANGE:
       return {
         ...state,
-        transactionsByYear: []
-      }
+        transactionsByYear: [],
+      };
     case CREATE_TRANSACTION:
       return {
         ...state,
@@ -50,11 +51,16 @@ export default (state = initialState, action) => {
         transactions: action.payload,
         loading: false,
       };
-      case GET_TRANSACTIONS_BY_YEAR:
+    case GET_TRANSACTIONS_BY_YEAR:
+      return {
+        ...state,
+        transactionsByYear: [...state.transactionsByYear, action.payload],
+        loading: false,
+      };
+      case CLEAR_TRANSACTIONS_BY_YEAR:
         return {
           ...state,
-          transactionsByYear: [...state.transactionsByYear, action.payload],
-          loading: false
+          transactionsByYear: []
         }
     case REMOVE_TIMEINTERVAL_TRANSACTION:
       return {
