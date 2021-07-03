@@ -13,7 +13,7 @@ const Chart = ({
   transaction,
   account,
 }) => {
-  const [withCurrentBalance, setWithCurrentBalance] = useState(false);
+  const [withCurrentBalance, setWithCurrentBalance] = useState(true);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -89,17 +89,25 @@ const Chart = ({
     helpArr = summedArr.splice(0, 3);
     summedArr.push(...helpArr);
 
+    // put balance into a variable so we can accumulate the sum to it
+    let currentBalance = accounts[i][0].account.balance
     // Check if user wants to take into account the Accounts balance in the calculation of monthly transactions
-    if (withCurrentBalance) {
-      summedArr = summedArr.map(
-        (sum) => (sum = sum + accounts[i][0].account.balance)
-      );
+    if (withCurrentBalance && accounts[i].length > 0) {
+/*       summedArr = summedArr.map(
+        (sum) => (sum += currentBalance)
+      ); */
+      for (let i = 0; i < summedArr.length; i++) {
+        let tempSum = summedArr[i]
+        summedArr[i] += currentBalance
+        currentBalance += tempSum
+      }
     }
     // push the data into our dataset that is then sent to our graph
     dataset[i].data.push(...summedArr);
   }
 
   // CHART STUFF
+  // {new Date().getMonth()+1}
   const data = {
     labels: [
       "Jan",
