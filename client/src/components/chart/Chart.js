@@ -63,7 +63,7 @@ const Chart = ({
     dataset.push({
       label:
         accounts[i].length > 0
-          ? `${accounts[i][0].account.name}, ${accounts[i][0].account.balance}`
+          ? `${accounts[i][0].account.name}`
           : "No transactions",
       data: [],
       fill: false,

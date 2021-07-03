@@ -9,6 +9,7 @@ const AccountListItem = ({account}) => {
         <Link to={`/account/${account._id}`}>{account.name}</Link>
       </td>
       <td>{account.balance}€</td>
+      <td>{""}</td>
       <td className={account.allTransactionsSum >= 0 ? "text-success" : "text-danger"}>
         {account.allTransactionsSum}€
       </td>
