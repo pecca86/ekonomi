@@ -79,7 +79,6 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case UPDATE_TRANSACTION:
-      console.log("ACTION PAYLOAD: ", action.payload);
       return {
         ...state,
         transactions: state.transactions.map((transaction) =>

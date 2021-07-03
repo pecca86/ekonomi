@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
@@ -13,6 +13,8 @@ const Chart = ({
   transaction,
   account,
 }) => {
+  const [withCurrentBalance, setWithCurrentBalance] = useState(false);
+
   const onSubmit = (e) => {
     e.preventDefault();
     clearAccountTransactionsByYear();
@@ -32,7 +34,7 @@ const Chart = ({
 
   // Iterate trough arrays and form the data so we can put it inside our graph
   for (let i = 0; i < accounts.length; i++) {
-    // Create a object with each month
+    // Create an object with each month
     const monthlyTransactions = {
       "01": [0],
       "02": [0],
@@ -49,7 +51,7 @@ const Chart = ({
     };
 
     // Create helper arrays since reduce swithes the order from 1-12 to 10-12, 1-9
-    const summedArr = [];
+    let summedArr = [];
     let helpArr = [];
 
     // Create a random color for each account
@@ -61,7 +63,7 @@ const Chart = ({
     dataset.push({
       label:
         accounts[i].length > 0
-          ? `${accounts[i][0].account.name}`
+          ? `${accounts[i][0].account.name}, ${accounts[i][0].account.balance}`
           : "No transactions",
       data: [],
       fill: false,
@@ -72,13 +74,12 @@ const Chart = ({
     // Push data according to the key representing each month into our transaction object
     for (let j = 0; j < accounts[i].length; j++) {
       // Substring takes the month out of the string 2002-02-28
-      // Also check if transaction is of type Spending and if it is make it negative
       monthlyTransactions[accounts[i][j].transactionDate.substring(5, 7)].push(
         accounts[i][j].sum
       );
     }
 
-    // Count the combined value of each month and push it into our helper array
+    // Count the combined value of transaction for each month and push it into our helper array
     for (const month in monthlyTransactions) {
       summedArr.push(monthlyTransactions[month].reduce((a, b) => a + b, 0));
     }
@@ -87,6 +88,13 @@ const Chart = ({
     // into an helperArray and then back to the end of summedArr
     helpArr = summedArr.splice(0, 3);
     summedArr.push(...helpArr);
+
+    // Check if user wants to take into account the Accounts balance in the calculation of monthly transactions
+    if (withCurrentBalance) {
+      summedArr = summedArr.map(
+        (sum) => (sum = sum + accounts[i][0].account.balance)
+      );
+    }
     // push the data into our dataset that is then sent to our graph
     dataset[i].data.push(...summedArr);
   }
@@ -147,17 +155,35 @@ const Chart = ({
                 <div className="input-field col s6">
                   <input
                     type="text"
-                    placeholder="Enter which year to recieve Graph data from"
+                    placeholder="Graph Year"
                     id="graph-year"
                     name="graph-year"
                   />
                 </div>
-                <div className="input-field col s6">
+                <div className="input-field col s5">
                   <input
                     type="submit"
                     className="btn btn-primary"
                     value="Enter"
                   />
+                </div>
+                <div className="input-field col s1">
+                  <div className="input-field">
+                    <p>
+                      <label>
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          checked={withCurrentBalance}
+                          value={withCurrentBalance}
+                          onChange={(e) =>
+                            setWithCurrentBalance(!withCurrentBalance)
+                          }
+                        />
+                        <span>With Account Balance</span>
+                      </label>
+                    </p>
+                  </div>
                 </div>
               </div>
             </form>

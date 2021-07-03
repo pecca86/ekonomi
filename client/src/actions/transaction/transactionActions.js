@@ -110,7 +110,10 @@ export const deleteTransaction =
   };
 
 export const updateTransaction = (formData, accountId) => async (dispatch) => {
-  const { id } = formData;
+  const { id, transactionType, sum} = formData;
+  if (transactionType === "Spending") {
+    formData.sum = sum * -1
+  }
   const body = JSON.stringify(formData);
 
   try {
@@ -125,7 +128,6 @@ export const updateTransaction = (formData, accountId) => async (dispatch) => {
     });
 
     const data = await res.json();
-    console.log("DATA: ", data.data._id);
 
     dispatch({
       type: UPDATE_TRANSACTION,
