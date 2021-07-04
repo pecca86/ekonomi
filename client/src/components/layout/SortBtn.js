@@ -4,9 +4,14 @@ import PropTypes from "prop-types";
 import {
   sortTransactionsDescending,
   sortTransactionsAscending,
+  sortTransactionsByName,
 } from "../../actions/transaction/transactionActions";
 
-const SortBtn = ({ sortTransactionsDescending, sortTransactionsAscending }) => {
+const SortBtn = ({
+  sortTransactionsDescending,
+  sortTransactionsAscending,
+  sortTransactionsByName,
+}) => {
   return (
     <div className="dropdown">
       <button
@@ -37,6 +42,15 @@ const SortBtn = ({ sortTransactionsDescending, sortTransactionsAscending }) => {
             Newest first
           </a>
         </li>
+        <li>
+          <a
+            href="#!"
+            className="dropdown-item"
+            onClick={() => sortTransactionsByName()}
+          >
+            By name
+          </a>
+        </li>
       </ul>
     </div>
   );
@@ -45,9 +59,11 @@ const SortBtn = ({ sortTransactionsDescending, sortTransactionsAscending }) => {
 SortBtn.propTypes = {
   sortTransactionsAscending: PropTypes.func,
   sortTransactionsDescending: PropTypes.func,
+  sortTransactionsByName: PropTypes.func,
 };
 
 export default connect(null, {
   sortTransactionsDescending,
   sortTransactionsAscending,
+  sortTransactionsByName,
 })(SortBtn);

@@ -18,6 +18,7 @@ import {
   UPDATE_TRANSACTION,
   SORT_TRANSACTIONS_ASC,
   SORT_TRANSACTIONS_DESC,
+  SORT_TRANSACTIONS_BY_NAME,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -57,11 +58,11 @@ export default (state = initialState, action) => {
         transactionsByYear: [...state.transactionsByYear, action.payload],
         loading: false,
       };
-      case CLEAR_TRANSACTIONS_BY_YEAR:
-        return {
-          ...state,
-          transactionsByYear: []
-        }
+    case CLEAR_TRANSACTIONS_BY_YEAR:
+      return {
+        ...state,
+        transactionsByYear: [],
+      };
     case REMOVE_TIMEINTERVAL_TRANSACTION:
       return {
         ...state,
@@ -109,6 +110,13 @@ export default (state = initialState, action) => {
         transactions: state.transactions
           .sort((a, b) => (a.transactionDate > b.transactionDate ? 1 : -1))
           .reverse(),
+      };
+    case SORT_TRANSACTIONS_BY_NAME:
+      return {
+        ...state,
+        transactions: state.transactions.sort((a, b) =>
+          a.description > b.description ? 1 : -1
+        ),
       };
     case REMOVE_TIMESPAN:
       return {

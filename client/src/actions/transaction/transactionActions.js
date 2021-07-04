@@ -16,6 +16,7 @@ import {
   UPDATE_TRANSACTION,
   SORT_TRANSACTIONS_ASC,
   SORT_TRANSACTIONS_DESC,
+  SORT_TRANSACTIONS_BY_NAME
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -169,6 +170,12 @@ export const sortTransactionsDescending = () => {
     type: SORT_TRANSACTIONS_DESC,
   };
 };
+
+export const sortTransactionsByName = () => {
+  return {
+    type: SORT_TRANSACTIONS_BY_NAME
+  }
+}
 
 // ======= TIME INTERVALS / SPANS ========
 

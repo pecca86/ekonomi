@@ -2,20 +2,13 @@ import React, { Fragment, Suspense } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import SortBtn from "../layout/SortBtn";
-import {
-  sortTransactionsAscending,
-  sortTransactionsDescending,
-} from "../../actions/transaction/transactionActions";
+
 //import AccounTransactionItem from "./AccountTransactionItem";
 const AccounTransactionItem = React.lazy(() =>
   import("./AccountTransactionItem")
 );
 
-const AccountTransactions = ({
-  transaction,
-  sortTransactionsAscending,
-  sortTransactionsDescending,
-}) => {
+const AccountTransactions = ({ transaction }) => {
   if (transaction.loading) {
     return <p>Loading...</p>;
   }
@@ -58,15 +51,10 @@ const AccountTransactions = ({
 
 AccountTransactions.propTypes = {
   transaction: PropTypes.object.isRequired,
-  sortTransactionsAscending: PropTypes.func,
-  sortTransactionsDescending: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   transaction: state.transaction,
 });
 
-export default connect(mapStateToProps, {
-  sortTransactionsAscending,
-  sortTransactionsDescending,
-})(AccountTransactions);
+export default connect(mapStateToProps, {})(AccountTransactions);
