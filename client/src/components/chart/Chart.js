@@ -88,9 +88,16 @@ const Chart = ({
     for (let j = 0; j < accounts[i].length; j++) {
       // Substring takes the month out of the string 2002-02-28
       if (typeof accounts[i][0] !== "undefined") {
-        monthIndex = parseInt(
-          accounts[i][j].transactionDate.substring(5, 7) - currentMonth
-        );
+        // convert transactionDate strings month into an interger
+        monthIndex = parseInt(accounts[i][j].transactionDate.substring(5, 7));
+        // subtract current month from the monthindex so that the transaction is shown correctly in the graph
+        // To get the transaction set to the correct month we either add or subtract
+        if (monthIndex - currentMonth <= 0) {
+          monthIndex += currentMonth;
+        } else {
+          monthIndex -= currentMonth;
+        }
+
         monthlyTransactions[monthIndex].push(accounts[i][j].sum);
       }
     }
@@ -149,7 +156,7 @@ const Chart = ({
     plugins: {
       title: {
         display: true,
-        text: `Account Transactions ${currentDay}.${currentMonth}.${currentYear} - ${currentDay}.${currentMonth}.${
+        text: `Account Transactions ${currentDay}.${currentMonth+1}.${currentYear} - ${currentDay}.${currentMonth+1}.${
           currentYear + 1
         }`,
       },
