@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
@@ -19,12 +19,8 @@ const Chart = ({
   let currentDay = currentDate.getDate();
   let currentYear = currentDate.getFullYear();
 
-  const [withCurrentBalance, setWithCurrentBalance] = useState(true);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
+  useEffect(() => {
     clearAccountTransactionsByYear();
-
     account.accounts.map((account) =>
       getAllAccountTransactionsByYear(
         account._id,
@@ -33,7 +29,10 @@ const Chart = ({
         currentDay
       )
     );
-  };
+    // eslint-disable-next-line
+  }, []);
+
+  const [withCurrentBalance, setWithCurrentBalance] = useState(true);
 
   // === GRAPH DATA ===
   const accounts = [];
@@ -139,7 +138,9 @@ const Chart = ({
     plugins: {
       title: {
         display: true,
-        text: "Account Transactions / Year",
+        text: `Account Transactions ${currentDay}.${currentMonth}.${currentYear} - ${currentDay}.${currentMonth}.${
+          currentYear + 1
+        }`,
       },
       legend: {
         fullSize: false,
@@ -163,43 +164,20 @@ const Chart = ({
 
   return (
     <div>
-      <div className="header ms-1">
-        <Fragment>
-          <div className="row">
-            <form onSubmit={onSubmit} className="col s12">
-              <div className="row">
-                <div className="input-field col s6">
-                  <input
-                    type="submit"
-                    className="btn btn-primary"
-                    value="Update Graph"
-                  />
-                </div>
-                <div className="input-field col s6">
-                  <div className="input-field">
-                    <p>
-                      <label>
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          checked={withCurrentBalance}
-                          value={withCurrentBalance}
-                          onChange={(e) =>
-                            setWithCurrentBalance(!withCurrentBalance)
-                          }
-                        />
-                        <span>With Account Balance</span>
-                      </label>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </Fragment>
-        <div className="links"></div>
+      <div className="input-field">
+        <p>
+          <label>
+            <input
+              type="checkbox"
+              className="form-check-input"
+              checked={withCurrentBalance}
+              value={withCurrentBalance}
+              onChange={(e) => setWithCurrentBalance(!withCurrentBalance)}
+            />
+            <span>With Account Balance</span>
+          </label>
+        </p>
       </div>
-
       <Line data={data} options={options} id="account-chart" />
     </div>
   );

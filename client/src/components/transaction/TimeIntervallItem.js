@@ -120,7 +120,10 @@ const TimeIntervallItem = ({
               </thead>
               <tbody className="bg-light">
                 {transactions.map((transaction) => (
-                  <AccountTransactionItem transaction={transaction} />
+                  <AccountTransactionItem
+                    key={transaction._id}
+                    transaction={transaction}
+                  />
                 ))}
               </tbody>
             </table>
