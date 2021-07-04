@@ -1,24 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-const AccountListItem = ({account}) => {
+const AccountListItem = ({ account }) => {
   return (
     <tr>
       <td>
         <Link to={`/account/${account._id}`}>{account.name}</Link>
       </td>
-      <td>{account.balance}€</td>
       <td>{""}</td>
-      <td className={account.allTransactionsSum >= 0 ? "text-success" : "text-danger"}>
-        {account.allTransactionsSum}€
-      </td>
+      <td className={account.balance < 0 ? 'text-danger' : 'text-success'}><strong>{account.balance}€</strong></td>
     </tr>
   );
 };
 
-AccountListItem.propTypes ={
+AccountListItem.propTypes = {
   account: PropTypes.object.isRequired,
-}
+};
 
 export default AccountListItem;

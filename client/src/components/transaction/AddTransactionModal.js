@@ -22,6 +22,10 @@ const AddTransactionModal = ({ createTransaction, account }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     createTransaction(formData, account.account._id);
+    setFormData({
+      monthsRecurring: 0
+    })
+    setRecurring(false)
   };
 
   return (
