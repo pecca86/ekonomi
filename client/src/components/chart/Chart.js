@@ -156,7 +156,7 @@ const Chart = ({
     plugins: {
       title: {
         display: true,
-        text: `Account Transactions ${currentDay}.${currentMonth+1}.${currentYear} - ${currentDay}.${currentMonth+1}.${
+        text: `Account Transactions ${currentDay}.${currentMonth+1}.${currentYear} - ${currentMonth}/${
           currentYear + 1
         }`,
       },
