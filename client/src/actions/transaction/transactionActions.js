@@ -16,7 +16,7 @@ import {
   UPDATE_TRANSACTION,
   SORT_TRANSACTIONS_ASC,
   SORT_TRANSACTIONS_DESC,
-  SORT_TRANSACTIONS_BY_NAME
+  SORT_TRANSACTIONS_BY_NAME,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -43,7 +43,9 @@ export const getAllAccountTransactionsByYear =
     try {
       setLoading();
       const res = await axios.get(
-        `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${year}-${month}-${day}&transactionDate[lte]=${year+1}-${month}-${day}`
+        `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${year}-${month}-${day}&transactionDate[lte]=${
+          year + 1
+        }-${month}-${day}`
       );
       dispatch({
         type: GET_TRANSACTIONS_BY_YEAR,
@@ -67,29 +69,83 @@ export const clearAccountTransactionsByYear = () => (dispatch) => {
 export const createTransaction = (formData, accountId) => async (dispatch) => {
   const body = JSON.stringify(formData);
 
-  try {
-    setLoading();
+  const { monthsRecurring } = formData;
+  const loopCounts = parseInt(monthsRecurring, 10);
+  // Get month, year and day from our date string
+  let month = parseInt(formData.transactionDate.substring(5, 7), 10);
+  let year = parseInt(formData.transactionDate.substring(0, 4), 10);
+  let day = formData.transactionDate.substring(8, 10);
 
-    const res = await fetch(`/api/v1/transactions/${accountId}`, {
-      method: "POST",
-      body: body,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  // Loop trough the amount of months forward we want to duplicate the transaction, incrementing each time
+  // the month value by one
+  if (loopCounts > 0) {
+    for (let i = 0; i < loopCounts; i++) {
+      if (month > 12) {
+        month = 1;
+        year += 1;
+      }
 
-    const data = await res.json();
+      let newDate = `${year}-${month}-${day}`;
+      formData.transactionDate = newDate;
 
-    dispatch({
-      type: CREATE_TRANSACTION,
-      payload: data.data,
-    });
+      let dataBody = JSON.stringify(formData);
 
-    dispatch(setAlert("Transaction added!", "success"));
-    dispatch(flushTimeIntervalls());
-    dispatch(getTimeSpans(accountId));
-  } catch (err) {
-    dispatch(setAlert("Failed to create a new Transaction", "danger"));
+      try {
+        setLoading();
+
+        const res = await fetch(`/api/v1/transactions/${accountId}`, {
+          method: "POST",
+          body: dataBody,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await res.json();
+
+        dispatch({
+          type: CREATE_TRANSACTION,
+          payload: data.data,
+        });
+
+        if (i === loopCounts - 1) {
+          console.log("Loop ended");
+          dispatch(setAlert("Transactions added!", "success"));
+          dispatch(flushTimeIntervalls());
+          dispatch(getTimeSpans(accountId));
+        }
+        // increment month
+        month += 1;
+      } catch (err) {
+        dispatch(setAlert("Failed to create a new Transaction", "danger"));
+      }
+    }
+  } else {
+    // === WITHOUT RECURRING ==
+    try {
+      setLoading();
+
+      const res = await fetch(`/api/v1/transactions/${accountId}`, {
+        method: "POST",
+        body: body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+
+      dispatch({
+        type: CREATE_TRANSACTION,
+        payload: data.data,
+      });
+
+      dispatch(setAlert("Transaction added!", "success"));
+      dispatch(flushTimeIntervalls());
+      dispatch(getTimeSpans(accountId));
+    } catch (err) {
+      dispatch(setAlert("Failed to create a new Transaction", "danger"));
+    }
   }
 };
 
@@ -111,9 +167,9 @@ export const deleteTransaction =
   };
 
 export const updateTransaction = (formData, accountId) => async (dispatch) => {
-  const { id, transactionType, sum} = formData;
+  const { id, transactionType, sum } = formData;
   if (transactionType === "Spending") {
-    formData.sum = sum * -1
+    formData.sum = sum * -1;
   }
   const body = JSON.stringify(formData);
 
@@ -173,9 +229,9 @@ export const sortTransactionsDescending = () => {
 
 export const sortTransactionsByName = () => {
   return {
-    type: SORT_TRANSACTIONS_BY_NAME
-  }
-}
+    type: SORT_TRANSACTIONS_BY_NAME,
+  };
+};
 
 // ======= TIME INTERVALS / SPANS ========
 

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
@@ -35,6 +35,10 @@ const Chart = ({
   const [withCurrentBalance, setWithCurrentBalance] = useState(true);
 
   // === GRAPH DATA ===
+  if (transaction.transactionsByYear <= 0) {
+    return <p>No Transasction Data to show...</p>;
+  }
+
   const accounts = [];
   const dataset = [];
 
@@ -70,7 +74,7 @@ const Chart = ({
     // Push the initial account data to the graph with an empty data array
     dataset.push({
       label:
-        accounts[i].length > 0
+        accounts[i].length > 0 && typeof accounts[i][0] !== "undefined"
           ? `${accounts[i][0].account.name}`
           : "No transactions",
       data: [],
@@ -80,12 +84,15 @@ const Chart = ({
     });
 
     // Push data according to the key representing each month into our transaction object
+    let monthIndex = 1;
     for (let j = 0; j < accounts[i].length; j++) {
       // Substring takes the month out of the string 2002-02-28
-      let monthIndex = parseInt(
-        accounts[i][j].transactionDate.substring(5, 7) - currentMonth
-      );
-      monthlyTransactions[monthIndex].push(accounts[i][j].sum);
+      if (typeof accounts[i][0] !== "undefined") {
+        monthIndex = parseInt(
+          accounts[i][j].transactionDate.substring(5, 7) - currentMonth
+        );
+        monthlyTransactions[monthIndex].push(accounts[i][j].sum);
+      }
     }
 
     // Count the combined value of transaction for each month and push it into our helper array
@@ -94,7 +101,11 @@ const Chart = ({
     }
 
     // put balance into a variable so we can accumulate the sum to it
-    let currentBalance = accounts[i][0].account.balance;
+    let currentBalance = 0;
+    if (typeof accounts[i][0] !== "undefined") {
+      currentBalance = accounts[i][0].account.balance;
+    }
+
     // Check if user wants to take into account the Accounts balance in the calculation of monthly transactions
     if (withCurrentBalance && accounts[i].length > 0) {
       for (let i = 0; i < summedArr.length; i++) {

@@ -3,14 +3,16 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createTransaction } from "../../actions/transaction/transactionActions";
 
-const AddTransactionModal = ({ createTransaction, account, current }) => {
-
+const AddTransactionModal = ({ createTransaction, account }) => {
   const [formData, setFormData] = useState({
     sum: 0,
     transactionType: "",
     description: "",
     transactionDate: "",
+    monthsRecurring: 0
   });
+
+  const [recur, setRecurring] = useState(false);
 
   // STATE FUNCTIONS
   const onChange = (e) => {
@@ -72,6 +74,38 @@ const AddTransactionModal = ({ createTransaction, account, current }) => {
             />
             <label htmlFor="floatingSum">Transaction Sum (i.e. 4.30)</label>
           </div>
+
+          {/* REOCCURING */}
+          <div className="input-field">
+            <p>
+              <label>
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  checked={recur}
+                  value={recur}
+                  onChange={() => setRecurring(!recur)}
+                />
+                <span>Make transaction recurring</span>
+              </label>
+            </p>
+          </div>
+          {recur && (
+            <div className="form-floating mb-3">
+              <input
+                className="form-control"
+                type="number"
+                name="monthsRecurring"
+                id="floatingMonths"
+                placeholder="Months forward"
+                value={formData.monthsRecurring}
+                onChange={onChange}
+              />
+              <label htmlFor="floatingMonths">Enter how many months forward</label>
+            </div>
+          )}
+
+          {/* BUTTON */}
           <button className="btn btn-success modal-close">Submit</button>
         </form>
       </div>
@@ -82,12 +116,10 @@ const AddTransactionModal = ({ createTransaction, account, current }) => {
 AddTransactionModal.propTypes = {
   createTransaction: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
-  current: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   account: state.account,
-  current: state.transaction.current,
 });
 
 export default connect(mapStateToProps, { createTransaction })(
