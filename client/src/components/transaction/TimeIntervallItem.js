@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import TimeIntervallTransaction from "./TimeIntervallTransaction";
 import {
   deleteTimeSpan,
   deleteTimeIntervalTransaction,
 } from "../../actions/transaction/transactionActions";
+import AccountTransactionItem from "./AccountTransactionItem";
 
 const TimeIntervallItem = ({
   startDate,
@@ -120,13 +120,7 @@ const TimeIntervallItem = ({
               </thead>
               <tbody className="bg-light">
                 {transactions.map((transaction) => (
-                  <TimeIntervallTransaction
-                    key={transaction._id}
-                    sum={transaction.sum}
-                    date={transaction.transactionDate}
-                    description={transaction.description}
-                    id={transaction._id}
-                  />
+                  <AccountTransactionItem transaction={transaction} />
                 ))}
               </tbody>
             </table>

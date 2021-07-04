@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createTransaction } from "../../actions/transaction/transactionActions";
 
-const AddTransactionModal = ({ createTransaction, account }) => {
+const AddTransactionModal = ({ createTransaction, account, current }) => {
+
   const [formData, setFormData] = useState({
     sum: 0,
     transactionType: "",
@@ -81,10 +82,12 @@ const AddTransactionModal = ({ createTransaction, account }) => {
 AddTransactionModal.propTypes = {
   createTransaction: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
+  current: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   account: state.account,
+  current: state.transaction.current,
 });
 
 export default connect(mapStateToProps, { createTransaction })(
