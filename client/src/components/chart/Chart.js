@@ -13,15 +13,25 @@ const Chart = ({
   transaction,
   account,
 }) => {
+  // Get current date that will be used in our Graph
+  let currentDate = new Date();
+  let currentMonth = currentDate.getMonth();
+  let currentDay = currentDate.getDate();
+  let currentYear = currentDate.getFullYear();
+
   const [withCurrentBalance, setWithCurrentBalance] = useState(true);
 
   const onSubmit = (e) => {
     e.preventDefault();
     clearAccountTransactionsByYear();
-    const year = e.target[0].value;
 
     account.accounts.map((account) =>
-      getAllAccountTransactionsByYear(account._id, year)
+      getAllAccountTransactionsByYear(
+        account._id,
+        currentYear,
+        currentMonth + 1,
+        currentDay
+      )
     );
   };
 
@@ -34,25 +44,24 @@ const Chart = ({
 
   // Iterate trough arrays and form the data so we can put it inside our graph
   for (let i = 0; i < accounts.length; i++) {
-    // Create an object with each month
+    // Create an object with each month and an array of the transactions sum starting at 0
     const monthlyTransactions = {
-      "01": [0],
-      "02": [0],
-      "03": [0],
-      "04": [0],
-      "05": [0],
-      "06": [0],
-      "07": [0],
-      "08": [0],
-      "09": [0],
+      1: [0],
+      2: [0],
+      3: [0],
+      4: [0],
+      5: [0],
+      6: [0],
+      7: [0],
+      8: [0],
+      9: [0],
       10: [0],
       11: [0],
       12: [0],
     };
 
-    // Create helper arrays since reduce swithes the order from 1-12 to 10-12, 1-9
+    // Create helper arrays where we count the sum of monthly transactions for each account
     let summedArr = [];
-    let helpArr = [];
 
     // Create a random color for each account
     let randClr = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
@@ -74,9 +83,10 @@ const Chart = ({
     // Push data according to the key representing each month into our transaction object
     for (let j = 0; j < accounts[i].length; j++) {
       // Substring takes the month out of the string 2002-02-28
-      monthlyTransactions[accounts[i][j].transactionDate.substring(5, 7)].push(
-        accounts[i][j].sum
+      let monthIndex = parseInt(
+        accounts[i][j].transactionDate.substring(5, 7) - currentMonth
       );
+      monthlyTransactions[monthIndex].push(accounts[i][j].sum);
     }
 
     // Count the combined value of transaction for each month and push it into our helper array
@@ -84,22 +94,14 @@ const Chart = ({
       summedArr.push(monthlyTransactions[month].reduce((a, b) => a + b, 0));
     }
 
-    // since reduce switches the order of months, we temporarely put the first three months (10-12)
-    // into an helperArray and then back to the end of summedArr
-    helpArr = summedArr.splice(0, 3);
-    summedArr.push(...helpArr);
-
     // put balance into a variable so we can accumulate the sum to it
-    let currentBalance = accounts[i][0].account.balance
+    let currentBalance = accounts[i][0].account.balance;
     // Check if user wants to take into account the Accounts balance in the calculation of monthly transactions
     if (withCurrentBalance && accounts[i].length > 0) {
-/*       summedArr = summedArr.map(
-        (sum) => (sum += currentBalance)
-      ); */
       for (let i = 0; i < summedArr.length; i++) {
-        let tempSum = summedArr[i]
-        summedArr[i] += currentBalance
-        currentBalance += tempSum
+        let tempSum = summedArr[i];
+        summedArr[i] += currentBalance;
+        currentBalance += tempSum;
       }
     }
     // push the data into our dataset that is then sent to our graph
@@ -107,25 +109,31 @@ const Chart = ({
   }
 
   // CHART STUFF
-  // {new Date().getMonth()+1}
-  const data = {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  // Order the months to begin with current month
+  const graphMonths = months.slice(currentMonth, months.length);
+  months.slice(0, currentMonth).map((month) => graphMonths.push(month));
 
+  // Graph data
+  const data = {
+    labels: graphMonths,
     datasets: dataset,
   };
+
+  // Graph options
   const options = {
     aspectRatio: window.innerWidth < 400 ? 1.2 : 2,
     plugins: {
@@ -162,20 +170,12 @@ const Chart = ({
               <div className="row">
                 <div className="input-field col s6">
                   <input
-                    type="text"
-                    placeholder="Graph Year"
-                    id="graph-year"
-                    name="graph-year"
-                  />
-                </div>
-                <div className="input-field col s5">
-                  <input
                     type="submit"
                     className="btn btn-primary"
-                    value="Enter"
+                    value="Update Graph"
                   />
                 </div>
-                <div className="input-field col s1">
+                <div className="input-field col s6">
                   <div className="input-field">
                     <p>
                       <label>

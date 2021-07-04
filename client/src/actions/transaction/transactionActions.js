@@ -38,11 +38,11 @@ export const getAllAccountTransactions = (accountId) => async (dispatch) => {
 
 // Gets all Transactions related to this Account by year
 export const getAllAccountTransactionsByYear =
-  (accountId, year) => async (dispatch) => {
+  (accountId, year, month, day) => async (dispatch) => {
     try {
       setLoading();
       const res = await axios.get(
-        `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${year}-01-01&transactionDate[lte]=${year}-12-31`
+        `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${year}-${month}-${day}&transactionDate[lte]=${year+1}-${month}-${day}`
       );
       dispatch({
         type: GET_TRANSACTIONS_BY_YEAR,
