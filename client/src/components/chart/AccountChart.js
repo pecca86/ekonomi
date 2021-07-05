@@ -11,7 +11,7 @@ const AccountChart = ({
   getAllAccountTransactionsByYear,
   clearAccountTransactionsByYear,
   transaction,
-  account,
+  accountData,
 }) => {
   // Get current date that will be used in our Graph
   let currentDate = new Date();
@@ -21,22 +21,32 @@ const AccountChart = ({
 
   useEffect(() => {
     clearAccountTransactionsByYear();
-    console.log("acc id", account.account._id);
-    getAllAccountTransactionsByYear(
-      account.account._id,
-      currentYear,
-      currentMonth + 1,
-      currentDay
-    );
+    console.log("acc id", accountData._id);
+
 
     // eslint-disable-next-line
   }, [getAllAccountTransactionsByYear, clearAccountTransactionsByYear]);
 
   const [withCurrentBalance, setWithCurrentBalance] = useState(true);
 
+  const getGraphData = () => {
+    getAllAccountTransactionsByYear(
+        accountData._id,
+        currentYear,
+        currentMonth + 1,
+        currentDay
+      );
+  }
+
   // === GRAPH DATA ===
   if (transaction.transactionsByYear <= 0) {
-    return <p>No Transasction Data to show...</p>;
+    return (
+      <div>
+        <p>No Transasction Data to show...</p>
+        <button className="btn" onClick={getGraphData}>Get Data</button>
+      </div>
+    );
+
   }
 
   const accounts = [];
@@ -195,6 +205,7 @@ const AccountChart = ({
             <span>With Account Balance</span>
           </label>
         </p>
+        <input className="btn btn-small" type="button" value="Update Graph Data" onClick={getGraphData}/>
       </div>
       <Line data={data} options={options} id="account-chart" />
     </div>
@@ -210,7 +221,7 @@ AccountChart.propTypes = {
 
 const mapStateToProps = (state) => ({
   transaction: state.transaction,
-  account: state.account,
+  //account: state.account,
 });
 
 export default connect(mapStateToProps, {

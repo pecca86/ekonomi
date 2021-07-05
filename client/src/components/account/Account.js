@@ -88,7 +88,7 @@ const Account = ({
       </Fragment>
       <Fragment>
         <div className="container">
-          <AccountChart />
+          <AccountChart accountData={account.account} />
         </div>
       </Fragment>
       <AddBtn />
