@@ -9,8 +9,12 @@ import AddTimeintervallModal from "../transaction/AddTimeintervallModal";
 import DeleteAccountModal from "./DeleteAccountModal";
 import EditTransactionModal from "../transaction/EditTransactionModal";
 import { getAccount } from "../../actions/account/accountActions";
-import { getTimeSpans, getAllAccountTransactions } from "../../actions/transaction/transactionActions";
+import {
+  getTimeSpans,
+  getAllAccountTransactions,
+} from "../../actions/transaction/transactionActions";
 import AccountDetail from "./AccountDetail";
+import AccountChart from "../chart/AccountChart";
 
 const Account = ({
   getAccount,
@@ -56,7 +60,7 @@ const Account = ({
             aria-controls="collapseTimeSpan"
           >
             <span className="d-flex justify-content-between align-items-end fs-3">
-                Time Intervals
+              Time Intervals
               <i className="material-icons prefix">expand_more</i>
             </span>
           </p>
@@ -73,13 +77,18 @@ const Account = ({
             aria-controls="collapseTransactions"
           >
             <span className="d-flex justify-content-between align-items-end fs-3">
-                Account Transactions
+              Account Transactions
               <i className="material-icons prefix">expand_more</i>
             </span>
           </p>
           <div className="collapse" id="collapseTransactions">
             <AccountTransactions />
           </div>
+        </div>
+      </Fragment>
+      <Fragment>
+        <div className="container">
+          <AccountChart />
         </div>
       </Fragment>
       <AddBtn />

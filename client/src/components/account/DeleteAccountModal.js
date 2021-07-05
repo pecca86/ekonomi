@@ -10,7 +10,7 @@ const DeleteAccountModal = ({ account, deleteAccount }) => {
   };
 
   return (
-    <div id="delete-account-modal" className="modal mt-5" style={{height: "275px"}}>
+    <div id="delete-account-modal" className="modal mt-5" style={{height: "260px"}}>
         <div className="row">
           <div className="col s12 m6">
             <div className="card blue-grey darken-1">

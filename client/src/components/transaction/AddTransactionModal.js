@@ -22,6 +22,7 @@ const AddTransactionModal = ({ createTransaction, account }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     createTransaction(formData, account.account._id);
+    // es-lint-disable-next-line
     setFormData({
       monthsRecurring: 0
     })
@@ -46,7 +47,7 @@ const AddTransactionModal = ({ createTransaction, account }) => {
           />
 
           {/* TYPE */}
-          <select className="" onChange={onChange} name="transactionType">
+          <select className="" onChange={onChange} name="transactionType" required>
             <option defaultValue>Transaction Type</option>
             <option value="Income">Income</option>
             <option value="Spending">Spending</option>
@@ -75,6 +76,7 @@ const AddTransactionModal = ({ createTransaction, account }) => {
               placeholder="Transaction sum"
               value={formData.sum}
               onChange={onChange}
+              required
             />
             <label htmlFor="floatingSum">Transaction Sum (i.e. 4.30)</label>
           </div>
