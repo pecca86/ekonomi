@@ -98,12 +98,12 @@ const EditTransactionModal = ({
               className="form-control"
               type="number"
               name="sum"
-              id="floatingSum"
+              id="floatingSumEdit"
               placeholder="Transaction sum"
               value={formData.sum}
               onChange={onChange}
             />
-            <label htmlFor="floatingSum">Transaction Sum (i.e. 4.30)</label>
+            <label htmlFor="floatingSumEdit">Transaction Sum (i.e. 4.30)</label>
           </div>
           <button className="btn btn-success modal-close">Submit</button>
           <span

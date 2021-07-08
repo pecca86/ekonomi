@@ -74,7 +74,12 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
   // Get month, year and day from our date string
   let month = parseInt(formData.transactionDate.substring(5, 7), 10);
   let year = parseInt(formData.transactionDate.substring(0, 4), 10);
-  let day = formData.transactionDate.substring(8, 10);
+  let day = parseInt(formData.transactionDate.substring(8, 10));
+  // If we jump from i.e. 31-1-2020 to next month that has only 28 days
+  let tempDay;
+
+  // array with months that contain 30 days for checking when creating recurring transactions
+  const monthsWith30Days = [4, 6, 9, 11];
 
   // Loop trough the amount of months forward we want to duplicate the transaction, incrementing each time
   // the month value by one
@@ -82,10 +87,32 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
     for (let i = 0; i < loopCounts; i++) {
       if (month > 12) {
         month = 1;
+        year = parseInt(year);
         year += 1;
+        year.toString();
+      }
+
+      //check if the month has 28, 30 or 31 days
+      if (month === 2 && day > 28) {
+        tempDay = day
+        day = 28;
+      }
+
+      if (monthsWith30Days.includes(month) && day > 30) {
+        day = 30;
+      }
+
+
+      if (day < 10) {
+        day = "0" + day;
+      }
+      if (month < 10) {
+        month = "0" + month;
       }
 
       let newDate = `${year}-${month}-${day}`;
+      console.log(newDate);
+
       formData.transactionDate = newDate;
 
       let dataBody = JSON.stringify(formData);
@@ -108,14 +135,20 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
           payload: data.data,
         });
 
+        // When loop ends update these
         if (i === loopCounts - 1) {
-          console.log("Loop ended");
           dispatch(setAlert("Transactions added!", "success"));
           dispatch(flushTimeIntervalls());
           dispatch(getTimeSpans(accountId));
         }
         // increment month
+        month = parseInt(month);
         month += 1;
+        // Check if tempDay is set
+        if (tempDay) {
+          day = tempDay
+        }
+
       } catch (err) {
         dispatch(setAlert("Failed to create a new Transaction", "danger"));
       }

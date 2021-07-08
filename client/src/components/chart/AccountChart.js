@@ -21,8 +21,6 @@ const AccountChart = ({
 
   useEffect(() => {
     clearAccountTransactionsByYear();
-    console.log("acc id", accountData._id);
-
 
     // eslint-disable-next-line
   }, [getAllAccountTransactionsByYear, clearAccountTransactionsByYear]);
@@ -30,23 +28,24 @@ const AccountChart = ({
   const [withCurrentBalance, setWithCurrentBalance] = useState(true);
 
   const getGraphData = () => {
+    clearAccountTransactionsByYear();
     getAllAccountTransactionsByYear(
-        accountData._id,
-        currentYear,
-        currentMonth + 1,
-        currentDay
-      );
-  }
+      accountData._id,
+      currentYear,
+      currentMonth + 1,
+      currentDay
+    );
+  };
 
   // === GRAPH DATA ===
   if (transaction.transactionsByYear <= 0) {
     return (
       <div>
-        <p>No Transasction Data to show...</p>
-        <button className="btn" onClick={getGraphData}>Get Data</button>
+        <button className="btn" onClick={getGraphData}>
+          Get Graph Data
+        </button>
       </div>
     );
-
   }
 
   const accounts = [];
@@ -205,7 +204,12 @@ const AccountChart = ({
             <span>With Account Balance</span>
           </label>
         </p>
-        <input className="btn btn-small" type="button" value="Update Graph Data" onClick={getGraphData}/>
+        <input
+          className="btn btn-small"
+          type="button"
+          value="Update Graph Data"
+          onClick={getGraphData}
+        />
       </div>
       <Line data={data} options={options} id="account-chart" />
     </div>

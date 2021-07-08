@@ -23,9 +23,7 @@ const AddTransactionModal = ({ createTransaction, account }) => {
     e.preventDefault();
     createTransaction(formData, account.account._id);
     // es-lint-disable-next-line
-    setFormData({
-      monthsRecurring: 0
-    })
+    setFormData({ ...formData, monthsRecurring: 0 });
     setRecurring(false)
   };
 

@@ -64,7 +64,7 @@ const accountFilters =
     // == PAGINATION ==
     const page = parseInt(req.query.page, 10) || 1; // set page to 1 if no page in query
     // set how many bootcamps per page, default after ||
-    const limit = parseInt(req.query.limit, 10) || 20;
+    const limit = parseInt(req.query.limit, 10) || 2000;
     // how many bootcamps we want to skip
     const pageStartIndex = (page - 1) * limit;
     const pageEndIndex = page * limit;
