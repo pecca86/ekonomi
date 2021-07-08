@@ -1,16 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createTransaction } from "../../actions/transaction/transactionActions";
+import { setAlert } from "../../actions/alerts/alertActions";
 
-const AddTransactionModal = ({ createTransaction, account }) => {
+const AddTransactionModal = ({
+  createTransaction,
+  account,
+  current,
+  setAlert,
+}) => {
   const [formData, setFormData] = useState({
     sum: 0,
     transactionType: "",
     description: "",
     transactionDate: "",
-    monthsRecurring: 0
+    monthsRecurring: 0,
   });
+
+  useEffect(() => {
+    if (current !== null) {
+      setFormData({
+        transactionDate: current.transactionDate.substring(0, 10),
+        sum: Math.abs(current.sum),
+        transactionType: current.transactionType,
+        description: current.description,
+        monthsRecurring: 0,
+      });
+    }
+    //es-lint-disable-next-line
+  }, [current]);
 
   const [recur, setRecurring] = useState(false);
 
@@ -21,16 +40,20 @@ const AddTransactionModal = ({ createTransaction, account }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    createTransaction(formData, account.account._id);
-    // es-lint-disable-next-line
-    setFormData({ ...formData, monthsRecurring: 0 });
-    setRecurring(false)
+    if (!formData.transactionType) {
+      setAlert("Please fill in Transaction Type!", "danger");
+    } else {
+      createTransaction(formData, account.account._id);
+      // es-lint-disable-next-line
+      setFormData({ ...formData, monthsRecurring: 0 });
+      setRecurring(false);
+    }
   };
 
   return (
     <div id="add-transaction-modal" className="modal mt-5">
       <div className="modal-content mb-3">
-        <h4>New Transaction</h4>
+        <h4>{current ? "Copy Transaction" : "New Transaction"}</h4>
         <form onSubmit={onSubmit}>
           {/* DATE */}
           <label htmlFor="transactionDate" className="active">
@@ -45,7 +68,12 @@ const AddTransactionModal = ({ createTransaction, account }) => {
           />
 
           {/* TYPE */}
-          <select className="" onChange={onChange} name="transactionType" required>
+          <select
+            className=""
+            onChange={onChange}
+            name="transactionType"
+            required
+          >
             <option defaultValue>Transaction Type</option>
             <option value="Income">Income</option>
             <option value="Spending">Spending</option>
@@ -105,7 +133,9 @@ const AddTransactionModal = ({ createTransaction, account }) => {
                 value={formData.monthsRecurring}
                 onChange={onChange}
               />
-              <label htmlFor="floatingMonths">Enter how many months forward</label>
+              <label htmlFor="floatingMonths">
+                Enter how many months forward
+              </label>
             </div>
           )}
 
@@ -120,12 +150,14 @@ const AddTransactionModal = ({ createTransaction, account }) => {
 AddTransactionModal.propTypes = {
   createTransaction: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
+  current: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({
   account: state.account,
+  current: state.transaction.current,
 });
 
-export default connect(mapStateToProps, { createTransaction })(
+export default connect(mapStateToProps, { createTransaction, setAlert })(
   AddTransactionModal
 );

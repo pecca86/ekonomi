@@ -88,6 +88,7 @@ const Account = ({
             <AccountTransactions />
           </div>
         </div>
+        <hr />
       </Fragment>
       <AddBtn />
       <AddTransactionModal />

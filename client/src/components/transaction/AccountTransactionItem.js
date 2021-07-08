@@ -13,7 +13,6 @@ const AccountTransactionItem = ({
   setCurrentTransaction,
   account,
 }) => {
-
   const { sum, transactionDate, description, _id, transactionType } =
     transaction;
 
@@ -33,9 +32,11 @@ const AccountTransactionItem = ({
       ) : (
         <td className="income">{sum}€</td>
       )}
+      {/* DELETE BTN */}
       <td className="trash-icon" onClick={onDelete}>
         {trash}{" "}
       </td>
+      {/* EDIT BTN */}
       <td className="">
         <a
           className="waves-effect waves-light modal-trigger"
@@ -48,6 +49,22 @@ const AccountTransactionItem = ({
             data-target="#edit-transaction-modal"
           >
             mode_edit
+          </i>
+        </a>
+      </td>
+      {/* COPY BTN */}
+      <td className="">
+        <a
+          className="waves-effect waves-light modal-trigger"
+          href="#add-transaction-modal"
+        >
+          <i
+            onClick={() => setCurrentTransaction(transaction)}
+            className="tiny material-icons prefix text-dark action-icon"
+            data-toggle="modal"
+            data-target="#add-transaction-modal"
+          >
+            content_copy
           </i>
         </a>
       </td>

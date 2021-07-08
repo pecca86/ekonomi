@@ -20,7 +20,7 @@ const AddTimeintervallModal = ({ setAlert, addTimeSpan, account }) => {
     if (formData.endDate < formData.startDate) {
       setAlert("Start Date can not be greater than End Date!", "danger");
     } else {
-      addTimeSpan(formData, account.account._id)
+      addTimeSpan(formData, account.account._id);
     }
   };
 
@@ -70,4 +70,6 @@ const mapStateToProps = (state) => ({
   account: state.account,
 });
 
-export default connect(mapStateToProps, { setAlert, addTimeSpan })(AddTimeintervallModal);
+export default connect(mapStateToProps, { setAlert, addTimeSpan })(
+  AddTimeintervallModal
+);
