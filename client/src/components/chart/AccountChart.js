@@ -1,49 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
-import {
-  getAllAccountTransactionsByYear,
-  clearAccountTransactionsByYear,
-} from "../../actions/transaction/transactionActions";
 
-const AccountChart = ({
-  getAllAccountTransactionsByYear,
-  clearAccountTransactionsByYear,
-  transaction,
-  accountData,
-}) => {
+const AccountChart = ({ transaction }) => {
   // Get current date that will be used in our Graph
   let currentDate = new Date();
   let currentMonth = currentDate.getMonth();
   let currentDay = currentDate.getDate();
   let currentYear = currentDate.getFullYear();
 
-  useEffect(() => {
-    clearAccountTransactionsByYear();
-
-    // eslint-disable-next-line
-  }, [getAllAccountTransactionsByYear, clearAccountTransactionsByYear]);
-
   const [withCurrentBalance, setWithCurrentBalance] = useState(true);
-
-  const getGraphData = () => {
-    clearAccountTransactionsByYear();
-    getAllAccountTransactionsByYear(
-      accountData._id,
-      currentYear,
-      currentMonth + 1,
-      currentDay
-    );
-  };
 
   // === GRAPH DATA ===
   if (transaction.transactionsByYear <= 0) {
     return (
       <div>
-        <button className="btn" onClick={getGraphData}>
-          Get Graph Data
-        </button>
+        <p>Update to show data...</p>
       </div>
     );
   }
@@ -204,12 +177,6 @@ const AccountChart = ({
             <span>With Account Balance</span>
           </label>
         </p>
-        <input
-          className="btn btn-small"
-          type="button"
-          value="Update Graph Data"
-          onClick={getGraphData}
-        />
       </div>
       <Line data={data} options={options} id="account-chart" />
     </div>
@@ -218,9 +185,6 @@ const AccountChart = ({
 
 AccountChart.propTypes = {
   transaction: PropTypes.object,
-  account: PropTypes.object,
-  getAllAccountTransactionsByYear: PropTypes.func,
-  clearAccountTransactionsByYear: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -228,7 +192,4 @@ const mapStateToProps = (state) => ({
   //account: state.account,
 });
 
-export default connect(mapStateToProps, {
-  getAllAccountTransactionsByYear,
-  clearAccountTransactionsByYear,
-})(AccountChart);
+export default connect(mapStateToProps)(AccountChart);

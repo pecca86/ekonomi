@@ -12,20 +12,32 @@ import { getAccount } from "../../actions/account/accountActions";
 import {
   getTimeSpans,
   getAllAccountTransactions,
+  getAllAccountTransactionsByYear,
+  clearAccountTransactionsByYear,
 } from "../../actions/transaction/transactionActions";
 import AccountDetail from "./AccountDetail";
 import AccountChart from "../chart/AccountChart";
+import TransactionsPerTypeChart from "../chart/TransactionsPerTypeChart";
 
 const Account = ({
   getAccount,
   match,
   account,
   getAllAccountTransactions,
+  getAllAccountTransactionsByYear,
+  clearAccountTransactionsByYear,
   getTimeSpans,
   transaction,
 }) => {
+  // Get current date that will be used in our Graph
+  let currentDate = new Date();
+  let currentMonth = currentDate.getMonth();
+  let currentDay = currentDate.getDate();
+  let currentYear = currentDate.getFullYear();
+
   // Effect upon loading and when something gets changed
   useEffect(() => {
+    clearAccountTransactionsByYear();
     getAccount(match.params.accountId);
     getAllAccountTransactions(match.params.accountId);
     getTimeSpans(match.params.accountId);
@@ -34,7 +46,20 @@ const Account = ({
     getAllAccountTransactions,
     getTimeSpans,
     match.params.accountId,
+    clearAccountTransactionsByYear,
+    getAllAccountTransactionsByYear,
   ]);
+
+  // Get graph Data
+  const getGraphData = () => {
+    clearAccountTransactionsByYear();
+    getAllAccountTransactionsByYear(
+      account.account._id,
+      currentYear,
+      currentMonth + 1,
+      currentDay
+    );
+  };
 
   if (account.loading || !account.account || transaction.loading) {
     return <p>Loading...</p>;
@@ -53,7 +78,10 @@ const Account = ({
       <Fragment>
         <div className="container">
           <Fragment>
-              <AccountChart accountData={account.account} />
+            <button className="btn" onClick={getGraphData}>
+              Get Graph Data For both
+            </button>
+            <AccountChart accountData={account.account} />
           </Fragment>
           <p
             type="button"
@@ -87,9 +115,30 @@ const Account = ({
           <div className="collapse" id="collapseTransactions">
             <AccountTransactions />
           </div>
+
+          <hr />
+          {/* Bar */}
+          <Fragment>
+            <p
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseBar"
+              aria-expanded="false"
+              aria-controls="collapseBar"
+            >
+              <span className="d-flex justify-content-between align-items-end fs-3">
+                Transactions / Type Bar
+                <i className="material-icons prefix">expand_more</i>
+              </span>
+            </p>
+            <div className="collapse" id="collapseBar">
+              <TransactionsPerTypeChart />
+            </div>
+          </Fragment>
         </div>
-        <hr />
       </Fragment>
+
+      {/* Action Button */}
       <AddBtn />
       <AddTransactionModal />
       <AddTimeintervallModal />
@@ -116,4 +165,6 @@ export default connect(mapStateToProps, {
   getAccount,
   getAllAccountTransactions,
   getTimeSpans,
+  getAllAccountTransactionsByYear,
+  clearAccountTransactionsByYear,
 })(Account);
