@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
+import { clearCurrentTransaction } from "../../actions/transaction/transactionActions";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-const AddBtn = () => {
+const AddBtn = ({ clearCurrentTransaction }) => {
   useEffect(() => {
     M.AutoInit();
   });
@@ -34,6 +37,7 @@ const AddBtn = () => {
           <a
             href="#add-transaction-modal"
             className="btn-floating green modal-trigger"
+            onClick={(e) => clearCurrentTransaction()}
           >
             <i className="material-icons">monetization_on</i>
           </a>
@@ -43,4 +47,8 @@ const AddBtn = () => {
   );
 };
 
-export default AddBtn;
+AddBtn.propTypes = {
+  clearCurrentTransaction: PropTypes.func,
+};
+
+export default connect(null, { clearCurrentTransaction })(AddBtn);
