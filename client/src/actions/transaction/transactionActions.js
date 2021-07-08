@@ -94,14 +94,13 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
 
       //check if the month has 28, 30 or 31 days
       if (month === 2 && day > 28) {
-        tempDay = day
+        tempDay = day;
         day = 28;
       }
 
       if (monthsWith30Days.includes(month) && day > 30) {
         day = 30;
       }
-
 
       if (day < 10) {
         day = "0" + day;
@@ -111,7 +110,6 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
       }
 
       let newDate = `${year}-${month}-${day}`;
-      console.log(newDate);
 
       formData.transactionDate = newDate;
 
@@ -146,9 +144,8 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
         month += 1;
         // Check if tempDay is set
         if (tempDay) {
-          day = tempDay
+          day = tempDay;
         }
-
       } catch (err) {
         dispatch(setAlert("Failed to create a new Transaction", "danger"));
       }

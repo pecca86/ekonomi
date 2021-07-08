@@ -52,6 +52,9 @@ const Account = ({
       <hr />
       <Fragment>
         <div className="container">
+          <Fragment>
+              <AccountChart accountData={account.account} />
+          </Fragment>
           <p
             type="button"
             data-bs-toggle="collapse"
@@ -84,11 +87,6 @@ const Account = ({
           <div className="collapse" id="collapseTransactions">
             <AccountTransactions />
           </div>
-        </div>
-      </Fragment>
-      <Fragment>
-        <div className="container">
-          <AccountChart accountData={account.account} />
         </div>
       </Fragment>
       <AddBtn />
