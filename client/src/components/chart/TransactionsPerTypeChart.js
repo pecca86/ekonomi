@@ -7,32 +7,39 @@ import PropTypes from "prop-types";
 
 const TransactionsPerTypeChart = ({ transaction }) => {
   // === DATA COLLECTION ===
-  const transactionDescriptions = [];
+
+  // Push all transactions into an array
+  const transactionData = [];
   transaction.transactionsByYear.forEach((transaction) =>
-    //transactionDescriptions.push(transaction.description)
-    transaction.forEach((t) => transactionDescriptions.push(t.description))
+    transaction.forEach((t) => transactionData.push(t))
   );
 
-  //console.log("FIRST: ", transactionDescriptions);
+  // Create an object that takes in each unique transaction type and initial value of 0
+  const myObj = {};
+  for (const transaction of transactionData) {
+    myObj[transaction.description] = 0;
+  }
 
-  // Take only unique descriptions
-  const distinctDescriptions = [...new Set(transactionDescriptions)];
+  // Then count the sum according to transaction description
+  for (const transaction of transactionData) {
+    myObj[transaction.description] += transaction.sum;
+  }
 
-  // Dummy data for graph data for testing purposes
-  const dummyData = [];
-  for (let i = 0; i < distinctDescriptions.length; i++) {
-    let value = Math.floor(Math.random() * (5000 - 100 + 1));
-    dummyData.push(value);
+  // create label and data arrays to put into graph
+  const labels = [];
+  const graphData = [];
+  for (const key in myObj) {
+    labels.push(key);
+    graphData.push(myObj[key]);
   }
 
   // Get all transactions according to description and set into an array
-  const labels = distinctDescriptions;
   const data = {
     labels: labels,
     datasets: [
       {
         label: "Transaction Description",
-        data: dummyData,
+        data: graphData,
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(255, 159, 64, 0.2)",

@@ -79,7 +79,7 @@ const Account = ({
         <div className="container">
           <Fragment>
             <button className="btn" onClick={getGraphData}>
-              Get Graph Data For both
+              Get Graph Data
             </button>
             <AccountChart accountData={account.account} />
           </Fragment>
