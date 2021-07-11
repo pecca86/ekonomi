@@ -127,12 +127,12 @@ const Account = ({
               aria-controls="collapseBar"
             >
               <span className="d-flex justify-content-between align-items-end fs-3">
-                Transactions / Type Bar
+                Transactions / Type
                 <i className="material-icons prefix">expand_more</i>
               </span>
             </p>
             <div className="collapse" id="collapseBar">
-              <TransactionsPerTypeChart />
+              <TransactionsPerTypeChart month={currentMonth} day={currentDay} year={currentYear} />
             </div>
           </Fragment>
         </div>

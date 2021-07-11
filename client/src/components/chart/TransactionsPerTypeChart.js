@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 //For fetching data
 
-const TransactionsPerTypeChart = ({ transaction }) => {
+const TransactionsPerTypeChart = ({ transaction, month, day, year }) => {
   // === DATA COLLECTION ===
 
   // Push all transactions into an array
@@ -38,7 +38,7 @@ const TransactionsPerTypeChart = ({ transaction }) => {
     labels: labels,
     datasets: [
       {
-        label: "Transaction Description",
+        label: `Transactions / Type`,
         data: graphData,
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
@@ -75,7 +75,7 @@ const TransactionsPerTypeChart = ({ transaction }) => {
     plugins: {
       title: {
         display: true,
-        text: `Transactions / Type`,
+        text: `${day}.${month+1}.${year} - ${month}/${year+1}`,
       },
       legend: {
         fullSize: false,
