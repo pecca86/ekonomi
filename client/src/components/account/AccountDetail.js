@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { updateAccount } from "../../actions/account/accountActions";
@@ -7,6 +7,14 @@ const AccountDetail = ({ account, updateAccount }) => {
   const {
     account: { IBAN, name, balance, _id },
   } = account;
+
+  useEffect(()=> {
+    setFormData({
+      iban: IBAN,
+      name: name,
+      balance: balance
+    })
+  }, [IBAN, name, balance])
 
   // Component state for showing or hiding edit fields
   const [hideItem, setHideItem] = useState({
@@ -49,6 +57,7 @@ const AccountDetail = ({ account, updateAccount }) => {
       name: formData.name,
       balance: formData.balance,
     };
+    console.log("the data: ", data);
     updateAccount(data, _id);
 
     setHideItem({
@@ -204,4 +213,8 @@ AccountDetail.propTypes = {
   updateAccount: PropTypes.func.isRequired,
 };
 
-export default connect(null, { updateAccount })(AccountDetail);
+const mapStateToProps = (state) => ({
+  account: state.account,
+});
+
+export default connect(mapStateToProps, { updateAccount })(AccountDetail);

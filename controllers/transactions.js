@@ -55,6 +55,7 @@ exports.createTransaction = wrapAsync(async (req, res, next) => {
   // Check if transaction type is of Spending and turn the value into negative
   if (req.body.transactionType === 'Spending') {
     req.body.sum = -Math.abs(req.body.sum);
+    console.log("CONVERTERD!");
   }
 
   // create a transaction that is associated with this account

@@ -1,0 +1,542 @@
+[
+ {
+  "transactionDate": "2021-05-15",
+  "description": "Ekonomföreningen (2/4)",
+  "transactionType": "Spending",
+  "sum": "85"
+ },
+ {
+  "transactionDate": "2021-05-15",
+  "description": "Fond",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-05-15",
+  "description": "Gemensamt konto",
+  "transactionType": "Spending",
+  "sum": "1700"
+ },
+ {
+  "transactionDate": "2021-05-15",
+  "description": "HSL",
+  "transactionType": "Spending",
+  "sum": "65"
+ },
+ {
+  "transactionDate": "2021-05-15",
+  "description": "RELEX",
+  "transactionType": "Income",
+  "sum": "3137"
+ },
+ {
+  "transactionDate": "2021-05-15",
+  "description": "Sijoitusvakuutus",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-05-15",
+  "description": "Spargris",
+  "transactionType": "Spending",
+  "sum": "250"
+ },
+ {
+  "transactionDate": "2021-05-15",
+  "description": "Sparkonto",
+  "transactionType": "Spending",
+  "sum": "300"
+ },
+ {
+  "transactionDate": "2021-05-15",
+  "description": "Studielån",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-05-15",
+  "description": "Visa",
+  "transactionType": "Spending",
+  "sum": "0"
+ },
+ {
+  "transactionDate": "2021-05-20",
+  "description": "Elixia juni",
+  "transactionType": "Spending",
+  "sum": "42.9"
+ },
+ {
+  "transactionDate": "2021-06-10",
+  "description": "Städning maj",
+  "transactionType": "Spending",
+  "sum": "102"
+ },
+ {
+  "transactionDate": "2021-06-15",
+  "description": "Fond",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-06-15",
+  "description": "Gemensamt konto",
+  "transactionType": "Spending",
+  "sum": "1700"
+ },
+ {
+  "transactionDate": "2021-06-15",
+  "description": "HSL",
+  "transactionType": "Spending",
+  "sum": "65"
+ },
+ {
+  "transactionDate": "2021-06-15",
+  "description": "RELEX",
+  "transactionType": "Income",
+  "sum": "3137"
+ },
+ {
+  "transactionDate": "2021-06-15",
+  "description": "Sijoitusvakuutus",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-06-15",
+  "description": "Spargris",
+  "transactionType": "Spending",
+  "sum": "250"
+ },
+ {
+  "transactionDate": "2021-06-15",
+  "description": "Sparkonto",
+  "transactionType": "Spending",
+  "sum": "300"
+ },
+ {
+  "transactionDate": "2021-06-15",
+  "description": "Studielån",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-06-15",
+  "description": "Visa",
+  "transactionType": "Spending",
+  "sum": "0"
+ },
+ {
+  "transactionDate": "2021-06-20",
+  "description": "Elixia juli",
+  "transactionType": "Spending",
+  "sum": "42.9"
+ },
+ {
+  "transactionDate": "2021-07-10",
+  "description": "Städning juni",
+  "transactionType": "Spending",
+  "sum": "102"
+ },
+ {
+  "transactionDate": "2021-07-15",
+  "description": "Fond",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-07-15",
+  "description": "Gemensamt konto",
+  "transactionType": "Spending",
+  "sum": "1600"
+ },
+ {
+  "transactionDate": "2021-07-15",
+  "description": "HSL",
+  "transactionType": "Spending",
+  "sum": "65"
+ },
+ {
+  "transactionDate": "2021-07-15",
+  "description": "RELEX",
+  "transactionType": "Income",
+  "sum": "3137"
+ },
+ {
+  "transactionDate": "2021-07-15",
+  "description": "Sijoitusvakuutus",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-07-15",
+  "description": "Spargris",
+  "transactionType": "Spending",
+  "sum": "250"
+ },
+ {
+  "transactionDate": "2021-07-15",
+  "description": "Sparkonto",
+  "transactionType": "Spending",
+  "sum": "300"
+ },
+ {
+  "transactionDate": "2021-07-15",
+  "description": "Studielån",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-07-15",
+  "description": "Visa",
+  "transactionType": "Spending",
+  "sum": "0"
+ },
+ {
+  "transactionDate": "2021-07-20",
+  "description": "Elixia aug",
+  "transactionType": "Spending",
+  "sum": "42.9"
+ },
+ {
+  "transactionDate": "2021-08-10",
+  "description": "Städning juli",
+  "transactionType": "Spending",
+  "sum": "102"
+ },
+ {
+  "transactionDate": "2021-08-15",
+  "description": "Ekonomföreningen (3/4)",
+  "transactionType": "Spending",
+  "sum": "85"
+ },
+ {
+  "transactionDate": "2021-08-15",
+  "description": "Fond",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-08-15",
+  "description": "Gemensamt konto",
+  "transactionType": "Spending",
+  "sum": "1600"
+ },
+ {
+  "transactionDate": "2021-08-15",
+  "description": "HSL",
+  "transactionType": "Spending",
+  "sum": "65"
+ },
+ {
+  "transactionDate": "2021-08-15",
+  "description": "RELEX",
+  "transactionType": "Income",
+  "sum": "3137"
+ },
+ {
+  "transactionDate": "2021-08-15",
+  "description": "Sijoitusvakuutus",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-08-15",
+  "description": "Spargris",
+  "transactionType": "Spending",
+  "sum": "250"
+ },
+ {
+  "transactionDate": "2021-08-15",
+  "description": "Sparkonto",
+  "transactionType": "Spending",
+  "sum": "300"
+ },
+ {
+  "transactionDate": "2021-08-15",
+  "description": "Studielån",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-08-15",
+  "description": "Visa",
+  "transactionType": "Spending",
+  "sum": "0"
+ },
+ {
+  "transactionDate": "2021-08-20",
+  "description": "Elixia sept",
+  "transactionType": "Spending",
+  "sum": "42.9"
+ },
+ {
+  "transactionDate": "2021-09-10",
+  "description": "Städning augusti",
+  "transactionType": "Spending",
+  "sum": "102"
+ },
+ {
+  "transactionDate": "2021-09-15",
+  "description": "Fond",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-09-15",
+  "description": "Gemensamt konto",
+  "transactionType": "Spending",
+  "sum": "1600"
+ },
+ {
+  "transactionDate": "2021-09-15",
+  "description": "HSL",
+  "transactionType": "Spending",
+  "sum": "65"
+ },
+ {
+  "transactionDate": "2021-09-15",
+  "description": "RELEX",
+  "transactionType": "Income",
+  "sum": "3137"
+ },
+ {
+  "transactionDate": "2021-09-15",
+  "description": "Sijoitusvakuutus",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-09-15",
+  "description": "Spargris",
+  "transactionType": "Spending",
+  "sum": "250"
+ },
+ {
+  "transactionDate": "2021-09-15",
+  "description": "Sparkonto",
+  "transactionType": "Spending",
+  "sum": "300"
+ },
+ {
+  "transactionDate": "2021-09-15",
+  "description": "Studielån",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-09-15",
+  "description": "Visa",
+  "transactionType": "Spending",
+  "sum": "0"
+ },
+ {
+  "transactionDate": "2021-09-20",
+  "description": "Elixia okt",
+  "transactionType": "Spending",
+  "sum": "42.9"
+ },
+ {
+  "transactionDate": "2021-10-10",
+  "description": "Städning",
+  "transactionType": "Spending",
+  "sum": "102"
+ },
+ {
+  "transactionDate": "2021-10-15",
+  "description": "Fond",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-10-15",
+  "description": "Gemensamt konto",
+  "transactionType": "Spending",
+  "sum": "1600"
+ },
+ {
+  "transactionDate": "2021-10-15",
+  "description": "HSL",
+  "transactionType": "Spending",
+  "sum": "65"
+ },
+ {
+  "transactionDate": "2021-10-15",
+  "description": "RELEX",
+  "transactionType": "Income",
+  "sum": "3137"
+ },
+ {
+  "transactionDate": "2021-10-15",
+  "description": "Sijoitusvakuutus",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-10-15",
+  "description": "Spargris",
+  "transactionType": "Spending",
+  "sum": "250"
+ },
+ {
+  "transactionDate": "2021-10-15",
+  "description": "Sparkonto",
+  "transactionType": "Spending",
+  "sum": "300"
+ },
+ {
+  "transactionDate": "2021-10-15",
+  "description": "Studielån",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-10-15",
+  "description": "Visa",
+  "transactionType": "Spending",
+  "sum": "0"
+ },
+ {
+  "transactionDate": "2021-10-20",
+  "description": "Elixia nov",
+  "transactionType": "Spending",
+  "sum": "42.9"
+ },
+ {
+  "transactionDate": "2021-11-10",
+  "description": "Städning",
+  "transactionType": "Spending",
+  "sum": "102"
+ },
+ {
+  "transactionDate": "2021-11-15",
+  "description": "Ekonomföreningen (4/4)",
+  "transactionType": "Spending",
+  "sum": "85"
+ },
+ {
+  "transactionDate": "2021-11-15",
+  "description": "Fond",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-11-15",
+  "description": "Gemensamt konto",
+  "transactionType": "Spending",
+  "sum": "1600"
+ },
+ {
+  "transactionDate": "2021-11-15",
+  "description": "HSL",
+  "transactionType": "Spending",
+  "sum": "65"
+ },
+ {
+  "transactionDate": "2021-11-15",
+  "description": "RELEX",
+  "transactionType": "Income",
+  "sum": "3137"
+ },
+ {
+  "transactionDate": "2021-11-15",
+  "description": "Sijoitusvakuutus",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-11-15",
+  "description": "Spargris",
+  "transactionType": "Spending",
+  "sum": "250"
+ },
+ {
+  "transactionDate": "2021-11-15",
+  "description": "Sparkonto",
+  "transactionType": "Spending",
+  "sum": "300"
+ },
+ {
+  "transactionDate": "2021-11-15",
+  "description": "Studielån",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-11-15",
+  "description": "Visa",
+  "transactionType": "Spending",
+  "sum": "0"
+ },
+ {
+  "transactionDate": "2021-11-20",
+  "description": "Elixia dec",
+  "transactionType": "Spending",
+  "sum": "42.9"
+ },
+ {
+  "transactionDate": "2021-12-10",
+  "description": "Städning",
+  "transactionType": "Spending",
+  "sum": "102"
+ },
+ {
+  "transactionDate": "2021-12-15",
+  "description": "Fond",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-12-15",
+  "description": "Gemensamt konto",
+  "transactionType": "Spending",
+  "sum": "1600"
+ },
+ {
+  "transactionDate": "2021-12-15",
+  "description": "HSL",
+  "transactionType": "Spending",
+  "sum": "65"
+ },
+ {
+  "transactionDate": "2021-12-15",
+  "description": "RELEX",
+  "transactionType": "Income",
+  "sum": "3137"
+ },
+ {
+  "transactionDate": "2021-12-15",
+  "description": "Sijoitusvakuutus",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-12-15",
+  "description": "Spargris",
+  "transactionType": "Spending",
+  "sum": "250"
+ },
+ {
+  "transactionDate": "2021-12-15",
+  "description": "Sparkonto",
+  "transactionType": "Spending",
+  "sum": "300"
+ },
+ {
+  "transactionDate": "2021-12-15",
+  "description": "Studielån",
+  "transactionType": "Spending",
+  "sum": "100"
+ },
+ {
+  "transactionDate": "2021-12-15",
+  "description": "Visa",
+  "transactionType": "Spending",
+  "sum": "0"
+ },
+ {
+  "transactionDate": "2021-12-20",
+  "description": "Elixia jan",
+  "transactionType": "Spending",
+  "sum": "42.9"
+ }
+]

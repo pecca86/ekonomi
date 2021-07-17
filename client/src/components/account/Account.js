@@ -69,7 +69,7 @@ const Account = ({
     <Fragment>
       <Fragment>
         <Suspense fallback={<p>Loading account information...</p>}>
-          <AccountDetail account={account} />
+          <AccountDetail />
         </Suspense>
       </Fragment>
 
