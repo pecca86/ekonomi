@@ -19,3 +19,7 @@
 .border-button {
   border: solid;
 }
+
+.input-inline {
+  display: inline-block;
+}

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
 
-const AccountChart = ({ transaction }) => {
+const AccountChart = ({ transaction, account }) => {
   // Get current date that will be used in our Graph
   let currentDate = new Date();
   let currentMonth = currentDate.getMonth();
@@ -51,7 +51,7 @@ const AccountChart = ({ transaction }) => {
     // Create a random color for each account
     let randClr = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
       Math.random() * 256
-    )}, ${Math.floor(Math.random() * 256)}, 02)`;
+    )}, ${Math.floor(Math.random() * (256 - 100) + 100)}, 02)`;
 
     // Push the initial account data to the graph with an empty data array
     dataset.push({
@@ -105,6 +105,17 @@ const AccountChart = ({ transaction }) => {
     }
     // push the data into our dataset that is then sent to our graph
     dataset[i].data.push(...summedArr);
+  }
+
+  // Create a new line for savings goal and push it to our data set
+  if (account.account.savingsGoal && account.account.savingsGoal > 0) {
+    dataset.push({
+      label: "Savings Goal",
+      data: new Array(12).fill(account.account.savingsGoal),
+      fill: false,
+      backgroundColor: "rgba(255, 99, 132, 0.2)",
+      borderColor: "rgba(255, 99, 132, 0.3)",
+    });
   }
 
   // CHART STUFF
@@ -189,7 +200,7 @@ AccountChart.propTypes = {
 
 const mapStateToProps = (state) => ({
   transaction: state.transaction,
-  //account: state.account,
+  account: state.account,
 });
 
 export default connect(mapStateToProps)(AccountChart);

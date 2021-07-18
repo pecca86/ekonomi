@@ -69,7 +69,7 @@ const Chart = ({
     // Create a random color for each account
     let randClr = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
       Math.random() * 256
-    )}, ${Math.floor(Math.random() * 256)}, 02)`;
+    )}, ${Math.floor(Math.random() * (256 - 100) + 100)}, 02)`;
 
     // Push the initial account data to the graph with an empty data array
     dataset.push({
@@ -156,9 +156,9 @@ const Chart = ({
     plugins: {
       title: {
         display: true,
-        text: `Account Transactions ${currentDay}.${currentMonth+1}.${currentYear} - ${currentMonth}/${
-          currentYear + 1
-        }`,
+        text: `Account Transactions ${currentDay}.${
+          currentMonth + 1
+        }.${currentYear} - ${currentMonth}/${currentYear + 1}`,
       },
       legend: {
         fullSize: false,

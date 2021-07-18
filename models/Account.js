@@ -20,6 +20,11 @@ const AccountSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    savingsGoal: {
+      type: Number,
+      default: 0,
+      required: false
+    },
     allTransactionsSum: Number,
     createdAt: {
       type: Date,

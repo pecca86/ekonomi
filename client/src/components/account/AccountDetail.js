@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { updateAccount } from "../../actions/account/accountActions";
 
 const AccountDetail = ({ account, updateAccount }) => {
   const {
-    account: { IBAN, name, balance, _id },
+    account: { IBAN, name, balance, savingsGoal, _id },
   } = account;
 
-  useEffect(()=> {
+  useEffect(() => {
     setFormData({
       iban: IBAN,
       name: name,
-      balance: balance
-    })
-  }, [IBAN, name, balance])
+      balance: balance,
+      savingsGoal: savingsGoal,
+    });
+  }, [IBAN, name, balance, savingsGoal]);
 
   // Component state for showing or hiding edit fields
   const [hideItem, setHideItem] = useState({
     hideIban: true,
     hideName: true,
     hideBalance: true,
+    hideSavingsGoal: true,
   });
 
   // Component state for taking input from edit fields
@@ -28,6 +30,7 @@ const AccountDetail = ({ account, updateAccount }) => {
     iban: IBAN,
     name: name,
     balance: balance,
+    savingsGoal: savingsGoal,
   });
 
   // when changing values in edit fields
@@ -48,6 +51,10 @@ const AccountDetail = ({ account, updateAccount }) => {
     setHideItem({ ...hideItem, hideBalance: !hideItem.hideBalance });
     setFormData({ ...formData, balance: balance });
   };
+  const onToggleSavingsGoal = (e) => {
+    setHideItem({ ...hideItem, hideSavingsGoal: !hideItem.hideSavingsGoal });
+    setFormData({ ...formData, savingsGoal: savingsGoal });
+  };
 
   // Submit when green checkmark is clicked
   const onSubmit = async (e) => {
@@ -56,8 +63,9 @@ const AccountDetail = ({ account, updateAccount }) => {
       IBAN: formData.iban,
       name: formData.name,
       balance: formData.balance,
+      savingsGoal: formData.savingsGoal,
     };
-    console.log("the data: ", data);
+    console.log("FORM: ", formData);
     updateAccount(data, _id);
 
     setHideItem({
@@ -65,6 +73,7 @@ const AccountDetail = ({ account, updateAccount }) => {
       hideBalance: true,
       hideIban: true,
       hideName: true,
+      hideSavingsGoal: true,
     });
   };
 
@@ -74,10 +83,11 @@ const AccountDetail = ({ account, updateAccount }) => {
       <div className="row justify-content-start mt-3">
         <div className="col-7 fs-4 ">Balance</div>
         <div
-          className={`col-3 fs-4 ${balance >= 0 ? "text-success" : "text-danger"} `}
-          
+          className={`col-3 fs-4 ${
+            balance >= 0 ? "text-success" : "text-danger"
+          } `}
         >
-          {balance}€
+          {hideItem.hideBalance && <Fragment>{balance}€</Fragment>}
         </div>
         <div className="col-1">
           <span>
@@ -120,13 +130,18 @@ const AccountDetail = ({ account, updateAccount }) => {
           </p>
         )}
       </div>
-            {/* NAME */}
-            <div className="row justify-content-start mt-0 mb-1">
-        <div className="col-10 fs-6 fw-light">{name}</div>
+      {/* NAME */}
+      <div className="row justify-content-start mt-0 mb-1">
+        <div className="col-10 fs-6 fw-light">
+          {hideItem.hideName && <Fragment>{name}</Fragment>}
+        </div>
         <div className="col-1 fs-6">
           <span>
             {hideItem.hideName ? (
-              <i onClick={onToggleName} className="tiny material-icons prefix action-icon">
+              <i
+                onClick={onToggleName}
+                className="tiny material-icons prefix action-icon"
+              >
                 mode_edit
               </i>
             ) : (
@@ -164,11 +179,16 @@ const AccountDetail = ({ account, updateAccount }) => {
 
       {/* IBAN */}
       <div className="row justify-content-start mt-0 mb-0">
-        <div className="col-10 fs-6 fw-light">{IBAN}</div>
+        <div className="col-10 fs-6 fw-light">
+          {hideItem.hideIban && <Fragment>{IBAN}</Fragment>}
+        </div>
         <div className="col-1 fs-6">
           <span>
             {hideItem.hideIban ? (
-              <i onClick={onToggleIban} className=" tiny material-icons prefix action-icon">
+              <i
+                onClick={onToggleIban}
+                className=" tiny material-icons prefix action-icon"
+              >
                 mode_edit
               </i>
             ) : (
@@ -203,8 +223,57 @@ const AccountDetail = ({ account, updateAccount }) => {
           </p>
         )}
       </div>
+      {/* SAVINGS GOAL */}
+      <div className="row justify-content-start mt-3">
+        <div className="col-7 fs-6 fw-light">Savings Goal</div>
+        <div
+          className={`col-3 fs-6 ${
+            balance >= 0 ? "text-success" : "text-danger"
+          } `}
+        >
+          {hideItem.hideSavingsGoal && <Fragment>{savingsGoal}€</Fragment>}
+        </div>
+        <div className="col-1">
+          <span>
+            {hideItem.hideSavingsGoal ? (
+              <i
+                onClick={onToggleSavingsGoal}
+                className="tiny material-icons prefix text-dark action-icon"
+              >
+                mode_edit
+              </i>
+            ) : (
+              <span>
+                <i
+                  onClick={onToggleSavingsGoal}
+                  className="material-icons prefix text-danger action-icon"
+                >
+                  close
+                </i>
 
-
+                <i
+                  onClick={onSubmit}
+                  className="material-icons prefix text-success action-icon"
+                >
+                  check
+                </i>
+              </span>
+            )}
+          </span>
+        </div>
+        {hideItem.hideSavingsGoal ? (
+          ""
+        ) : (
+          <p>
+            <input
+              onChange={onChange}
+              type="number"
+              name="savingsGoal"
+              value={formData.savingsGoal}
+            />
+          </p>
+        )}
+      </div>
     </div>
   );
 };
