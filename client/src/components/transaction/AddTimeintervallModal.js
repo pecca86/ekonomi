@@ -1,10 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { setAlert } from "../../actions/alerts/alertActions";
-import { addTimeSpan } from "../../actions/transaction/transactionActions";
+import {
+  addTimeSpan,
+  updateTimeInterval,
+} from "../../actions/transaction/transactionActions";
 
-const AddTimeintervallModal = ({ setAlert, addTimeSpan, account }) => {
+const AddTimeintervallModal = ({
+  setAlert,
+  addTimeSpan,
+  updateTimeInterval,
+  account,
+  transaction,
+}) => {
+  useEffect(() => {
+    if (transaction.currentTimeInterval) {
+      setFormData({
+        startDate: transaction.currentTimeInterval.startDate,
+        endDate: transaction.currentTimeInterval.endDate,
+      });
+    }
+  }, [transaction.currentTimeInterval]);
+
   const [formData, setFormData] = useState({
     startDate: "",
     endDate: "",
@@ -19,6 +37,8 @@ const AddTimeintervallModal = ({ setAlert, addTimeSpan, account }) => {
     e.preventDefault();
     if (formData.endDate < formData.startDate) {
       setAlert("Start Date can not be greater than End Date!", "danger");
+    } else if (transaction.currentTimeInterval) {
+      updateTimeInterval(formData, transaction.currentTimeInterval._id, account.account._id);
     } else {
       addTimeSpan(formData, account.account._id);
     }
@@ -27,7 +47,11 @@ const AddTimeintervallModal = ({ setAlert, addTimeSpan, account }) => {
   return (
     <div id="add-timeintervall-modal" className="modal mt-5">
       <div className="modal-content mb-3">
-        <h4>New Time Intervall</h4>
+        <h4>
+          {transaction.currentTimeInterval
+            ? "Edit Time Interval"
+            : "New Time Interval"}
+        </h4>
         <form onSubmit={onSubmit}>
           {/* START DATE */}
           <label htmlFor="startDate" className="active">
@@ -63,13 +87,18 @@ const AddTimeintervallModal = ({ setAlert, addTimeSpan, account }) => {
 AddTimeintervallModal.propTypes = {
   setAlert: PropTypes.func,
   account: PropTypes.object.isRequired,
+  transaction: PropTypes.object.isRequired,
   addTimeSpan: PropTypes.func.isRequired,
+  updateTimeInterval: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   account: state.account,
+  transaction: state.transaction,
 });
 
-export default connect(mapStateToProps, { setAlert, addTimeSpan })(
-  AddTimeintervallModal
-);
+export default connect(mapStateToProps, {
+  setAlert,
+  addTimeSpan,
+  updateTimeInterval,
+})(AddTimeintervallModal);

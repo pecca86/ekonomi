@@ -98,7 +98,7 @@ exports.updateTimeSpan = wrapAsync(async (req, res, next) => {
   timeSpan = await TimeSpan.findByIdAndUpdate(req.params.timeSpanId, req.body, {
     new: true,
     runValidators: true,
-  });
+  }).populate("account", "IBAN");
 
   res.status(201).json({
     data: timeSpan,

@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 // Materialize-css
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css/dist/js/materialize.min.js";
-import { clearCurrentTransaction } from "../../actions/transaction/transactionActions";
+import { clearCurrentTransaction, clearCurrentTimeInterval } from "../../actions/transaction/transactionActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-const AddBtn = ({ clearCurrentTransaction }) => {
+const AddBtn = ({ clearCurrentTransaction, clearCurrentTimeInterval }) => {
   useEffect(() => {
     M.AutoInit();
   });
@@ -29,6 +29,7 @@ const AddBtn = ({ clearCurrentTransaction }) => {
           <a
             href="#add-timeintervall-modal"
             className="btn-floating green modal-trigger"
+            onClick={(e) => clearCurrentTimeInterval()}
           >
             <i className="material-icons">date_range</i>
           </a>
@@ -49,6 +50,7 @@ const AddBtn = ({ clearCurrentTransaction }) => {
 
 AddBtn.propTypes = {
   clearCurrentTransaction: PropTypes.func,
+  clearCurrentTimeInterval: PropTypes.func,
 };
 
-export default connect(null, { clearCurrentTransaction })(AddBtn);
+export default connect(null, { clearCurrentTransaction, clearCurrentTimeInterval })(AddBtn);

@@ -5,20 +5,22 @@ import PropTypes from "prop-types";
 import {
   deleteTimeSpan,
   deleteTimeIntervalTransaction,
+  setCurrentTimeInterval,
 } from "../../actions/transaction/transactionActions";
 import AccountTransactionItem from "./AccountTransactionItem";
 
 const TimeIntervallItem = ({
-  startDate,
-  endDate,
-  id,
+  timeSpan,
   sum,
   transactions,
   deleteTimeSpan,
   deleteTimeIntervalTransaction,
+  setCurrentTimeInterval,
   account,
   transaction,
 }) => {
+  const { startDate, endDate, _id } = timeSpan;
+
   useEffect(() => {
     countTransactionsSums();
     // eslint-disable-next-line
@@ -51,10 +53,8 @@ const TimeIntervallItem = ({
 
   const onDelete = (e) => {
     e.preventDefault();
-    //deleteTimeSpan(id, account.account._id);
-    console.log("DELETED: ", id);
-    deleteTimeSpan(id);
-    deleteTimeIntervalTransaction(id);
+    deleteTimeSpan(_id);
+    deleteTimeIntervalTransaction(_id);
   };
 
   if (transaction.loading || account.loading) {
@@ -62,19 +62,19 @@ const TimeIntervallItem = ({
   }
 
   return (
-    <div className="accordion" id={`timeAccordion-${id}`}>
+    <div className="accordion" id={`timeAccordion-${_id}`}>
       <div className="accordion-item">
         <h2
           className="accordion-header mx-0 my-0 px-0 py-0"
-          id={`account-${id}`}
+          id={`account-${_id}`}
         >
           <button
             className="accordion-button collapsed"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target={`#collapse-${id}`}
+            data-bs-target={`#collapse-${_id}`}
             aria-expanded="false"
-            aria-controls={`collapse-${id}`}
+            aria-controls={`collapse-${_id}`}
           >
             <div className="col-sm-2">
               <Moment format="DD.MM.YYYY">{startDate}</Moment>
@@ -91,12 +91,27 @@ const TimeIntervallItem = ({
             <div onClick={onDelete} className="col-1 trash-icon">
               {trash}
             </div>
+            <div>
+              <a
+                className="waves-effect waves-light modal-trigger"
+                href="#add-timeintervall-modal"
+              >
+                <i
+                  className=" tiny material-icons prefix text-dark action-icon"
+                  onClick={(e) => setCurrentTimeInterval(timeSpan)}
+                  data-toggle="modal"
+                  data-target="#add-timeintervall-modal"
+                >
+                  mode_edit
+                </i>
+              </a>
+            </div>
           </button>
         </h2>
         <div
-          id={`collapse-${id}`}
+          id={`collapse-${_id}`}
           className="accordion-collapse collapse"
-          aria-labelledby={`account-${id}`}
+          aria-labelledby={`account-${_id}`}
           data-bs-parent="#accordionExample"
         >
           <div className="accordion-body ">
@@ -154,6 +169,7 @@ const trash = (
 TimeIntervallItem.propTypes = {
   transaction: PropTypes.object,
   deleteTimeSpan: PropTypes.func.isRequired,
+  setCurrentTimeInterval: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -164,4 +180,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   deleteTimeSpan,
   deleteTimeIntervalTransaction,
+  setCurrentTimeInterval,
 })(TimeIntervallItem);

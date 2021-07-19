@@ -19,6 +19,9 @@ import {
   SORT_TRANSACTIONS_ASC,
   SORT_TRANSACTIONS_DESC,
   SORT_TRANSACTIONS_BY_NAME,
+  SET_CURRENT_TIMEINTERVAL,
+  CLEAR_CURRENT_TIMEINTERVAL,
+  UPDATE_TIMEINTERVAL,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -30,6 +33,7 @@ const initialState = {
   loading: false,
   timeSpans: [],
   current: null,
+  currentTimeInterval: null,
 };
 
 // eslint-disable-next-line
@@ -119,6 +123,7 @@ export default (state = initialState, action) => {
         ),
       };
     case REMOVE_TIMESPAN:
+      console.log("REMOVE_ ", action.payload);
       return {
         ...state,
         timeSpans: state.timeSpans.filter(
@@ -132,9 +137,19 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case ADD_TIMESPAN:
+      console.log("ADD: ", action.payload);
       return {
         ...state,
         timeSpans: [...state.timeSpans, action.payload],
+        loading: false,
+      };
+    case UPDATE_TIMEINTERVAL:
+      console.log("UPATE: ", action.payload);
+      return {
+        ...state,
+        timeSpans: state.timeSpans.map((timespan) =>
+        timespan._id === action.payload._id ? action.payload : timespan
+      ),
         loading: false,
       };
     case SET_TIMEINTERVALL:
@@ -145,6 +160,16 @@ export default (state = initialState, action) => {
           action.payload,
         ],
         loading: false,
+      };
+    case SET_CURRENT_TIMEINTERVAL:
+      return {
+        ...state,
+        currentTimeInterval: action.payload,
+      };
+    case CLEAR_CURRENT_TIMEINTERVAL:
+      return {
+        ...state,
+        currentTimeInterval: null,
       };
     case FLUSH_TIMEINTERVALLS:
       return {

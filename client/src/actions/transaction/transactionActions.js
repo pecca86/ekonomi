@@ -17,6 +17,9 @@ import {
   SORT_TRANSACTIONS_ASC,
   SORT_TRANSACTIONS_DESC,
   SORT_TRANSACTIONS_BY_NAME,
+  SET_CURRENT_TIMEINTERVAL,
+  CLEAR_CURRENT_TIMEINTERVAL,
+  UPDATE_TIMEINTERVAL,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -196,6 +199,7 @@ export const deleteTransaction =
     }
   };
 
+// update existing transaction
 export const updateTransaction = (formData, accountId) => async (dispatch) => {
   const { id, transactionType, sum } = formData;
   if (transactionType === "Spending") {
@@ -384,6 +388,55 @@ export const deleteTimeSpan =
       dispatch(setAlert("Failed to delete the timespan", "danger"));
     }
   };
+
+// Update existing timeinterval
+export const updateTimeInterval =
+  (formData, timeSpanId, accountId) => async (dispatch) => {
+    console.log("update action", formData);
+
+    const body = JSON.stringify(formData);
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      setLoading();
+
+      const res = await axios.put(
+        `/api/v1/timespans/${timeSpanId}`,
+        body,
+        config
+      );
+
+      dispatch(setAlert("Time Interval updated!", "success"));
+      dispatch({
+        type: UPDATE_TIMEINTERVAL,
+        payload: res.data.data,
+      });
+      dispatch(flushTimeIntervalls());
+      dispatch(getTimeSpans(accountId));
+    } catch (error) {
+      dispatch(setAlert("Failed to update Time Interval!", "danger"));
+    }
+  };
+
+// Set current Time Interval
+export const setCurrentTimeInterval = (timeInterval) => (dispatch) => {
+  dispatch({
+    type: SET_CURRENT_TIMEINTERVAL,
+    payload: timeInterval,
+  });
+};
+
+// Clear current Time Interval
+export const clearCurrentTimeInterval = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_CURRENT_TIMEINTERVAL,
+  });
+};
 
 // Flush the timeintervall array
 export const flushTimeIntervalls = () => (dispatch) => {
