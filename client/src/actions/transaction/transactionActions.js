@@ -412,10 +412,12 @@ export const updateTimeInterval =
       );
 
       dispatch(setAlert("Time Interval updated!", "success"));
+      // This does basically nothing at me moment...
       dispatch({
         type: UPDATE_TIMEINTERVAL,
         payload: res.data.data,
       });
+      // These cause the component to rerender
       dispatch(flushTimeIntervalls());
       dispatch(getTimeSpans(accountId));
     } catch (error) {

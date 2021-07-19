@@ -48,7 +48,7 @@ const SortBtn = ({
             className="dropdown-item"
             onClick={() => sortTransactionsByName()}
           >
-            By name
+            By Description
           </a>
         </li>
       </ul>

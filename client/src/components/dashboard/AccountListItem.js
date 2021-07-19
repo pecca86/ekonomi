@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 const AccountListItem = ({ account }) => {
   return (
+    
     <tr>
       <td>
         <Link to={`/account/${account._id}`}>{account.name}</Link>

@@ -22,7 +22,7 @@ const AddAccountBtn = ({ createAccount }) => {
     createAccount(formData);
   };
 
-  const trigger = <Button className="mt-4 btn-floating btn-small blue darken-2"><i className="material-icons">account_balance</i></Button>;
+  const trigger = <Button className="mt-4 btn-floating btn-small blue darken-2"><i className="large material-icons">account_balance</i></Button>;
   return (
     <div>
       <Modal header="Add an Account" trigger={trigger}>

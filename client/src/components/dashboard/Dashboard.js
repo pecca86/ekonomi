@@ -30,12 +30,7 @@ const Dashboard = ({ auth, account, getAccounts }) => {
     <Fragment>
       <div className="container">
         <h3>Dashboard</h3>
-        {profileIcon}
-        <span className="ps-2">
-          <Link to="/profile" className="text-dark">
-            {`${auth.user.firstname} ${auth.user.lastname}`}
-          </Link>
-        </span>
+
         <AddAccountBtn />
       </div>
       {/* FRAGMENT FOR ACCOUNT LIST */}

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getAccounts } from "../../actions/account/accountActions";
@@ -6,10 +6,15 @@ import AccountListItem from "./AccountListItem";
 import { flushTimeIntervalls } from "../../actions/transaction/transactionActions";
 
 const AccountList = ({ account, getAccounts, flushTimeIntervalls }) => {
+  
   useEffect(() => {
-    flushTimeIntervalls()
-  }, [getAccounts, flushTimeIntervalls]);
+    flushTimeIntervalls();
+    countTotalSum();
+    // eslint-disable-next-line
+  }, [getAccounts, flushTimeIntervalls,account]);
 
+  const [totalSum, setTotalSum] = useState({sum: 0})
+  
   if (account.loading) {
     return (
       <div className="container">
@@ -17,6 +22,12 @@ const AccountList = ({ account, getAccounts, flushTimeIntervalls }) => {
       </div>
     );
   }
+  
+  const countTotalSum = () => {
+    let sumCount = 0
+    account && account.accounts.map((account) => (sumCount += account.balance));
+    setTotalSum({sum: sumCount})
+  };
 
   return (
     <div className="mt-5" style={{ height: "300px", overflow: "auto" }}>
@@ -40,6 +51,11 @@ const AccountList = ({ account, getAccounts, flushTimeIntervalls }) => {
               </td>
             </tr>
           )}
+          <tr>
+            <td>Total:</td>
+            <td>{""}</td>
+            <td className="fw-bold">{totalSum.sum}€</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -55,4 +71,6 @@ const mapStateToProps = (state) => ({
   account: state.account,
 });
 
-export default connect(mapStateToProps, { getAccounts, flushTimeIntervalls })(AccountList);
+export default connect(mapStateToProps, { getAccounts, flushTimeIntervalls })(
+  AccountList
+);
