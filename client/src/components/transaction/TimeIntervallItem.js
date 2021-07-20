@@ -45,8 +45,8 @@ const TimeIntervallItem = ({
 
       setTransactionData({
         ...transactionData,
-        incomes: transData.income,
-        spendings: transData.spending,
+        incomes: parseFloat(transData.income).toFixed(2),
+        spendings: parseFloat(transData.spending).toFixed(2),
       });
     }
   };

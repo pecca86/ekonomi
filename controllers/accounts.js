@@ -31,6 +31,7 @@ exports.addTimeSpan = wrapAsync(async (req, res, next) => {
 // @access  Private
 exports.createAccount = wrapAsync(async (req, res, next) => {
   req.body.user = req.user.id;
+  req.body.balance = parseFloat(req.body.balance).toFixed(2)
   const account = new Account(req.body);
   await account.save();
 

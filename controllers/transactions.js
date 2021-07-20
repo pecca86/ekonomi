@@ -41,6 +41,8 @@ exports.createTransaction = wrapAsync(async (req, res, next) => {
   // put the bootcamp id and user inside the req.body
   req.body.account = req.params.accountId;
   req.body.user = req.user.id;
+  // Make the sum have max two decimals
+  req.body.sum = parseFloat(req.body.sum).toFixed(2)
 
   const account = await Account.findById(req.params.accountId);
   if (!account) {

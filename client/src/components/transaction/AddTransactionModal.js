@@ -42,6 +42,8 @@ const AddTransactionModal = ({
     e.preventDefault();
     if (!formData.transactionType) {
       setAlert("Please fill in Transaction Type!", "danger");
+    } else if (formData.monthsRecurring < 0 || formData.monthsRecurring > 12) {
+      setAlert("You can only add 12 months ahead!", "danger");
     } else {
       createTransaction(formData, account.account._id);
       // es-lint-disable-next-line
@@ -118,7 +120,7 @@ const AddTransactionModal = ({
                   value={recur}
                   onChange={() => setRecurring(!recur)}
                 />
-                <span>Make transaction recurring</span>
+                <span>Make transaction recurring / month (max 12 times)</span>
               </label>
             </p>
           </div>
@@ -130,6 +132,8 @@ const AddTransactionModal = ({
                 name="monthsRecurring"
                 id="floatingMonths"
                 placeholder="Months forward"
+                min="0"
+                max="12"
                 value={formData.monthsRecurring}
                 onChange={onChange}
               />

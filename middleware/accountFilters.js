@@ -86,6 +86,8 @@ const accountFilters =
       calculatedTransactionSum = 0;
       results.forEach((result) => (calculatedTransactionSum += result.sum));
     }
+    // Round away extra decimals
+    calculatedTransactionSum = parseFloat(calculatedTransactionSum).toFixed(2)
 
     // pagination result that enables checking next and previous page
     const pagination = {};

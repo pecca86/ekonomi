@@ -20,6 +20,7 @@ import {
   SET_CURRENT_TIMEINTERVAL,
   CLEAR_CURRENT_TIMEINTERVAL,
   UPDATE_TIMEINTERVAL,
+  SORT_TIMEINTERVALS_ASC
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -357,6 +358,9 @@ export const setTimeintervallTransactions =
         type: SET_TIMEINTERVALL,
         payload: res.data,
       });
+      dispatch({
+        type: SORT_TIMEINTERVALS_ASC
+      })
     } catch (err) {
       dispatch(setAlert("Failed at creating a new timeintervall!", "danger"));
     }

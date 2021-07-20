@@ -22,6 +22,7 @@ import {
   SET_CURRENT_TIMEINTERVAL,
   CLEAR_CURRENT_TIMEINTERVAL,
   UPDATE_TIMEINTERVAL,
+  SORT_TIMEINTERVALS_ASC
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -148,8 +149,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         timeSpans: state.timeSpans.map((timespan) =>
-        timespan._id === action.payload._id ? action.payload : timespan
-      ),
+          timespan._id === action.payload._id ? action.payload : timespan
+        ),
         loading: false,
       };
     case SET_TIMEINTERVALL:
@@ -160,6 +161,13 @@ export default (state = initialState, action) => {
           action.payload,
         ],
         loading: false,
+      };
+    case SORT_TIMEINTERVALS_ASC:
+      return {
+        ...state,
+        timeintervalTransactions: state.timeintervalTransactions.sort((a, b) =>
+          a.timeSpan.startDate > b.timeSpan.startDate ? 1 : -1
+        ),
       };
     case SET_CURRENT_TIMEINTERVAL:
       return {
