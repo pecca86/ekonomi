@@ -16,7 +16,8 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
         <div className="nav-wrapper">
           {isAuthenticated ? (
             <Link to="/" className="brand-logo">
-              Dashboard
+              Home
+              <span><i class="large material-icons">home</i></span>
             </Link>
           ) : (
             <p className="brand-logo">M A N I</p>

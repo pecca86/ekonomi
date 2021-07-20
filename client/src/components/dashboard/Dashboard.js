@@ -29,8 +29,6 @@ const Dashboard = ({ auth, account, getAccounts }) => {
   return (
     <Fragment>
       <div className="container">
-        <h3>Dashboard</h3>
-
         <AddAccountBtn />
       </div>
       {/* FRAGMENT FOR ACCOUNT LIST */}

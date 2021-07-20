@@ -34,7 +34,7 @@ const AccountList = ({ account, getAccounts, flushTimeIntervalls }) => {
       <table className="table">
         <thead>
           <tr>
-            <th scope="col">Description</th>
+            <th scope="col">Account Name</th>
             <th scope="col">{""}</th>
             <th scope="col">Balance</th>
           </tr>
