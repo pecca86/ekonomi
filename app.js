@@ -12,7 +12,7 @@ dotenv.config({ path: "./config/config.env" });
 const connectDB = require("./config/db");
 
 // HTTP Logger
-const morgan = require('morgan')
+const morgan = require("morgan");
 
 // NodeJS stuff
 const path = require("path");
@@ -67,7 +67,7 @@ app.use(cors());
 app.use(express.json());
 
 // HTTP Logger
-app.use(morgan('tiny'))
+app.use(morgan("tiny"));
 
 // === ROUTES ===
 const users = require("./routes/users");
@@ -79,8 +79,11 @@ app.use("/api/v1/accounts", accounts);
 const transactions = require("./routes/transactions");
 app.use("/api/v1/transactions", transactions);
 
-const timeSpans = require('./routes/timeSpans')
-app.use('/api/v1/timespans', timeSpans)
+const timeSpans = require("./routes/timeSpans");
+app.use("/api/v1/timespans", timeSpans);
+
+const transactionCategories = require("./routes/transactionCategories");
+app.use("/api/v1/transactioncategories", transactionCategories);
 
 // Errorhandling middleware for routes
 // NEEDS TO COME AFTER ALL OTHER MIDDLEWARE!

@@ -1,10 +1,9 @@
 const Account = require("../models/Account");
 const wrapAsync = require("../middleware/wrapAsync");
 const ErrorResponse = require("../utils/errorResponse");
-const { EJSON } = require("bson");
 
 // @desc    Add a transaction query date span
-// @route   PUT /api/v1/accounts/:accountId/addQuery
+// @route   POST /api/v1/accounts/:accountId/addQuery
 // @access  Private
 exports.addTimeSpan = wrapAsync(async (req, res, next) => {
   let account = await Account.findById(req.params.accountId);
@@ -31,6 +30,7 @@ exports.addTimeSpan = wrapAsync(async (req, res, next) => {
 // @access  Private
 exports.createAccount = wrapAsync(async (req, res, next) => {
   req.body.user = req.user.id;
+  // take only first two decimals into account
   req.body.balance = parseFloat(req.body.balance).toFixed(2)
   const account = new Account(req.body);
   await account.save();
@@ -110,7 +110,7 @@ exports.deleteAccount = wrapAsync(async (req, res, next) => {
 });
 
 // @desc    Delete account query
-// @route   POST /api/v1/accounts/:accountId/:queryId
+// @route   DELETE /api/v1/accounts/:accountId/:queryId
 // @access  Private
 exports.deleteAccountQuery = wrapAsync(async (req, res, next) => {
   const account = await Account.findById(req.params.accountId);
