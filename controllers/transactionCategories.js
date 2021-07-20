@@ -7,6 +7,7 @@ const ErrorResponse = require("../utils/errorResponse");
 // @access  Private
 exports.createTransactionCategory = wrapAsync(async (req, res, next) => {
   req.body.user = req.user.id;
+  req.body.transactionCategory = req.body.transactionCategory.toLowerCase()
   const transactionCategory = new TransactionCategory(req.body);
   await transactionCategory.save();
 
