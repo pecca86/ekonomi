@@ -22,7 +22,11 @@ import {
   SET_CURRENT_TIMEINTERVAL,
   CLEAR_CURRENT_TIMEINTERVAL,
   UPDATE_TIMEINTERVAL,
-  SORT_TIMEINTERVALS_ASC
+  SORT_TIMEINTERVALS_ASC,
+  GET_TRANSACTION_CATEGORIES,
+  ADD_TRANSACTION_CATEGORY,
+  DELETE_TRANSACTION_CATEGORY,
+  UPDATE_TRANSACTION_CATEGORY,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -35,6 +39,7 @@ const initialState = {
   timeSpans: [],
   current: null,
   currentTimeInterval: null,
+  transactionCategories: [],
 };
 
 // eslint-disable-next-line
@@ -123,6 +128,14 @@ export default (state = initialState, action) => {
           a.description > b.description ? 1 : -1
         ),
       };
+    // === TRANSACTION CATEGORIES ===
+    case GET_TRANSACTION_CATEGORIES:
+      return {
+        ...state,
+        transactionCategories: action.payload,
+        loading: false,
+      };
+    // === TIMESPANS ===
     case REMOVE_TIMESPAN:
       console.log("REMOVE_ ", action.payload);
       return {

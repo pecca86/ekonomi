@@ -14,7 +14,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
     <nav>
       <div className="container">
         <div className="nav-wrapper">
-          {isAuthenticated ? (
+          {isAuthenticated && user ? (
             <Link to="/" className="brand-logo">
               Home
               <span><i class="large material-icons">home</i></span>
@@ -36,7 +36,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
                 </li>
               </Fragment>
             )}
-            {isAuthenticated && (
+            {(isAuthenticated && user) && (
               <Fragment>
                 <li>
                   <Link to="/login" onClick={onLogout}>
@@ -51,7 +51,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
           </ul>
         </div>
         <ul className="sidenav" id="mobile-demo">
-          {!isAuthenticated && (
+          {!(isAuthenticated && user) && (
             <Fragment>
               <li>{"-"}</li>
               <li>
@@ -62,7 +62,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
               </li>
             </Fragment>
           )}
-          {isAuthenticated && (
+          {(isAuthenticated && user) && (
             <Fragment>
               <li>{"-"}</li>
               <li>

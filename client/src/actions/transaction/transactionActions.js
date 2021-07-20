@@ -20,7 +20,11 @@ import {
   SET_CURRENT_TIMEINTERVAL,
   CLEAR_CURRENT_TIMEINTERVAL,
   UPDATE_TIMEINTERVAL,
-  SORT_TIMEINTERVALS_ASC
+  SORT_TIMEINTERVALS_ASC,
+  GET_TRANSACTION_CATEGORIES,
+  ADD_TRANSACTION_CATEGORY,
+  DELETE_TRANSACTION_CATEGORY,
+  UPDATE_TRANSACTION_CATEGORY,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -268,6 +272,22 @@ export const sortTransactionsByName = () => {
   };
 };
 
+// ======= TRANSACTION CATEGORIES ========
+export const getTransactionCategories = () => async (dispatch) => {
+  try {
+    setLoading();
+
+    const res = await axios.get("/api/v1/transactioncategories");
+
+    dispatch({
+      type: GET_TRANSACTION_CATEGORIES,
+      payload: res.data.data,
+    });
+  } catch (err) {
+    dispatch(setAlert("Failed to get the Transaction Categories", "danger"));
+  }
+};
+
 // ======= TIME INTERVALS / SPANS ========
 
 // Create a new Time Span for the account
@@ -359,8 +379,8 @@ export const setTimeintervallTransactions =
         payload: res.data,
       });
       dispatch({
-        type: SORT_TIMEINTERVALS_ASC
-      })
+        type: SORT_TIMEINTERVALS_ASC,
+      });
     } catch (err) {
       dispatch(setAlert("Failed at creating a new timeintervall!", "danger"));
     }

@@ -14,6 +14,7 @@ import {
   getAllAccountTransactions,
   getAllAccountTransactionsByYear,
   clearAccountTransactionsByYear,
+  getTransactionCategories,
 } from "../../actions/transaction/transactionActions";
 import AccountDetail from "./AccountDetail";
 import AccountChart from "../chart/AccountChart";
@@ -28,6 +29,7 @@ const Account = ({
   clearAccountTransactionsByYear,
   getTimeSpans,
   transaction,
+  getTransactionCategories,
 }) => {
   // Get current date that will be used in our Graph
   let currentDate = new Date();
@@ -41,6 +43,7 @@ const Account = ({
     getAccount(match.params.accountId);
     getAllAccountTransactions(match.params.accountId);
     getTimeSpans(match.params.accountId);
+    getTransactionCategories();
   }, [
     getAccount,
     getAllAccountTransactions,
@@ -48,6 +51,7 @@ const Account = ({
     match.params.accountId,
     clearAccountTransactionsByYear,
     getAllAccountTransactionsByYear,
+    getTransactionCategories,
   ]);
 
   // Get graph Data
@@ -132,7 +136,11 @@ const Account = ({
               </span>
             </p>
             <div className="collapse" id="collapseBar">
-              <TransactionsPerTypeChart month={currentMonth} day={currentDay} year={currentYear} />
+              <TransactionsPerTypeChart
+                month={currentMonth}
+                day={currentDay}
+                year={currentYear}
+              />
             </div>
           </Fragment>
         </div>
@@ -154,6 +162,7 @@ Account.propTypes = {
   getAccount: PropTypes.func.isRequired,
   getAllAccountTransactions: PropTypes.func.isRequired,
   getTimeSpans: PropTypes.func,
+  getTransactionCategories: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -167,4 +176,5 @@ export default connect(mapStateToProps, {
   getTimeSpans,
   getAllAccountTransactionsByYear,
   clearAccountTransactionsByYear,
+  getTransactionCategories,
 })(Account);

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createTransaction } from "../../actions/transaction/transactionActions";
 import { setAlert } from "../../actions/alerts/alertActions";
+import TransactionCategories from "./TransactionCategories";
 
 const AddTransactionModal = ({
   createTransaction,
@@ -93,6 +94,9 @@ const AddTransactionModal = ({
             value={formData.description}
             onChange={onChange}
           ></input>
+
+          {/* CATEGORY */}
+          <TransactionCategories />
 
           {/* SUM */}
           <div className="form-floating mb-3">
