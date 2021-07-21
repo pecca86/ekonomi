@@ -17,7 +17,7 @@ const Navbar = ({ logout, isAuthenticated, user }) => {
           {isAuthenticated && user ? (
             <Link to="/" className="brand-logo">
               Home
-              <span><i class="large material-icons">home</i></span>
+              <span><i className="large material-icons">home</i></span>
             </Link>
           ) : (
             <p className="brand-logo">M A N I</p>

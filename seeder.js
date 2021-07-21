@@ -10,6 +10,8 @@ dotenv.config({ path: "./config/config.env" });
 const Account = require("./models/Account");
 const Transaction = require("./models/Transaction");
 const User = require("./models/User");
+const TransactionCategory = require('./models/TransactionCategory')
+const TimeSpan = require('./models/TimeSpan')
 const { exit } = require("process");
 
 // connect to db with mongoose
@@ -83,6 +85,8 @@ const deleteData = async () => {
     await Account.deleteMany();
     await Transaction.deleteMany();
     await User.deleteMany();
+    await TimeSpan.deleteMany();
+    await TransactionCategory.deleteMany();
     console.log("Data destroyed!");
     exit(1);
   } catch (err) {

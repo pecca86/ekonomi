@@ -135,6 +135,11 @@ export default (state = initialState, action) => {
         transactionCategories: action.payload,
         loading: false,
       };
+      case ADD_TRANSACTION_CATEGORY:
+        return {
+          ...state,
+          transactionCategories: [...state.transactionCategories, action.payload]
+        }
     // === TIMESPANS ===
     case REMOVE_TIMESPAN:
       console.log("REMOVE_ ", action.payload);

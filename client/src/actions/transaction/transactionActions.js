@@ -288,6 +288,29 @@ export const getTransactionCategories = () => async (dispatch) => {
   }
 };
 
+export const addTransactionCategory = (inputCategory) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const formData = { transactionCategory: inputCategory };
+  const body = JSON.stringify(formData);
+  console.log(body);
+  try {
+    setLoading();
+
+    const res = await axios.post("/api/v1/transactioncategories", body, config);
+
+    dispatch({
+      type: ADD_TRANSACTION_CATEGORY,
+      payload: res.data.data,
+    });
+  } catch (err) {
+    dispatch(setAlert("Failed to create new Category", "danger"));
+  }
+};
+
 // ======= TIME INTERVALS / SPANS ========
 
 // Create a new Time Span for the account

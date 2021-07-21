@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { createTransaction } from "../../actions/transaction/transactionActions";
+import {
+  createTransaction,
+  addTransactionCategory,
+} from "../../actions/transaction/transactionActions";
 import { setAlert } from "../../actions/alerts/alertActions";
-import TransactionCategories from "./TransactionCategories";
+import Select from "react-select";
 
 const AddTransactionModal = ({
   createTransaction,
   account,
   current,
   setAlert,
+  transactionCategories,
+  addTransactionCategory,
 }) => {
   const [formData, setFormData] = useState({
     sum: 0,
@@ -17,7 +22,19 @@ const AddTransactionModal = ({
     description: "",
     transactionDate: "",
     monthsRecurring: 0,
+    category: "",
   });
+
+  const [selectedOption, setSelectedOption] = useState(null);
+  const options = [];
+
+  transactionCategories &&
+    transactionCategories.map((t) =>
+      options.push({
+        value: t.transactionCategory,
+        label: t.transactionCategory,
+      })
+    );
 
   useEffect(() => {
     if (current !== null) {
@@ -33,10 +50,15 @@ const AddTransactionModal = ({
   }, [current]);
 
   const [recur, setRecurring] = useState(false);
+  const [newCategory, setNewCategory] = useState(null);
 
   // STATE FUNCTIONS
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onCategoryChange = (e) => {
+    setNewCategory(e.target.value);
   };
 
   const onSubmit = async (e) => {
@@ -46,12 +68,28 @@ const AddTransactionModal = ({
     } else if (formData.monthsRecurring < 0 || formData.monthsRecurring > 12) {
       setAlert("You can only add 12 months ahead!", "danger");
     } else {
+      formData.category = selectedOption.value;
       createTransaction(formData, account.account._id);
       // es-lint-disable-next-line
       setFormData({ ...formData, monthsRecurring: 0 });
       setRecurring(false);
     }
   };
+
+  const [showAddForm, setShowAddForm] = useState(false);
+  const showAdd = (e) => {
+    setShowAddForm(!showAddForm);
+  };
+  const onSubmitCategory = (e) => {
+    console.log(newCategory);
+    addTransactionCategory(newCategory)
+    setNewCategory(null)
+    setShowAddForm(false)
+  };
+
+  if (!transactionCategories) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div id="add-transaction-modal" className="modal mt-5">
@@ -96,7 +134,37 @@ const AddTransactionModal = ({
           ></input>
 
           {/* CATEGORY */}
-          <TransactionCategories />
+
+          <Fragment>
+            <label htmlFor="category">Transaction Category</label>
+            <span className="ps-2">
+              <a href="#!" onClick={showAdd}>
+                Add a new Category
+              </a>
+            </span>
+            {showAddForm && (
+              <span>
+                <input
+                  onChange={onCategoryChange}
+                  type="text"
+                  name="newCategory"
+                ></input>
+                <i
+                  onClick={onSubmitCategory}
+                  className="material-icons prefix text-success action-icon"
+                >
+                  check
+                </i>
+              </span>
+            )}
+            <Select
+              name="category"
+              id="category"
+              defaultValue={selectedOption}
+              onChange={setSelectedOption}
+              options={options}
+            />
+          </Fragment>
 
           {/* SUM */}
           <div className="form-floating mb-3">
@@ -108,6 +176,7 @@ const AddTransactionModal = ({
               placeholder="Transaction sum"
               value={formData.sum}
               onChange={onChange}
+              min="0"
               required
             />
             <label htmlFor="floatingSum">Transaction Sum (i.e. 4.30)</label>
@@ -159,13 +228,17 @@ AddTransactionModal.propTypes = {
   createTransaction: PropTypes.func.isRequired,
   account: PropTypes.object.isRequired,
   current: PropTypes.object,
+  transactionCategories: PropTypes.array,
 };
 
 const mapStateToProps = (state) => ({
   account: state.account,
   current: state.transaction.current,
+  transactionCategories: state.transaction.transactionCategories,
 });
 
-export default connect(mapStateToProps, { createTransaction, setAlert })(
-  AddTransactionModal
-);
+export default connect(mapStateToProps, {
+  createTransaction,
+  setAlert,
+  addTransactionCategory,
+})(AddTransactionModal);
