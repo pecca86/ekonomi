@@ -9,6 +9,7 @@ import Account from "./components/account/Account";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Profile from "./components/profile/Profile";
+import ManageCategories from "./components/transaction/ManageCategories"
 import ChangePassword from "./components/profile/ChangePassword";
 import Alert from "./components/layout/Alert";
 import setAuthToken from "./utils/setAuthToken";
@@ -19,7 +20,6 @@ import M from "materialize-css/dist/js/materialize.min.js";
 // REDUX
 import { Provider } from "react-redux";
 import store from "./store";
-
 
 const App = () => {
   useEffect(() => {
@@ -42,7 +42,11 @@ const App = () => {
           <Alert />
           <Switch>
             <PrivateRoute exact path="/" component={Dashboard} />
-            <PrivateRoute exact path="/account/:accountId" component={Account} />
+            <PrivateRoute
+              exact
+              path="/account/:accountId"
+              component={Account}
+            />
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <PrivateRoute exact path="/profile" component={Profile} />
@@ -50,6 +54,11 @@ const App = () => {
               exact
               path="/profile/password"
               component={ChangePassword}
+            />
+            <PrivateRoute
+              exact
+              path="/transactions/categories"
+              component={ManageCategories}
             />
           </Switch>
         </Fragment>

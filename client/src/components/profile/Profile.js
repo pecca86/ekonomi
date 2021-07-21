@@ -69,6 +69,8 @@ const Profile = ({ auth, updateUser }) => {
                   />
                 </div>
                 <Link to="/profile/password">Change Password</Link>
+                <hr />
+                <Link to="/transactions/categories">Manage Transaction Categories</Link>
                 <div className="card-action ps-0">
                   <input
                     type="submit"

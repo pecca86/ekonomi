@@ -311,6 +311,19 @@ export const addTransactionCategory = (inputCategory) => async (dispatch) => {
   }
 };
 
+export const deleteTransactionCategory = (categoryId) => async (dispatch) => {
+  setLoading();
+  try {
+    await axios.delete(`/api/v1/transactioncategories/${categoryId}`);
+    dispatch({
+      type: DELETE_TRANSACTION_CATEGORY,
+      payload: categoryId,
+    });
+  } catch (err) {
+    dispatch(setAlert("Failed deleting the Transaction Category", "danger"));
+  }
+};
+
 // ======= TIME INTERVALS / SPANS ========
 
 // Create a new Time Span for the account

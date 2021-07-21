@@ -135,11 +135,19 @@ export default (state = initialState, action) => {
         transactionCategories: action.payload,
         loading: false,
       };
-      case ADD_TRANSACTION_CATEGORY:
-        return {
-          ...state,
-          transactionCategories: [...state.transactionCategories, action.payload]
-        }
+    case ADD_TRANSACTION_CATEGORY:
+      return {
+        ...state,
+        transactionCategories: [...state.transactionCategories, action.payload],
+      };
+    case DELETE_TRANSACTION_CATEGORY:
+      return {
+        ...state,
+        transactionCategories: state.transactionCategories.filter(
+          (category) => category._id !== action.payload
+        ),
+        loading: false,
+      };
     // === TIMESPANS ===
     case REMOVE_TIMESPAN:
       console.log("REMOVE_ ", action.payload);
