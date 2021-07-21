@@ -17,12 +17,12 @@ const TransactionsPerTypeChart = ({ transaction, month, day, year }) => {
   // Create an object that takes in each unique transaction type and initial value of 0
   const myObj = {};
   for (const transaction of transactionData) {
-    myObj[transaction.description] = 0;
+    myObj[transaction.category] = 0;
   }
 
-  // Then count the sum according to transaction description
+  // Then count the sum according to transaction category
   for (const transaction of transactionData) {
-    myObj[transaction.description] += transaction.sum;
+    myObj[transaction.category] += transaction.sum;
   }
 
   // create label and data arrays to put into graph
@@ -33,7 +33,7 @@ const TransactionsPerTypeChart = ({ transaction, month, day, year }) => {
     graphData.push(myObj[key]);
   }
 
-  // Get all transactions according to description and set into an array
+  // Get all transactions according to category and set into an array
   const data = {
     labels: labels,
     datasets: [

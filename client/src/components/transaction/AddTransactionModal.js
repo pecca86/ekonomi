@@ -29,7 +29,10 @@ const AddTransactionModal = ({
 
   const [recur, setRecurring] = useState(false);
   const [newCategory, setNewCategory] = useState(null);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState({
+    value: "",
+    label: "",
+  });
   const [showAddForm, setShowAddForm] = useState(false);
 
   // Options for our select array
@@ -68,12 +71,16 @@ const AddTransactionModal = ({
   // Submit form
   const onSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.transactionType) {
       setAlert("Please fill in Transaction Type!", "danger");
     } else if (formData.monthsRecurring < 0 || formData.monthsRecurring > 12) {
       setAlert("You can only add 12 months ahead!", "danger");
     } else {
       formData.category = selectedOption.value;
+      if (formData.category === "") {
+        formData.category = "Uncategorized";
+      }
       createTransaction(formData, account.account._id);
       // es-lint-disable-next-line
       setFormData({ ...formData, monthsRecurring: 0 });
@@ -88,7 +95,7 @@ const AddTransactionModal = ({
 
   // Adding a new category
   const onSubmitCategory = (e) => {
-    console.log(newCategory);
+    console.log(formData);
     addTransactionCategory(newCategory);
     setNewCategory(null);
     setShowAddForm(false);
@@ -187,6 +194,7 @@ const AddTransactionModal = ({
               defaultValue={selectedOption}
               onChange={setSelectedOption}
               options={options}
+              required
             />
           </Fragment>
 

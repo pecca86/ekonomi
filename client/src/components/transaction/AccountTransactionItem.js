@@ -13,7 +13,7 @@ const AccountTransactionItem = ({
   setCurrentTransaction,
   account,
 }) => {
-  const { sum, transactionDate, description, _id, transactionType } =
+  const { sum, transactionDate, description, _id, transactionType, category } =
     transaction;
 
   const onDelete = (e) => {
@@ -27,6 +27,7 @@ const AccountTransactionItem = ({
         <Moment format="DD.MM.YYYY">{transactionDate}</Moment>
       </td>
       <td>{description}</td>
+      <td>{category}</td>
       {transactionType === "Spending" ? (
         <td className="spending">{sum}€</td>
       ) : (
