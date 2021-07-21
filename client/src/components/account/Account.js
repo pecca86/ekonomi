@@ -131,7 +131,7 @@ const Account = ({
               aria-controls="collapseBar"
             >
               <span className="d-flex justify-content-between align-items-end fs-3">
-                Transactions / Type
+                Transactions / Category
                 <i className="material-icons prefix">expand_more</i>
               </span>
             </p>
