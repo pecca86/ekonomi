@@ -16,6 +16,7 @@ const AddTransactionModal = ({
   transactionCategories,
   addTransactionCategory,
 }) => {
+  // === COMPONENT STATES ===
   const [formData, setFormData] = useState({
     sum: 0,
     transactionType: "",
@@ -25,9 +26,13 @@ const AddTransactionModal = ({
     category: "",
   });
 
+  const [recur, setRecurring] = useState(false);
+  const [newCategory, setNewCategory] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
-  const options = [];
+  const [showAddForm, setShowAddForm] = useState(false);
 
+  // Options for our select array
+  const options = [];
   transactionCategories &&
     transactionCategories.map((t) =>
       options.push({
@@ -49,18 +54,17 @@ const AddTransactionModal = ({
     //es-lint-disable-next-line
   }, [current]);
 
-  const [recur, setRecurring] = useState(false);
-  const [newCategory, setNewCategory] = useState(null);
-
   // STATE FUNCTIONS
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Change new category input
   const onCategoryChange = (e) => {
     setNewCategory(e.target.value);
   };
 
+  // Submit form
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!formData.transactionType) {
@@ -76,15 +80,17 @@ const AddTransactionModal = ({
     }
   };
 
-  const [showAddForm, setShowAddForm] = useState(false);
+  // Show add category form
   const showAdd = (e) => {
     setShowAddForm(!showAddForm);
   };
+
+  // Adding a new category
   const onSubmitCategory = (e) => {
     console.log(newCategory);
-    addTransactionCategory(newCategory)
-    setNewCategory(null)
-    setShowAddForm(false)
+    addTransactionCategory(newCategory);
+    setNewCategory(null);
+    setShowAddForm(false);
   };
 
   if (!transactionCategories) {
