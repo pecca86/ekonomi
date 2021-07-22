@@ -38,7 +38,7 @@ const TransactionsPerTypeChart = ({ transaction, month, day, year }) => {
     labels: labels,
     datasets: [
       {
-        label: `Transactions / Type`,
+        label: `Transactions / Category`,
         data: graphData,
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
