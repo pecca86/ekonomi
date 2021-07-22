@@ -24,7 +24,7 @@ const AddTransactionModal = ({
     description: "",
     transactionDate: "",
     monthsRecurring: 0,
-    category: "",
+    category: null,
   });
 
   const [recur, setRecurring] = useState(false);
@@ -32,6 +32,7 @@ const AddTransactionModal = ({
   const [selectedOption, setSelectedOption] = useState({
     value: "",
     label: "",
+    id: ""
   });
   const [showAddForm, setShowAddForm] = useState(false);
 
@@ -42,6 +43,7 @@ const AddTransactionModal = ({
       options.push({
         value: t.transactionCategory,
         label: t.transactionCategory,
+        id: t._id
       })
     );
 
@@ -77,7 +79,7 @@ const AddTransactionModal = ({
     } else if (formData.monthsRecurring < 0 || formData.monthsRecurring > 12) {
       setAlert("You can only add 12 months ahead!", "danger");
     } else {
-      formData.category = selectedOption.value;
+      formData.category = selectedOption.id;
       if (formData.category === "") {
         formData.category = "Uncategorized";
       }

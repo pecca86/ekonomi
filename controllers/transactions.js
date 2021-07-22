@@ -1,5 +1,6 @@
 const Transaction = require("../models/Transaction");
 const Account = require("../models/Account");
+const TransactionCategory = require('../models/TransactionCategory')
 const wrapAsync = require("../middleware/wrapAsync");
 const ErrorResponse = require("../utils/errorResponse");
 
@@ -18,7 +19,7 @@ exports.getTransactions = wrapAsync(async (req, res, next) => {
 exports.getTransaction = wrapAsync(async (req, res, next) => {
   const transaction = await Transaction.findById(
     req.params.transactionId
-  ).populate("account", "IBAN");
+  ).populate("account", "IBAN").populate("category", "transactionCategory");
 
   if (!transaction) {
     return next(new ErrorResponse("No transaction found.", 404));
@@ -54,6 +55,16 @@ exports.createTransaction = wrapAsync(async (req, res, next) => {
     return next(new ErrorResponse("Not authorized!", 400));
   }
 
+  // Check if given transaction category is owned by the user
+  const transactionCategory = await TransactionCategory.findById(req.body.category)
+  if (!transactionCategory) {
+    return next(new ErrorResponse("No category found!", 404))
+  }
+
+  if (transactionCategory.user.toString() !== req.user.id) {
+    return next(new ErrorResponse("Invalid Category for this User", 400));
+  }
+
   // Check if transaction type is of Spending and turn the value into negative
   if (req.body.transactionType === 'Spending') {
     req.body.sum = -Math.abs(req.body.sum);
@@ -61,6 +72,7 @@ exports.createTransaction = wrapAsync(async (req, res, next) => {
   }
 
   // create a transaction that is associated with this account
+  console.log(req.body);
   const transaction = new Transaction(req.body);
   await transaction.save();
 

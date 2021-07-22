@@ -34,7 +34,7 @@ const accountFilters =
     if (type === "transaction" && req.params.accountId) {
       query = model.find({
         $and: [{ account: req.params.accountId }, { user: req.user.id }, qStr],
-      }).populate('account');
+      }).populate('account').populate("category", "transactionCategory");
     } else {
       query = model.find({
         $and: [{ user: req.user.id }, qStr],
