@@ -17,6 +17,7 @@ import {
   SORT_TRANSACTIONS_ASC,
   SORT_TRANSACTIONS_DESC,
   SORT_TRANSACTIONS_BY_NAME,
+  SORT_TRANSACTIONS_BY_CATEGORY,
   SET_CURRENT_TIMEINTERVAL,
   CLEAR_CURRENT_TIMEINTERVAL,
   UPDATE_TIMEINTERVAL,
@@ -267,6 +268,12 @@ export const sortTransactionsDescending = () => {
 export const sortTransactionsByName = () => {
   return {
     type: SORT_TRANSACTIONS_BY_NAME,
+  };
+};
+
+export const sortTransactionByCategory = () => {
+  return {
+    type: SORT_TRANSACTIONS_BY_CATEGORY,
   };
 };
 

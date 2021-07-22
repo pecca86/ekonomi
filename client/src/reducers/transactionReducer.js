@@ -19,6 +19,7 @@ import {
   SORT_TRANSACTIONS_ASC,
   SORT_TRANSACTIONS_DESC,
   SORT_TRANSACTIONS_BY_NAME,
+  SORT_TRANSACTIONS_BY_CATEGORY,
   SET_CURRENT_TIMEINTERVAL,
   CLEAR_CURRENT_TIMEINTERVAL,
   UPDATE_TIMEINTERVAL,
@@ -125,6 +126,13 @@ export default (state = initialState, action) => {
         ...state,
         transactions: state.transactions.sort((a, b) =>
           a.description > b.description ? 1 : -1
+        ),
+      };
+    case SORT_TRANSACTIONS_BY_CATEGORY:
+      return {
+        ...state,
+        transactions: state.transactions.sort((a, b) =>
+          a.category > b.category ? 1 : -1
         ),
       };
     // === TRANSACTION CATEGORIES ===

@@ -5,12 +5,14 @@ import {
   sortTransactionsDescending,
   sortTransactionsAscending,
   sortTransactionsByName,
+  sortTransactionByCategory,
 } from "../../actions/transaction/transactionActions";
 
 const SortBtn = ({
   sortTransactionsDescending,
   sortTransactionsAscending,
   sortTransactionsByName,
+  sortTransactionByCategory,
 }) => {
   return (
     <div className="dropdown">
@@ -51,6 +53,15 @@ const SortBtn = ({
             By Description
           </a>
         </li>
+        <li>
+          <a
+            href="#!"
+            className="dropdown-item"
+            onClick={() => sortTransactionByCategory()}
+          >
+            By Category
+          </a>
+        </li>
       </ul>
     </div>
   );
@@ -60,10 +71,12 @@ SortBtn.propTypes = {
   sortTransactionsAscending: PropTypes.func,
   sortTransactionsDescending: PropTypes.func,
   sortTransactionsByName: PropTypes.func,
+  sortTransactionByCategory: PropTypes.func,
 };
 
 export default connect(null, {
   sortTransactionsDescending,
   sortTransactionsAscending,
   sortTransactionsByName,
+  sortTransactionByCategory,
 })(SortBtn);
