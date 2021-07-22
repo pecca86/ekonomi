@@ -26,7 +26,6 @@ import {
   GET_TRANSACTION_CATEGORIES,
   ADD_TRANSACTION_CATEGORY,
   DELETE_TRANSACTION_CATEGORY,
-  UPDATE_TRANSACTION_CATEGORY,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {

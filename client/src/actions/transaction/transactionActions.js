@@ -24,7 +24,6 @@ import {
   GET_TRANSACTION_CATEGORIES,
   ADD_TRANSACTION_CATEGORY,
   DELETE_TRANSACTION_CATEGORY,
-  UPDATE_TRANSACTION_CATEGORY,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -211,7 +210,6 @@ export const updateTransaction = (formData, accountId) => async (dispatch) => {
     formData.sum = sum * -1;
   }
   const body = JSON.stringify(formData);
-
   try {
     setLoading();
 

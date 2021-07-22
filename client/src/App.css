@@ -23,3 +23,13 @@
 .input-inline {
   display: inline-block;
 }
+
+.dropdown-menu {
+  border-color: white;
+}
+
+.dropdown-icon {
+  border-color: white;
+  float: right;
+}
+

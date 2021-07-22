@@ -1,17 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
   updateTransaction,
   clearCurrentTransaction,
+  addTransactionCategory,
 } from "../../actions/transaction/transactionActions";
+import Select from "react-select";
+import { Link } from "react-router-dom";
 
 const EditTransactionModal = ({
   updateTransaction,
   current,
   account,
   clearCurrentTransaction,
+  addTransactionCategory,
+  transactionCategories,
 }) => {
+  // Options for our select array
+  const options = [];
+  transactionCategories &&
+    transactionCategories.map((t) =>
+      options.push({
+        value: t.transactionCategory,
+        label: t.transactionCategory,
+      })
+    );
   // EFFECTS
   useEffect(() => {
     if (current) {
@@ -21,6 +35,11 @@ const EditTransactionModal = ({
         description: current.description,
         transactionDate: current.transactionDate.substring(0, 10),
         id: current._id,
+        category: current.category,
+      });
+      setSelectedOption({
+        value: current.category,
+        label: current.category,
       });
     }
   }, [current]);
@@ -32,7 +51,15 @@ const EditTransactionModal = ({
     transactionType: "",
     description: "",
     transactionDate: "",
+    category: "",
   });
+
+  const [newCategory, setNewCategory] = useState(null);
+  const [selectedOption, setSelectedOption] = useState({
+    value: "",
+    label: "",
+  });
+  const [showAddForm, setShowAddForm] = useState(false);
 
   // STATE FUNCTIONS
   const onChange = (e) => {
@@ -41,8 +68,30 @@ const EditTransactionModal = ({
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    formData.category = selectedOption.value;
+    if (formData.category === "") {
+      formData.category = "Uncategorized";
+    }
     updateTransaction(formData, account.account._id);
     clearCurrentTransaction();
+  };
+
+  // Show add category form
+  const showAdd = (e) => {
+    setShowAddForm(!showAddForm);
+  };
+
+  // Adding a new category
+  const onSubmitCategory = (e) => {
+    console.log(formData);
+    addTransactionCategory(newCategory);
+    setNewCategory(null);
+    setShowAddForm(false);
+  };
+
+  // Change new category input
+  const onCategoryChange = (e) => {
+    setNewCategory(e.target.value);
   };
 
   return (
@@ -92,6 +141,57 @@ const EditTransactionModal = ({
             onChange={onChange}
           ></input>
 
+          {/* CATEGORY */}
+
+          <Fragment>
+            <label htmlFor="category">Transaction Category</label>
+            <span className="ps-2">
+              <a href="#!" onClick={showAdd}>
+                / Add a new Category
+              </a>
+            </span>
+            <span className="ps-2">
+              <Link className="modal-close" to="/transactions/categories">
+                / Manage Categories (new page)
+              </Link>
+            </span>
+            {showAddForm && (
+              <div className="row justify-content-start mt-3">
+                <div className="col-7">
+                  <input
+                    onChange={onCategoryChange}
+                    type="text"
+                    name="newCategory"
+                  ></input>
+                </div>
+                <div className="col-1">
+                  <i
+                    onClick={onSubmitCategory}
+                    className="material-icons prefix text-success action-icon"
+                  >
+                    add_circle
+                  </i>
+                </div>
+                <div className="col-1">
+                  <i
+                    onClick={showAdd}
+                    className="material-icons prefix text-danger action-icon"
+                  >
+                    cancel
+                  </i>
+                </div>
+              </div>
+            )}
+            <Select
+              name="category"
+              id="category"
+              defaultValue={selectedOption}
+              onChange={setSelectedOption}
+              options={options}
+              required
+            />
+          </Fragment>
+
           {/* SUM */}
           <div className="form-floating mb-3">
             <input
@@ -121,16 +221,20 @@ const EditTransactionModal = ({
 EditTransactionModal.propTypes = {
   updateTransaction: PropTypes.func.isRequired,
   clearCurrentTransaction: PropTypes.func,
+  addTransactionCategory: PropTypes.func,
   current: PropTypes.object,
   account: PropTypes.object.isRequired,
+  transactionCategories: PropTypes.array,
 };
 
 const mapStateToProps = (state) => ({
   current: state.transaction.current,
   account: state.account,
+  transactionCategories: state.transaction.transactionCategories,
 });
 
 export default connect(mapStateToProps, {
   updateTransaction,
   clearCurrentTransaction,
+  addTransactionCategory,
 })(EditTransactionModal);
