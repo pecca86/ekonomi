@@ -9,7 +9,7 @@ const AccountSchema = new mongoose.Schema(
     IBAN: {
       type: String,
       required: [true, "IBAN is required"],
-      unique: true,
+      default: "FIXX XXXX XXXX XXXX XX"
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

@@ -62,7 +62,7 @@ exports.createTransaction = wrapAsync(async (req, res, next) => {
   // check if exist
   if (!transactionCategory) {
     transactionCategory = await TransactionCategory.find({
-      transactionCategory: "Uncategorized",
+      transactionCategory: "Uncategorized", user: req.user.id
     });
     // Returns an array that should only consist of one element
     transactionCategory = transactionCategory[0];
