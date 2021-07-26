@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { deleteTransactionCategory } from "../../actions/transaction/transactionActions";
@@ -9,24 +9,21 @@ const ManageCategoriesItem = ({ category, deleteTransactionCategory }) => {
     deleteTransactionCategory(category._id);
   };
   return (
-    <tr>
+    <Fragment>
       {category.transactionCategory === "Uncategorized" ? (
         ""
       ) : (
-        <td>{category.transactionCategory} </td>
+        <tr>
+          <td>{category.transactionCategory} </td>
+          {/* DELETE BTN */}
+          <td className="trash-icon">
+            <i onClick={onDelete} className="material-icons">
+              delete_forever
+            </i>
+          </td>
+        </tr>
       )}
-
-      {/* DELETE BTN */}
-      {category.transactionCategory === "Uncategorized" ? (
-        ""
-      ) : (
-        <td className="trash-icon">
-          <i onClick={onDelete} className="material-icons">
-            delete_forever
-          </i>
-        </td>
-      )}
-    </tr>
+    </Fragment>
   );
 };
 

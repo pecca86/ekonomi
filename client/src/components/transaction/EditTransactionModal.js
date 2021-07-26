@@ -44,7 +44,6 @@ const EditTransactionModal = ({
         label: "",
       });
       if (current.category) {
-        console.log("CURRENT CAT");
         setFormData({
           sum: Math.abs(current.sum),
           transactionType: current.transactionType,
@@ -91,7 +90,6 @@ const EditTransactionModal = ({
     if (formData.category === "") {
       formData.category = "Uncategorized";
     }
-    console.log("FORM: ", formData);
     updateTransaction(formData, account.account._id);
     clearCurrentTransaction();
   };

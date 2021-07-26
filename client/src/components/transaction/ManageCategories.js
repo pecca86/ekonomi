@@ -42,7 +42,9 @@ const ManageCategories = ({
   return (
     <div className="container">
       <h4>Manage Transaction Categories</h4>
-      <i onClick={showAdd} className="medium material-icons action-icon">add_circle</i>
+      <i onClick={showAdd} className="medium material-icons action-icon">
+        add_circle
+      </i>
       {showAddForm && (
         <div className="row justify-content-start mt-3">
           <div className="col-7">
