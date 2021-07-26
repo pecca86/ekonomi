@@ -28,6 +28,9 @@ import {
   UPDATE_TRANSACTION_CATEGORY,
   SET_CURRENT_TRANSACTION_CATEGORY,
   CLEAR_CURRENT_TRANSACTION_CATEGORY,
+  ADD_TO_CURRENT_TANSACTIONS,
+  REMOVE_FROM_CURRENT_TRANSACTIONS,
+  CLEAR_CURRENT_TRANSACTIONS,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -194,12 +197,27 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
 export const deleteTransaction =
   (transactionId, accountId = "") =>
   async (dispatch) => {
+    console.log(transactionId);
+
     try {
-      await axios.delete(`/api/v1/transactions/${transactionId}`);
-      dispatch({
-        type: DELETE_TRANSACTION,
-        payload: transactionId,
-      });
+      // Check if there are multiple accountId's
+      if (typeof transactionId === "object") {
+        console.log("FOUND ME!");
+        for (let id of transactionId) {
+          console.log("ID: ", id);
+          await axios.delete(`/api/v1/transactions/${id}`);
+          dispatch({
+            type: DELETE_TRANSACTION,
+            payload: id,
+          });
+        }
+      } else {
+        await axios.delete(`/api/v1/transactions/${transactionId}`);
+        dispatch({
+          type: DELETE_TRANSACTION,
+          payload: transactionId,
+        });
+      }
       dispatch(flushTimeIntervalls());
       dispatch(getTimeSpans(accountId));
     } catch (err) {
@@ -368,6 +386,26 @@ export const setCurrentTransactionCategory = (category) => {
 export const clearCurrentTransactionCategory = () => {
   return {
     type: CLEAR_CURRENT_TRANSACTION_CATEGORY,
+  };
+};
+
+export const addToCurrentTransactions = (transactionId) => {
+  return {
+    type: ADD_TO_CURRENT_TANSACTIONS,
+    payload: transactionId,
+  };
+};
+
+export const removeFromCurrentTransactions = (transactionId) => {
+  return {
+    type: REMOVE_FROM_CURRENT_TRANSACTIONS,
+    payload: transactionId,
+  };
+};
+
+export const clearCurrentTransactions = () => {
+  return {
+    type: CLEAR_CURRENT_TRANSACTIONS,
   };
 };
 // ======= TIME INTERVALS / SPANS ========

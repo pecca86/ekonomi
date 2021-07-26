@@ -30,6 +30,9 @@ import {
   UPDATE_TRANSACTION_CATEGORY,
   SET_CURRENT_TRANSACTION_CATEGORY,
   CLEAR_CURRENT_TRANSACTION_CATEGORY,
+  ADD_TO_CURRENT_TANSACTIONS,
+  REMOVE_FROM_CURRENT_TRANSACTIONS,
+  CLEAR_CURRENT_TRANSACTIONS,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -44,6 +47,7 @@ const initialState = {
   currentTimeInterval: null,
   transactionCategories: [],
   currentTransactionCategory: null,
+  currentTransactions: [],
 };
 
 // eslint-disable-next-line
@@ -141,6 +145,23 @@ export default (state = initialState, action) => {
             : -1
         ),
       };
+    case ADD_TO_CURRENT_TANSACTIONS:
+      return {
+        ...state,
+        currentTransactions: [...state.currentTransactions, action.payload],
+      };
+    case REMOVE_FROM_CURRENT_TRANSACTIONS:
+      return {
+        ...state,
+        currentTransactions: state.currentTransactions.filter(
+          (trans) => trans !== action.payload
+        ),
+      };
+    case CLEAR_CURRENT_TRANSACTIONS:
+      return {
+        ...state,
+        currentTransactions: [],
+      };
     // === TRANSACTION CATEGORIES ===
     case GET_TRANSACTION_CATEGORIES:
       return {
@@ -179,6 +200,7 @@ export default (state = initialState, action) => {
         ...state,
         currentTransactionCategory: null,
       };
+
     // === TIMESPANS ===
     case REMOVE_TIMESPAN:
       console.log("REMOVE_ ", action.payload);

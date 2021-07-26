@@ -1,21 +1,62 @@
-import React, { Fragment, Suspense, useEffect } from "react";
+import React, { Fragment, Suspense, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import SortBtn from "../layout/SortBtn";
+import Chip from "@material-ui/core/Chip";
+import { deleteTransaction } from "../../actions/transaction/transactionActions";
 
-//import AccounTransactionItem from "./AccountTransactionItem";
 const AccounTransactionItem = React.lazy(() =>
   import("./AccountTransactionItem")
 );
 
-const AccountTransactions = ({ transaction }) => {
+const AccountTransactions = ({ transaction, deleteTransaction }) => {
+  // STATES
+  const [showDelete, setShowDelete] = useState({ showDelete: false });
+
   if (transaction.loading) {
     return <p>Loading...</p>;
   }
 
+  // FUNCTIONS
+  const onClick = (event) => {
+    setShowDelete({ showDelete: !showDelete.showDelete });
+  };
+
+  const onDeleteMany = () => {
+    deleteTransaction(transaction.currentTransactions);
+  };
+
   return (
     <div style={{ height: "300px", overflow: "auto" }}>
-      <SortBtn />
+      <span>
+        <SortBtn />
+        {showDelete.showDelete ? (
+          <Fragment>
+            <Chip
+              onClick={onDeleteMany}
+              label="Delete Selected Transactions"
+              clickable
+              color="secondary"
+            />
+            <Chip
+              onClick={onClick}
+              label="Cancel"
+              clickable
+              color="primary"
+              className="ms-2"
+            />
+          </Fragment>
+        ) : (
+          <Fragment>
+            <Chip
+              onClick={onClick}
+              label="Delete Many"
+              clickable
+              color="default"
+            />
+          </Fragment>
+        )}
+      </span>
       <table className="table-sm">
         <thead>
           <tr>
@@ -41,6 +82,7 @@ const AccountTransactions = ({ transaction }) => {
                 <AccounTransactionItem
                   key={transaction._id}
                   transaction={transaction}
+                  showDelete={showDelete.showDelete}
                 />
               ))}
             </Suspense>
@@ -60,4 +102,6 @@ const mapStateToProps = (state) => ({
   account: state.account.account,
 });
 
-export default connect(mapStateToProps, {})(AccountTransactions);
+export default connect(mapStateToProps, {
+  deleteTransaction,
+})(AccountTransactions);
