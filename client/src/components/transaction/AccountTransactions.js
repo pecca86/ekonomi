@@ -3,13 +3,20 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import SortBtn from "../layout/SortBtn";
 import Chip from "@material-ui/core/Chip";
-import { deleteTransaction } from "../../actions/transaction/transactionActions";
+import {
+  deleteTransaction,
+  clearCurrentTransactions,
+} from "../../actions/transaction/transactionActions";
 
 const AccounTransactionItem = React.lazy(() =>
   import("./AccountTransactionItem")
 );
 
-const AccountTransactions = ({ transaction, deleteTransaction }) => {
+const AccountTransactions = ({
+  transaction,
+  deleteTransaction,
+  clearCurrentTransactions,
+}) => {
   // STATES
   const [showDelete, setShowDelete] = useState({ showDelete: false });
 
@@ -21,9 +28,10 @@ const AccountTransactions = ({ transaction, deleteTransaction }) => {
   const onClick = (event) => {
     setShowDelete({ showDelete: !showDelete.showDelete });
   };
-
+  
   const onDeleteMany = () => {
     deleteTransaction(transaction.currentTransactions);
+    clearCurrentTransactions();
   };
 
   return (
@@ -104,4 +112,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   deleteTransaction,
+  clearCurrentTransactions,
 })(AccountTransactions);
