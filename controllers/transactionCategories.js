@@ -8,7 +8,9 @@ const ErrorResponse = require("../utils/errorResponse");
 // @access  Private
 exports.createTransactionCategory = wrapAsync(async (req, res, next) => {
   req.body.user = req.user.id;
-  req.body.transactionCategory = req.body.transactionCategory;
+  if (req.body.transactionCategory === "Uncategorized") {
+    return next(new ErrorResponse("This Category name is reserved!", 400))
+  }
   const transactionCategory = new TransactionCategory(req.body);
   await transactionCategory.save();
 

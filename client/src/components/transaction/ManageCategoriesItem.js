@@ -10,13 +10,22 @@ const ManageCategoriesItem = ({ category, deleteTransactionCategory }) => {
   };
   return (
     <tr>
-      <td>{category.transactionCategory}</td>
+      {category.transactionCategory === "Uncategorized" ? (
+        ""
+      ) : (
+        <td>{category.transactionCategory} </td>
+      )}
+
       {/* DELETE BTN */}
-      <td className="trash-icon">
-        <i onClick={onDelete} className="material-icons">
-          delete_forever
-        </i>
-      </td>
+      {category.transactionCategory === "Uncategorized" ? (
+        ""
+      ) : (
+        <td className="trash-icon">
+          <i onClick={onDelete} className="material-icons">
+            delete_forever
+          </i>
+        </td>
+      )}
     </tr>
   );
 };

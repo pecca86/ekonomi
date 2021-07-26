@@ -312,7 +312,7 @@ export const addTransactionCategory = (inputCategory) => async (dispatch) => {
       payload: res.data.data,
     });
   } catch (err) {
-    dispatch(setAlert("Failed to create new Category", "danger"));
+    dispatch(setAlert(err.response.data.error, "danger"));
   }
 };
 
