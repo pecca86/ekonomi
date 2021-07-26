@@ -32,7 +32,7 @@ const AddTransactionModal = ({
   const [selectedOption, setSelectedOption] = useState({
     value: "",
     label: "",
-    id: ""
+    id: "",
   });
   const [showAddForm, setShowAddForm] = useState(false);
 
@@ -43,7 +43,7 @@ const AddTransactionModal = ({
       options.push({
         value: t.transactionCategory,
         label: t.transactionCategory,
-        id: t._id
+        id: t._id,
       })
     );
 
@@ -80,8 +80,9 @@ const AddTransactionModal = ({
       setAlert("You can only add 12 months ahead!", "danger");
     } else {
       formData.category = selectedOption.id;
+      // Need to nullify so that our backend can create a new Uncategorized category
       if (formData.category === "") {
-        formData.category = "Uncategorized";
+        formData.category = null;
       }
       createTransaction(formData, account.account._id);
       // es-lint-disable-next-line

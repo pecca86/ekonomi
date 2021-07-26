@@ -1,6 +1,6 @@
 const Transaction = require("../models/Transaction");
 const Account = require("../models/Account");
-const TransactionCategory = require('../models/TransactionCategory')
+const TransactionCategory = require("../models/TransactionCategory");
 const wrapAsync = require("../middleware/wrapAsync");
 const ErrorResponse = require("../utils/errorResponse");
 
@@ -17,9 +17,9 @@ exports.getTransactions = wrapAsync(async (req, res, next) => {
 // @route   GET /api/v1/transactions/:transactionId
 // @access  Private
 exports.getTransaction = wrapAsync(async (req, res, next) => {
-  const transaction = await Transaction.findById(
-    req.params.transactionId
-  ).populate("account", "IBAN").populate("category", "transactionCategory");
+  const transaction = await Transaction.findById(req.params.transactionId)
+    .populate("account", "IBAN")
+    .populate("category", "transactionCategory");
 
   if (!transaction) {
     return next(new ErrorResponse("No transaction found.", 404));
@@ -43,7 +43,7 @@ exports.createTransaction = wrapAsync(async (req, res, next) => {
   req.body.account = req.params.accountId;
   req.body.user = req.user.id;
   // Make the sum have max two decimals
-  req.body.sum = parseFloat(req.body.sum).toFixed(2)
+  req.body.sum = parseFloat(req.body.sum).toFixed(2);
 
   const account = await Account.findById(req.params.accountId);
   if (!account) {
@@ -56,25 +56,47 @@ exports.createTransaction = wrapAsync(async (req, res, next) => {
   }
 
   // Check if given transaction category is owned by the user
-  const transactionCategory = await TransactionCategory.findById(req.body.category)
+  let transactionCategory = await TransactionCategory.findById(
+    req.body.category
+  );
+  // check if exist
   if (!transactionCategory) {
-    return next(new ErrorResponse("No category found!", 404))
+    transactionCategory = await TransactionCategory.find({
+      transactionCategory: "Uncategorized",
+    });
+    // Returns an array that should only consist of one element
+    transactionCategory = transactionCategory[0];
+    // Check if there is already a category named Uncategorized, if not create one
+    if (!transactionCategory) {
+      req.body.transactionCategory = "Uncategorized";
+      transactionCategory = await new TransactionCategory(req.body);
+      await transactionCategory.save();
+    }
   }
 
   if (transactionCategory.user.toString() !== req.user.id) {
     return next(new ErrorResponse("Invalid Category for this User", 400));
   }
 
+  // If there is no category passed into our body we insert the newly created / found Uncategorized category
+  if (!req.body.category) {
+    req.body.category = transactionCategory._id;
+  }
+
   // Check if transaction type is of Spending and turn the value into negative
-  if (req.body.transactionType === 'Spending') {
+  if (req.body.transactionType === "Spending") {
     req.body.sum = -Math.abs(req.body.sum);
-    console.log("CONVERTERD!");
   }
 
   // create a transaction that is associated with this account
-  console.log(req.body);
-  const transaction = new Transaction(req.body);
+  let transaction = new Transaction(req.body);
   await transaction.save();
+
+  // Find transaction again so we can populate the category field for our frontend
+  transaction = await Transaction.findById(transaction._id).populate(
+    "category",
+    "transactionCategory"
+  );
 
   res.status(201).json({
     data: transaction,
@@ -102,6 +124,12 @@ exports.updateTransaction = wrapAsync(async (req, res, next) => {
       new: true,
       runValidators: true,
     }
+  );
+
+  // Find transaction again so we can populate the category field for our frontend
+  transaction = await Transaction.findById(transaction._id).populate(
+    "category",
+    "transactionCategory"
   );
 
   res.status(201).json({

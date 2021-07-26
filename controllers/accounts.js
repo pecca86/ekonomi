@@ -32,7 +32,7 @@ exports.createAccount = wrapAsync(async (req, res, next) => {
   req.body.user = req.user.id;
   // take only first two decimals into account
   req.body.balance = parseFloat(req.body.balance).toFixed(2)
-  const account = new Account(req.body);
+  let account = new Account(req.body);
   await account.save();
 
   res.status(200).json({

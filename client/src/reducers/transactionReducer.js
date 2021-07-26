@@ -132,7 +132,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         transactions: state.transactions.sort((a, b) =>
-          a.category > b.category ? 1 : -1
+          a.category.transactionCategory > b.category.transactionCategory
+            ? 1
+            : -1
         ),
       };
     // === TRANSACTION CATEGORIES ===

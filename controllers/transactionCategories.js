@@ -1,4 +1,5 @@
 const TransactionCategory = require("../models/TransactionCategory");
+const Transaction = require("../models/Transaction");
 const wrapAsync = require("../middleware/wrapAsync");
 const ErrorResponse = require("../utils/errorResponse");
 
@@ -7,7 +8,7 @@ const ErrorResponse = require("../utils/errorResponse");
 // @access  Private
 exports.createTransactionCategory = wrapAsync(async (req, res, next) => {
   req.body.user = req.user.id;
-  req.body.transactionCategory = req.body.transactionCategory.toLowerCase()
+  req.body.transactionCategory = req.body.transactionCategory;
   const transactionCategory = new TransactionCategory(req.body);
   await transactionCategory.save();
 
@@ -24,6 +25,10 @@ exports.deleteTransactionCategory = wrapAsync(async (req, res, next) => {
     req.params.transactionCategoryId
   );
 
+  if (transactionCategory.transactionCategory === "Uncategorized") {
+    return next(new ErrorResponse("User cannot delete this Category", 400));
+  }
+
   if (!transactionCategory) {
     return next(new ErrorResponse("No transaction category found.", 404));
   }
@@ -32,6 +37,33 @@ exports.deleteTransactionCategory = wrapAsync(async (req, res, next) => {
     return next(new ErrorResponse("Not authorized!", 400));
   }
 
+  // Change all transactions with the deleted category object to the object name Uncategorized
+  // if uncategorized does not exist, we create it
+  let uncategorized = await TransactionCategory.find({
+    transactionCategory: "Uncategorized",
+  });
+
+  uncategorized = uncategorized[0];
+
+  if (!uncategorized) {
+    uncategorized = await new TransactionCategory({
+      transactionCategory: "Uncategorized",
+      user: req.user.id,
+    });
+    await uncategorized.save()
+
+  }
+
+  const transactions = await Transaction.find({
+    category: transactionCategory._id.toString(),
+  });
+
+  for (let transaction of transactions) {
+    transaction.category = uncategorized._id.toString();
+    await transaction.save();
+  }
+
+  // Finally remove the category
   await transactionCategory.remove();
 
   res.status(200).json({

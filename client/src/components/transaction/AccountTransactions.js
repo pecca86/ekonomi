@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense } from "react";
+import React, { Fragment, Suspense, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import SortBtn from "../layout/SortBtn";
@@ -57,6 +57,7 @@ AccountTransactions.propTypes = {
 
 const mapStateToProps = (state) => ({
   transaction: state.transaction,
+  account: state.account.account,
 });
 
 export default connect(mapStateToProps, {})(AccountTransactions);

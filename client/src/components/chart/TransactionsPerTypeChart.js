@@ -17,12 +17,20 @@ const TransactionsPerTypeChart = ({ transaction, month, day, year }) => {
   // Create an object that takes in each unique transaction type and initial value of 0
   const myObj = {};
   for (const transaction of transactionData) {
-    myObj[transaction.category] = 0;
+    if (transaction.category) {
+      myObj[transaction.category.transactionCategory] = 0;
+    } else {
+      myObj["Uncategorized"] = 0;
+    }
   }
 
   // Then count the sum according to transaction category
   for (const transaction of transactionData) {
-    myObj[transaction.category] += transaction.sum;
+    if (transaction.category) {
+      myObj[transaction.category.transactionCategory] += transaction.sum;
+    } else {
+      myObj["Uncategorized"] += transaction.sum;
+    }
   }
 
   // create label and data arrays to put into graph
@@ -75,7 +83,7 @@ const TransactionsPerTypeChart = ({ transaction, month, day, year }) => {
     plugins: {
       title: {
         display: true,
-        text: `${day}.${month+1}.${year} - ${month}/${year+1}`,
+        text: `${day}.${month + 1}.${year} - ${month}/${year + 1}`,
       },
       legend: {
         fullSize: false,

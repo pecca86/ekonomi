@@ -14,7 +14,7 @@ const AccountTransactionItem = ({ transaction, account }) => {
         <Moment format="DD.MM.YYYY">{transactionDate}</Moment>
       </td>
       <td>{description}</td>
-      <td>{category.transactionCategory}</td>
+      <td>{category ? category.transactionCategory : "FAIL"}</td>
       {transactionType === "Spending" ? (
         <td className="spending">{sum}€</td>
       ) : (

@@ -19,7 +19,8 @@ const TransactionSchema = new mongoose.Schema({
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "TransactionCategory"
+    ref: "TransactionCategory",
+    default: "Uncategorized"
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

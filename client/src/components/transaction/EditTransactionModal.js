@@ -5,6 +5,7 @@ import {
   updateTransaction,
   clearCurrentTransaction,
   addTransactionCategory,
+  getTransactionCategories,
 } from "../../actions/transaction/transactionActions";
 import Select from "react-select";
 import { Link } from "react-router-dom";
@@ -24,6 +25,7 @@ const EditTransactionModal = ({
       options.push({
         value: t.transactionCategory,
         label: t.transactionCategory,
+        id: t._id,
       })
     );
   // EFFECTS
@@ -35,12 +37,28 @@ const EditTransactionModal = ({
         description: current.description,
         transactionDate: current.transactionDate.substring(0, 10),
         id: current._id,
-        category: current.category,
+        category: null,
       });
       setSelectedOption({
-        value: current.category,
-        label: current.category,
+        value: "",
+        label: "",
       });
+      if (current.category) {
+        console.log("CURRENT CAT");
+        setFormData({
+          sum: Math.abs(current.sum),
+          transactionType: current.transactionType,
+          description: current.description,
+          transactionDate: current.transactionDate.substring(0, 10),
+          id: current._id,
+          category: current.category._id,
+        });
+        setSelectedOption({
+          value: current.category.transactionCategory,
+          label: current.category.transactionCategory,
+          id: current.category._id,
+        });
+      }
     }
   }, [current]);
 
@@ -51,13 +69,14 @@ const EditTransactionModal = ({
     transactionType: "",
     description: "",
     transactionDate: "",
-    category: "",
+    category: null,
   });
 
   const [newCategory, setNewCategory] = useState(null);
   const [selectedOption, setSelectedOption] = useState({
     value: "",
     label: "",
+    id: "",
   });
   const [showAddForm, setShowAddForm] = useState(false);
 
@@ -68,10 +87,11 @@ const EditTransactionModal = ({
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    formData.category = selectedOption.value;
+    formData.category = selectedOption.id;
     if (formData.category === "") {
       formData.category = "Uncategorized";
     }
+    console.log("FORM: ", formData);
     updateTransaction(formData, account.account._id);
     clearCurrentTransaction();
   };
