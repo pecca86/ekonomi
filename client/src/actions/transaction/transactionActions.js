@@ -25,6 +25,9 @@ import {
   GET_TRANSACTION_CATEGORIES,
   ADD_TRANSACTION_CATEGORY,
   DELETE_TRANSACTION_CATEGORY,
+  UPDATE_TRANSACTION_CATEGORY,
+  SET_CURRENT_TRANSACTION_CATEGORY,
+  CLEAR_CURRENT_TRANSACTION_CATEGORY,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -301,7 +304,6 @@ export const addTransactionCategory = (inputCategory) => async (dispatch) => {
   };
   const formData = { transactionCategory: inputCategory };
   const body = JSON.stringify(formData);
-  console.log(body);
   try {
     setLoading();
 
@@ -329,6 +331,45 @@ export const deleteTransactionCategory = (categoryId) => async (dispatch) => {
   }
 };
 
+export const updateTransactionCategory =
+  (formData, categoryId) => async (dispatch) => {
+    setLoading();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const body = JSON.stringify(formData);
+
+    try {
+      const res = await axios.put(
+        `/api/v1/transactioncategories/${categoryId}`,
+        body,
+        config
+      );
+
+      dispatch({
+        type: UPDATE_TRANSACTION_CATEGORY,
+        payload: res.data.data,
+      });
+      dispatch(setAlert("Transaction Category Updated!", "success"));
+    } catch (err) {
+      dispatch(setAlert("Failed to update Transaction Category", "danger"));
+    }
+  };
+
+export const setCurrentTransactionCategory = (category) => {
+  return {
+    type: SET_CURRENT_TRANSACTION_CATEGORY,
+    payload: category,
+  };
+};
+
+export const clearCurrentTransactionCategory = () => {
+  return {
+    type: CLEAR_CURRENT_TRANSACTION_CATEGORY,
+  };
+};
 // ======= TIME INTERVALS / SPANS ========
 
 // Create a new Time Span for the account
