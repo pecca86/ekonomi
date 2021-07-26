@@ -5,7 +5,6 @@ import {
   updateTransaction,
   clearCurrentTransaction,
   addTransactionCategory,
-  getTransactionCategories,
 } from "../../actions/transaction/transactionActions";
 import Select from "react-select";
 import { Link } from "react-router-dom";
@@ -101,7 +100,6 @@ const EditTransactionModal = ({
 
   // Adding a new category
   const onSubmitCategory = (e) => {
-    console.log(formData);
     addTransactionCategory(newCategory);
     setNewCategory(null);
     setShowAddForm(false);
