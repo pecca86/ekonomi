@@ -58,10 +58,6 @@ export const createAccount = (formData) => async (dispatch) => {
 
     dispatch(setAlert("Account added!", "success"));
   } catch (err) {
-    dispatch({
-      type: ACCOUNT_ERROR,
-    });
-    console.log(err);
     dispatch(
       setAlert(
         "Error in creating account (TIP! Check if IBAN already exists)",

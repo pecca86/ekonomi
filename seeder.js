@@ -10,9 +10,10 @@ dotenv.config({ path: "./config/config.env" });
 const Account = require("./models/Account");
 const Transaction = require("./models/Transaction");
 const User = require("./models/User");
-const TransactionCategory = require('./models/TransactionCategory')
-const TimeSpan = require('./models/TimeSpan')
+const TransactionCategory = require("./models/TransactionCategory");
+const TimeSpan = require("./models/TimeSpan");
 const { exit } = require("process");
+const { createHash } = require("crypto");
 
 // connect to db with mongoose
 const connectDB = async () => {
@@ -44,10 +45,8 @@ const importData = async () => {
       password: "janina",
     };
 
-    //console.log("USER: ", JSON.stringify(user));
     await User.create(user);
     let myUser = await User.find({ email: "j@j.com" });
-    //console.log("USER: ", myUser[0]._id)
 
     // Create a dummy account
     const account = {
@@ -60,7 +59,15 @@ const importData = async () => {
     };
     await Account.create(account);
     let myAcc = await Account.find({ user: myUser[0]._id });
-    console.log("ACCOUNT: ", myAcc[0]._id);
+
+    // Create a dummy Transaction Category
+    let category = await new TransactionCategory({
+      transactionCategory: "Dummy Category",
+    });
+    await category.save();
+    category = await TransactionCategory.find({
+      transactionCategory: "Dummy Category",
+    });
 
     for (let transaction of transactions) {
       transaction.user = myUser[0]._id;
@@ -68,6 +75,7 @@ const importData = async () => {
       if (transaction.transactionType === "Spending") {
         transaction.sum = -1 * transaction.sum;
       }
+      transaction.category = category[0]._id;
     }
     await Transaction.create(transactions);
 

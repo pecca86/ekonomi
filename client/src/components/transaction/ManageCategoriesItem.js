@@ -32,7 +32,7 @@ const ManageCategoriesItem = ({
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
+
   const onDelete = (e) => {
     deleteTransactionCategory(category._id);
   };
@@ -47,7 +47,6 @@ const ManageCategoriesItem = ({
   };
 
   const onSubmit = (e) => {
-    console.log(formData);
     updateTransactionCategory(formData, category._id);
     setShowEdit(!showEdit);
   };
