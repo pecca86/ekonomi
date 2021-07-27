@@ -42,7 +42,47 @@ const cors = require("cors");
 app.use(mongoSanitize());
 
 // Set security headers in app
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: [
+        "'self'",
+        "https://cdn.jsdelivr.net",
+        "https://cdnjs.cloudflare.com",
+      ],
+      frameSrc: [
+        "'self'",
+        "https://cdn.jsdelivr.net",
+        "https://cdnjs.cloudflare.com",
+      ],
+      childSrc: [
+        "'self'",
+        "https://cdn.jsdelivr.net",
+        "https://cdnjs.cloudflare.com",
+      ],
+      scriptSrc: [
+        "'self'",
+        "https://cdn.jsdelivr.net",
+        "https://cdnjs.cloudflare.com",
+      ],
+      styleSrc: [
+        "'self'",
+        "https://fonts.googleapis.com",
+        "https://cdn.jsdelivr.net",
+        "https://cdnjs.cloudflare.com",
+      ],
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com",
+        "https://fonts.googleapis.com",
+        "https://cdnjs.cloudflare.com",
+      ],
+      imgSrc: ["'self'", "https://*.jsdelivr.net"],
+      baseUri: ["'self'"],
+    },
+  })
+);
 
 // Security against XSS
 app.use(xssClean());
