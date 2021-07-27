@@ -197,8 +197,6 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
 export const deleteTransaction =
   (transactionId, accountId = "") =>
   async (dispatch) => {
-    console.log(transactionId);
-
     try {
       // Check if there are multiple accountId's
       if (typeof transactionId === "object") {
@@ -534,8 +532,6 @@ export const deleteTimeSpan =
 // Update existing timeinterval
 export const updateTimeInterval =
   (formData, timeSpanId, accountId) => async (dispatch) => {
-    console.log("update action", formData);
-
     const body = JSON.stringify(formData);
 
     const config = {

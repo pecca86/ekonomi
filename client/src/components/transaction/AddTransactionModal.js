@@ -98,7 +98,6 @@ const AddTransactionModal = ({
 
   // Adding a new category
   const onSubmitCategory = (e) => {
-    console.log(formData);
     addTransactionCategory(newCategory);
     setNewCategory(null);
     setShowAddForm(false);

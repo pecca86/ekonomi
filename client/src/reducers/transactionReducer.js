@@ -203,7 +203,6 @@ export default (state = initialState, action) => {
 
     // === TIMESPANS ===
     case REMOVE_TIMESPAN:
-      console.log("REMOVE_ ", action.payload);
       return {
         ...state,
         timeSpans: state.timeSpans.filter(
@@ -217,14 +216,12 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case ADD_TIMESPAN:
-      console.log("ADD: ", action.payload);
       return {
         ...state,
         timeSpans: [...state.timeSpans, action.payload],
         loading: false,
       };
     case UPDATE_TIMEINTERVAL:
-      console.log("UPATE: ", action.payload);
       return {
         ...state,
         timeSpans: state.timeSpans.map((timespan) =>

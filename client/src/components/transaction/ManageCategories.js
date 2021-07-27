@@ -33,7 +33,6 @@ const ManageCategories = ({
 
   // Adding a new category
   const onSubmitCategory = (e) => {
-    console.log(newCategory);
     addTransactionCategory(newCategory);
     setNewCategory(null);
     setShowAddForm(false);

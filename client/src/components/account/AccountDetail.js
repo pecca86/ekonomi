@@ -65,7 +65,6 @@ const AccountDetail = ({ account, updateAccount }) => {
       balance: formData.balance,
       savingsGoal: formData.savingsGoal,
     };
-    console.log("FORM: ", formData);
     updateAccount(data, _id);
 
     setHideItem({
