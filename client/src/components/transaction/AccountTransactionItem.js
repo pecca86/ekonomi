@@ -33,7 +33,7 @@ const AccountTransactionItem = ({
   return (
     <tr>
       <td>
-        <Moment format="DD.MM.YYYY">{transactionDate}</Moment>
+        <Moment format="D/M/YY">{transactionDate}</Moment>
       </td>
       <td>{description}</td>
       <td>{category ? category.transactionCategory : "FAIL"}</td>

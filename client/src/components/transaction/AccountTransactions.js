@@ -16,6 +16,7 @@ const AccountTransactions = ({
   transaction,
   deleteTransaction,
   clearCurrentTransactions,
+  account
 }) => {
   // STATES
   const [showDelete, setShowDelete] = useState({ showDelete: false });
@@ -30,8 +31,9 @@ const AccountTransactions = ({
   };
 
   const onDeleteMany = () => {
-    deleteTransaction(transaction.currentTransactions);
+    deleteTransaction(transaction.currentTransactions, account._id);
     clearCurrentTransactions();
+    setShowDelete({ showDelete: false });
   };
 
   return (

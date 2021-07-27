@@ -202,9 +202,7 @@ export const deleteTransaction =
     try {
       // Check if there are multiple accountId's
       if (typeof transactionId === "object") {
-        console.log("FOUND ME!");
         for (let id of transactionId) {
-          console.log("ID: ", id);
           await axios.delete(`/api/v1/transactions/${id}`);
           dispatch({
             type: DELETE_TRANSACTION,
