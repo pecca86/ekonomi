@@ -28,7 +28,7 @@ const AccountTransactions = ({
   const onClick = (event) => {
     setShowDelete({ showDelete: !showDelete.showDelete });
   };
-  
+
   const onDeleteMany = () => {
     deleteTransaction(transaction.currentTransactions);
     clearCurrentTransactions();
@@ -36,35 +36,42 @@ const AccountTransactions = ({
 
   return (
     <div style={{ height: "300px", overflow: "auto" }}>
-      <span>
-        <SortBtn />
+      <div className="row">
+        <div className="col col-sm-2">
+          <SortBtn />
+        </div>
         {showDelete.showDelete ? (
           <Fragment>
-            <Chip
-              onClick={onDeleteMany}
-              label="Delete Selected Transactions"
-              clickable
-              color="secondary"
-            />
-            <Chip
-              onClick={onClick}
-              label="Cancel"
-              clickable
-              color="primary"
-              className="ms-2"
-            />
+            <div className="col col-sm-2">
+              <Chip
+                onClick={onDeleteMany}
+                label="Delete Selection"
+                clickable
+                color="secondary"
+              />
+            </div>
+            <div className="col col-sm-8">
+              <Chip
+                onClick={onClick}
+                label="Cancel"
+                clickable
+                color="primary"
+              />
+            </div>
           </Fragment>
         ) : (
           <Fragment>
-            <Chip
-              onClick={onClick}
-              label="Delete Many"
-              clickable
-              color="default"
-            />
+            <div className="col col-sm-5">
+              <Chip
+                onClick={onClick}
+                label="Delete Many"
+                clickable
+                color="default"
+              />
+            </div>
           </Fragment>
         )}
-      </span>
+      </div>
       <table className="table-sm">
         <thead>
           <tr>
