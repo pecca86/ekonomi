@@ -1,4 +1,6 @@
 import "./App.css";
+import "./bootstrap.min.css"
+import "./fonts.css"
 import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./components/routing/PrivateRoute";

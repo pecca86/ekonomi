@@ -52,7 +52,6 @@
   },
   "proxy": "http://localhost:5000",
   "devDependencies": {
-    "@types/materialize-css": "^1.0.10",
-    "jest": "^27.0.6"
+    "@types/materialize-css": "^1.0.10"
   }
 }
