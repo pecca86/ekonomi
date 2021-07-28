@@ -145,7 +145,7 @@ const AccountChart = ({ transaction, account }) => {
 
   // Graph options
   const options = {
-    aspectRatio: window.innerWidth < 400 ? 1.2 : 2,
+    aspectRatio: window.innerWidth < 800 ? 1.2 : 2,
     plugins: {
       title: {
         display: true,
