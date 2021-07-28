@@ -22,6 +22,7 @@ const SortBtn = ({
         id="dropdownMenuButton1"
         data-bs-toggle="dropdown"
         aria-expanded="false"
+        nonce="r@nd0m"
       >
         Sort by
       </button>
