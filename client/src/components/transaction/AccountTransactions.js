@@ -16,7 +16,7 @@ const AccountTransactions = ({
   transaction,
   deleteTransaction,
   clearCurrentTransactions,
-  account
+  account,
 }) => {
   // STATES
   const [showDelete, setShowDelete] = useState({ showDelete: false });
@@ -50,6 +50,7 @@ const AccountTransactions = ({
                 label="Delete Selection"
                 clickable
                 color="secondary"
+                nonce="r@nd0m"
               />
             </div>
             <div className="col col-sm-8">
