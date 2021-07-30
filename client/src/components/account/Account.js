@@ -87,6 +87,7 @@ const Account = ({
             </button>
             <AccountChart accountData={account.account} />
           </Fragment>
+          <hr />
           <p
             type="button"
             data-bs-toggle="collapse"

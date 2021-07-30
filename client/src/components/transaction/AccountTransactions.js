@@ -2,11 +2,12 @@ import React, { Fragment, Suspense, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import SortBtn from "../layout/SortBtn";
-import Chip from "@material-ui/core/Chip";
 import {
   deleteTransaction,
   clearCurrentTransactions,
 } from "../../actions/transaction/transactionActions";
+import AccountTransactionBtns from "./AccountTransactionBtns";
+import TransactionFilter from "./TransactionFilter";
 
 const AccounTransactionItem = React.lazy(() =>
   import("./AccountTransactionItem")
@@ -39,42 +40,16 @@ const AccountTransactions = ({
   return (
     <div style={{ height: "300px", overflow: "auto" }}>
       <div className="row">
-        <div className="col col-sm-2">
-          <SortBtn />
+        <div className="col col-md-4">
+          {showDelete.showDelete ? "" : <SortBtn />}
         </div>
-        {showDelete.showDelete ? (
-          <Fragment>
-            <div className="col col-sm-2">
-              <Chip
-                onClick={onDeleteMany}
-                label="Delete Selection"
-                clickable
-                color="secondary"
-                nonce="r@nd0m"
-              />
-            </div>
-            <div className="col col-sm-8">
-              <Chip
-                onClick={onClick}
-                label="Cancel"
-                clickable
-                color="primary"
-              />
-            </div>
-          </Fragment>
-        ) : (
-          <Fragment>
-            <div className="col col-sm-5">
-              <Chip
-                onClick={onClick}
-                label="Delete Many"
-                clickable
-                color="default"
-              />
-            </div>
-          </Fragment>
-        )}
+        <AccountTransactionBtns
+          onClick={onClick}
+          showDelete={showDelete.showDelete}
+          onDeleteMany={onDeleteMany}
+        />
       </div>
+      <div>{showDelete.showDelete ? "" : <TransactionFilter />}</div>
       <table className="table-sm">
         <thead>
           <tr>

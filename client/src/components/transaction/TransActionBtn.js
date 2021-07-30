@@ -26,7 +26,6 @@ const SortBtn = ({
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        more_vert
       </i>
       <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton2">
         <li>

@@ -42,7 +42,6 @@ const AccountTransactionItem = ({
       ) : (
         <td className="income">{sum}€</td>
       )}
-      {/* <!-- Example split danger button --> */}
 
       <td>
         {showDelete ? (

@@ -17,7 +17,7 @@ const SortBtn = ({
   return (
     <div className="dropdown">
       <button
-        className="btn btn-flat btn-small border-button dropdown-toggle ps-1 dropdown-menu"
+        className="btn btn-flat btn-small border-button dropdown-toggle dropdown-menu mx-auto"
         type="button"
         id="dropdownMenuButton1"
         data-bs-toggle="dropdown"
