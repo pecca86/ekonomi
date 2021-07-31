@@ -40,10 +40,6 @@ const AlertDialog = ({
     setFormData(val);
   };
 
-  const tester = (value) => {
-    console.log(value);
-  };
-
   const onSubmit = () => {
     //setOpen(false)
     switch (dialogTitle.value) {
@@ -53,8 +49,14 @@ const AlertDialog = ({
         handleClose();
         break;
       case "category":
-        //updateTransaction();
+        const categoryeData = { category: formData };
+        updateTransaction(
+          categoryeData,
+          account._id,
+          transaction.currentTransactions
+        );
         setFormData(null);
+        handleClose();
         break;
       case "sum":
         const sumData = { sum: formData };
@@ -94,7 +96,7 @@ const AlertDialog = ({
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Update
+        OK
       </Button>
       <Dialog
         open={open}
@@ -137,7 +139,7 @@ const AlertDialog = ({
             {dialogTitle.value === "delete" && "Delete selected transactions."}
             {dialogTitle.value === "category" && (
               <Fragment>
-                <CategorySelector />
+                <CategorySelector setData={setFormData} />
                 <div className="row"></div>
                 <div className="row"></div>
                 <div className="row"></div>

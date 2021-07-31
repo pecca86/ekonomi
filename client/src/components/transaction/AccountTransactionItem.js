@@ -31,38 +31,40 @@ const AccountTransactionItem = ({
   };
 
   return (
-    <tr>
-      <td>
-        <Moment format="D/M/YY">{transactionDate}</Moment>
-      </td>
-      <td>{description}</td>
-      <td>{category ? category.transactionCategory : "FAIL"}</td>
-      {transactionType === "Spending" ? (
-        <td className="spending">{sum}€</td>
-      ) : (
-        <td className="income">{sum}€</td>
-      )}
-
-      <td>
-        {showDelete ? (
-          <Fragment>
-            <Checkbox
-              checked={checked.checked}
-              onClick={handleChange}
-              inputProps={{ "aria-label": "primary checkbox" }}
-            />
-          </Fragment>
+    <Fragment>
+      <tr>
+        <td>
+          <Moment format="D/M/YY">{transactionDate}</Moment>
+        </td>
+        <td>{description}</td>
+        <td>{category ? category.transactionCategory : "FAIL"}</td>
+        {transactionType === "Spending" ? (
+          <td className="spending">{sum}€</td>
         ) : (
-          <Fragment>
-            <TransActionBtn
-              id={_id}
-              accountId={account.account._id}
-              transaction={transaction}
-            />
-          </Fragment>
+          <td className="income">{sum}€</td>
         )}
-      </td>
-    </tr>
+
+        <td>
+          {showDelete ? (
+            <Fragment>
+              <Checkbox
+                checked={checked.checked}
+                onClick={handleChange}
+                inputProps={{ "aria-label": "primary checkbox" }}
+              />
+            </Fragment>
+          ) : (
+            <Fragment>
+              <TransActionBtn
+                id={_id}
+                accountId={account.account._id}
+                transaction={transaction}
+              />
+            </Fragment>
+          )}
+        </td>
+      </tr>
+    </Fragment>
   );
 };
 

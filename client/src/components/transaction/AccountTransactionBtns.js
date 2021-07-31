@@ -3,7 +3,7 @@ import Chip from "@material-ui/core/Chip";
 import Select from "react-select";
 import AlertDialog from "./AlertDialog";
 
-const AccountTransactionBtns = ({ onClick, showDelete, onDeleteMany }) => {
+const AccountTransactionBtns = ({ onClick, showDelete }) => {
   const [selectedOption, setSelectedOption] = useState({
     value: "",
     label: "",

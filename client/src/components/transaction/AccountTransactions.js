@@ -2,10 +2,7 @@ import React, { Fragment, Suspense, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import SortBtn from "../layout/SortBtn";
-import {
-  deleteTransaction,
-  clearCurrentTransactions,
-} from "../../actions/transaction/transactionActions";
+
 import AccountTransactionBtns from "./AccountTransactionBtns";
 import TransactionFilter from "./TransactionFilter";
 
@@ -13,12 +10,7 @@ const AccounTransactionItem = React.lazy(() =>
   import("./AccountTransactionItem")
 );
 
-const AccountTransactions = ({
-  transaction,
-  deleteTransaction,
-  clearCurrentTransactions,
-  account,
-}) => {
+const AccountTransactions = ({ transaction }) => {
   // STATES
   const [showDelete, setShowDelete] = useState({ showDelete: false });
 
@@ -31,12 +23,6 @@ const AccountTransactions = ({
     setShowDelete({ showDelete: !showDelete.showDelete });
   };
 
-  const onDeleteMany = () => {
-    deleteTransaction(transaction.currentTransactions, account._id);
-    clearCurrentTransactions();
-    setShowDelete({ showDelete: false });
-  };
-
   return (
     <div style={{ height: "300px", overflow: "auto" }}>
       <div className="row">
@@ -46,7 +32,6 @@ const AccountTransactions = ({
         <AccountTransactionBtns
           onClick={onClick}
           showDelete={showDelete.showDelete}
-          onDeleteMany={onDeleteMany}
         />
       </div>
       <div>{showDelete.showDelete ? "" : <TransactionFilter />}</div>
@@ -95,7 +80,4 @@ const mapStateToProps = (state) => ({
   account: state.account.account,
 });
 
-export default connect(mapStateToProps, {
-  deleteTransaction,
-  clearCurrentTransactions,
-})(AccountTransactions);
+export default connect(mapStateToProps, {})(AccountTransactions);

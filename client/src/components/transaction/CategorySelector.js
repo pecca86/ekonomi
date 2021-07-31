@@ -35,8 +35,12 @@ const CategorySelector = ({
       );
 
   // Send data back to parent component if parentComponent has provided a useState
-  if (setData) {
+  if (setData && type === "type") {
     setData(selectedOption.value);
+  }
+  // If of type category
+  if (setData && !type) {
+    setData(selectedOption.id);
   }
 
   // Show add category form
