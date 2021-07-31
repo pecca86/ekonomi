@@ -19,6 +19,7 @@ const AlertDialog = ({
   dialogTitle,
   deleteTransaction,
   updateTransaction,
+  clearCurrentTransactions,
   transaction,
   account,
 }) => {
@@ -39,11 +40,17 @@ const AlertDialog = ({
     setFormData(val);
   };
 
+  const tester = (value) => {
+    console.log(value);
+  };
+
   const onSubmit = () => {
     //setOpen(false)
     switch (dialogTitle.value) {
       case "delete":
         deleteTransaction(transaction.currentTransactions, account._id);
+        clearCurrentTransactions();
+        handleClose();
         break;
       case "category":
         //updateTransaction();
@@ -51,23 +58,26 @@ const AlertDialog = ({
         break;
       case "sum":
         const sumData = { sum: formData };
-        console.log(sumData);
         updateTransaction(
           sumData,
           account._id,
           transaction.currentTransactions
         );
         setFormData(null);
-        console.log("sum updated");
         handleClose();
         break;
       case "type":
-        //updateTransaction();
-        console.log("type updated");
+        const typeData = { transactionType: formData };
+        updateTransaction(
+          typeData,
+          account._id,
+          transaction.currentTransactions
+        );
+        setFormData(null);
+        handleClose();
         break;
       case "description":
         const descriptionData = { description: formData };
-        console.log(descriptionData);
         updateTransaction(
           descriptionData,
           account._id,
@@ -75,7 +85,6 @@ const AlertDialog = ({
         );
         setFormData(null);
         handleClose();
-        console.log("type updated");
         break;
       default:
         console.log("No such case!");
@@ -118,7 +127,7 @@ const AlertDialog = ({
             )}
             {dialogTitle.value === "type" && (
               <Fragment>
-                <CategorySelector type="type" />
+                <CategorySelector type="type" setData={setFormData} />
                 <div className="row"></div>
                 <div className="row"></div>
                 <div className="row"></div>
@@ -178,4 +187,5 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   deleteTransaction,
   updateTransaction,
+  clearCurrentTransactions,
 })(AlertDialog);

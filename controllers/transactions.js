@@ -62,7 +62,8 @@ exports.createTransaction = wrapAsync(async (req, res, next) => {
   // check if exist
   if (!transactionCategory) {
     transactionCategory = await TransactionCategory.find({
-      transactionCategory: "Uncategorized", user: req.user.id
+      transactionCategory: "Uncategorized",
+      user: req.user.id,
     });
     // Returns an array that should only consist of one element
     transactionCategory = transactionCategory[0];
@@ -115,6 +116,17 @@ exports.updateTransaction = wrapAsync(async (req, res, next) => {
   // Check if the user requesting for the transaction details is the owner of the account
   if (transaction.user.toString() !== req.user.id) {
     return next(new ErrorResponse("Not authorized!", 400));
+  }
+
+  // If ONLY transactionType is provided in the body, we first check if there is a sum in the body as well, if not we take
+  // the actual transaction sum and turn it into a negative number
+  if (
+    (req.body.transactionType === "Spending" &&
+      (req.body.sum > 0 || transaction.sum > 0)) ||
+    (req.body.transactionType === "Income" &&
+      (req.body.sum < 0 || transaction.sum < 0))
+  ) {
+    req.body.sum = -1 * req.body.sum || -1 * transaction.sum;
   }
 
   transaction = await Transaction.findByIdAndUpdate(

@@ -226,7 +226,6 @@ export const updateTransaction =
   (formData, accountId, transactionsArray = null) =>
   async (dispatch) => {
     if (transactionsArray) {
-      console.log("ARRAY GIVEN");
       const body = JSON.stringify(formData);
 
       try {
@@ -281,7 +280,7 @@ export const updateTransaction =
         dispatch(flushTimeIntervalls());
         dispatch(getTimeSpans(accountId));
       } catch (err) {
-        dispatch(setAlert("Failed to create a new Transaction", "danger"));
+        dispatch(setAlert("Failed to update Transaction", "danger"));
       }
     }
   };

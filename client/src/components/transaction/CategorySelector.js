@@ -9,6 +9,7 @@ const CategorySelector = ({
   addTransactionCategory,
   transactionCategories,
   type,
+  setData,
 }) => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newCategory, setNewCategory] = useState(null);
@@ -33,6 +34,11 @@ const CategorySelector = ({
         })
       );
 
+  // Send data back to parent component if parentComponent has provided a useState
+  if (setData) {
+    setData(selectedOption.value);
+  }
+
   // Show add category form
   const showAdd = (e) => {
     setShowAddForm(!showAddForm);
@@ -52,43 +58,51 @@ const CategorySelector = ({
 
   return (
     <Fragment>
-      <label htmlFor="category">Transaction Category</label>
-      <span className="ps-2">
-        <a href="#!" onClick={showAdd}>
-          / Add a new Category
-        </a>
-      </span>
-      <span className="ps-2">
-        <Link className="modal-close" to="/transactions/categories">
-          / Manage Categories (new page)
-        </Link>
-      </span>
-      {showAddForm && (
-        <div className="row justify-content-start mt-3">
-          <div className="col-7">
-            <input
-              onChange={onCategoryChange}
-              type="text"
-              name="newCategory"
-            ></input>
-          </div>
-          <div className="col-1">
-            <i
-              onClick={onSubmitCategory}
-              className="material-icons prefix text-success action-icon"
-            >
-              add_circle
-            </i>
-          </div>
-          <div className="col-1">
-            <i
-              onClick={showAdd}
-              className="material-icons prefix text-danger action-icon"
-            >
-              cancel
-            </i>
-          </div>
-        </div>
+      {type === "type" ? (
+        <Fragment>
+          <label htmlFor="category">Transaction Type</label>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <label htmlFor="category">Transaction Category</label>
+          <span className="ps-2">
+            <a href="#!" onClick={showAdd}>
+              / Add a new Category
+            </a>
+          </span>
+          <span className="ps-2">
+            <Link className="modal-close" to="/transactions/categories">
+              / Manage Categories (new page)
+            </Link>
+          </span>
+          {showAddForm && (
+            <div className="row justify-content-start mt-3">
+              <div className="col-7">
+                <input
+                  onChange={onCategoryChange}
+                  type="text"
+                  name="newCategory"
+                ></input>
+              </div>
+              <div className="col-1">
+                <i
+                  onClick={onSubmitCategory}
+                  className="material-icons prefix text-success action-icon"
+                >
+                  add_circle
+                </i>
+              </div>
+              <div className="col-1">
+                <i
+                  onClick={showAdd}
+                  className="material-icons prefix text-danger action-icon"
+                >
+                  cancel
+                </i>
+              </div>
+            </div>
+          )}
+        </Fragment>
       )}
       <Select
         name="category"
