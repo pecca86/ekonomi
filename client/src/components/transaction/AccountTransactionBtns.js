@@ -14,6 +14,7 @@ const AccountTransactionBtns = ({ onClick, showDelete, onDeleteMany }) => {
     { value: "description", label: "Update Description" },
     { value: "category", label: "Update Category" },
     { value: "sum", label: "Update Sum" },
+    { value: "type", label: "Update Type" },
   ];
 
   return (
@@ -30,7 +31,7 @@ const AccountTransactionBtns = ({ onClick, showDelete, onDeleteMany }) => {
                 nonce="r@nd0m"
               />
             </div>
-            <div className="col col-md-2">
+            <div className="col col-md-4">
               <Select
                 name="category"
                 id="category"
@@ -41,7 +42,7 @@ const AccountTransactionBtns = ({ onClick, showDelete, onDeleteMany }) => {
                 nonce="r@nd0m"
               />
             </div>
-            <div className="col col-md-2">
+            <div className="col col-md-6">
               <AlertDialog dialogTitle={selectedOption} />
             </div>
           </Fragment>

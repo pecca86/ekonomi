@@ -222,37 +222,69 @@ export const deleteTransaction =
   };
 
 // update existing transaction
-export const updateTransaction = (formData, accountId) => async (dispatch) => {
-  const { id, transactionType, sum } = formData;
-  if (transactionType === "Spending") {
-    formData.sum = sum * -1;
-  }
-  const body = JSON.stringify(formData);
-  try {
-    setLoading();
+export const updateTransaction =
+  (formData, accountId, transactionsArray = null) =>
+  async (dispatch) => {
+    if (transactionsArray) {
+      console.log("ARRAY GIVEN");
+      const body = JSON.stringify(formData);
 
-    const res = await fetch(`/api/v1/transactions/${id}`, {
-      method: "PUT",
-      body: body,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+      try {
+        for (let id of transactionsArray) {
+          setLoading();
+          const res = await fetch(`/api/v1/transactions/${id}`, {
+            method: "PUT",
+            body: body,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
 
-    const data = await res.json();
+          const data = await res.json();
 
-    dispatch({
-      type: UPDATE_TRANSACTION,
-      payload: data.data,
-    });
+          dispatch({
+            type: UPDATE_TRANSACTION,
+            payload: data.data,
+          });
+        }
+        dispatch(setAlert("Transaction updated!", "success"));
+        dispatch(flushTimeIntervalls());
+        dispatch(getTimeSpans(accountId));
+      } catch (err) {
+        dispatch(setAlert("Array failed!", "danger"));
+      }
+    } else {
+      const { id, transactionType, sum } = formData;
+      if (transactionType === "Spending") {
+        formData.sum = sum * -1;
+      }
+      const body = JSON.stringify(formData);
+      try {
+        setLoading();
 
-    dispatch(setAlert("Transaction updated!", "success"));
-    dispatch(flushTimeIntervalls());
-    dispatch(getTimeSpans(accountId));
-  } catch (err) {
-    dispatch(setAlert("Failed to create a new Transaction", "danger"));
-  }
-};
+        const res = await fetch(`/api/v1/transactions/${id}`, {
+          method: "PUT",
+          body: body,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await res.json();
+
+        dispatch({
+          type: UPDATE_TRANSACTION,
+          payload: data.data,
+        });
+
+        dispatch(setAlert("Transaction updated!", "success"));
+        dispatch(flushTimeIntervalls());
+        dispatch(getTimeSpans(accountId));
+      } catch (err) {
+        dispatch(setAlert("Failed to create a new Transaction", "danger"));
+      }
+    }
+  };
 
 // Set the current transaction to be the one the user clicked on
 export const setCurrentTransaction = (transaction) => {
