@@ -10,7 +10,7 @@ const AccounTransactionItem = React.lazy(() =>
   import("./AccountTransactionItem")
 );
 
-const AccountTransactions = ({ transaction }) => {
+const AccountTransactions = ({ transaction, filteredTransactions }) => {
   // STATES
   const [showDelete, setShowDelete] = useState({ showDelete: false });
 
@@ -56,13 +56,23 @@ const AccountTransactions = ({ transaction }) => {
                 </tr>
               }
             >
-              {transaction.transactions.map((transaction) => (
-                <AccounTransactionItem
-                  key={transaction._id}
-                  transaction={transaction}
-                  showDelete={showDelete.showDelete}
-                />
-              ))}
+              {filteredTransactions.length > 0
+                ? filteredTransactions.map((filtered) => (
+                    <AccounTransactionItem
+                      key={filtered._id}
+                      transaction={filtered}
+                      showDelete={showDelete.showDelete}
+                    />
+                  ))
+                : transaction.transactions.map((transaction) => (
+                    <AccounTransactionItem
+                      key={transaction._id}
+                      transaction={transaction}
+                      showDelete={showDelete.showDelete}
+                    />
+                  ))}
+
+
             </Suspense>
           </Fragment>
         </tbody>
@@ -78,6 +88,7 @@ AccountTransactions.propTypes = {
 const mapStateToProps = (state) => ({
   transaction: state.transaction,
   account: state.account.account,
+  filteredTransactions: state.transaction.filteredTransactions,
 });
 
 export default connect(mapStateToProps, {})(AccountTransactions);

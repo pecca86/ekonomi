@@ -1,12 +1,53 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useRef, useEffect } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import {
+  filterTransactions,
+  clearFilter,
+} from "../../actions/transaction/transactionActions";
 
-const TransactionFilter = () => {
+const TransactionFilter = ({
+  filterTransactions,
+  transaction,
+  clearFilter,
+}) => {
+  useEffect(() => {
+    if (transaction.filteredTransactions === null) {
+      text.current.value = "";
+    }
+  });
+
+  const text = useRef("");
+
+  const onChange = (e) => {
+    if (text.current.value !== "") {
+      filterTransactions(e.target.value);
+    } else {
+      clearFilter();
+    }
+  };
+
   return (
-    <Fragment>
-      <label htmlFor="transactionFilter">Filter Transactions</label>
-      <input type="text" id="transactionFilter" />
-    </Fragment>
+    <form>
+      <input
+        ref={text}
+        type="text"
+        placeholder="Filter Transactions..."
+        onChange={onChange}
+      />
+    </form>
   );
 };
 
-export default TransactionFilter;
+TransactionFilter.propTypes = {
+  transaction: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  transaction: state.transaction,
+  account: state.account.account,
+});
+
+export default connect(mapStateToProps, { filterTransactions, clearFilter })(
+  TransactionFilter
+);

@@ -33,6 +33,8 @@ import {
   ADD_TO_CURRENT_TANSACTIONS,
   REMOVE_FROM_CURRENT_TRANSACTIONS,
   CLEAR_CURRENT_TRANSACTIONS,
+  FILTER_TRANSACTIONS,
+  CLEAR_FILTER,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -48,6 +50,7 @@ const initialState = {
   transactionCategories: [],
   currentTransactionCategory: null,
   currentTransactions: [],
+  filteredTransactions: [],
 };
 
 // eslint-disable-next-line
@@ -161,6 +164,22 @@ export default (state = initialState, action) => {
       return {
         ...state,
         currentTransactions: [],
+      };
+    case FILTER_TRANSACTIONS:
+      return {
+        ...state,
+        filteredTransactions: state.transactions.filter((transaction) => {
+          const regex = new RegExp(`${action.payload}`, "gi");
+          return (
+            transaction.description.match(regex) ||
+            transaction.category.transactionCategory.match(regex)
+          );
+        }),
+      };
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filteredTransactions: [],
       };
     // === TRANSACTION CATEGORIES ===
     case GET_TRANSACTION_CATEGORIES:

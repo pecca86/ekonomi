@@ -31,6 +31,8 @@ import {
   ADD_TO_CURRENT_TANSACTIONS,
   REMOVE_FROM_CURRENT_TRANSACTIONS,
   CLEAR_CURRENT_TRANSACTIONS,
+  FILTER_TRANSACTIONS,
+  CLEAR_FILTER,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -433,6 +435,20 @@ export const removeFromCurrentTransactions = (transactionId) => {
 export const clearCurrentTransactions = () => {
   return {
     type: CLEAR_CURRENT_TRANSACTIONS,
+  };
+};
+
+export const filterTransactions = (text) => {
+  return {
+    type: FILTER_TRANSACTIONS,
+    payload: text,
+  };
+};
+
+// Clear Filter
+export const clearFilter = () => {
+  return {
+    type: CLEAR_FILTER,
   };
 };
 // ======= TIME INTERVALS / SPANS ========
