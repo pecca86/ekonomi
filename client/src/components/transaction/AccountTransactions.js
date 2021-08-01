@@ -24,17 +24,19 @@ const AccountTransactions = ({ transaction, filteredTransactions }) => {
   };
 
   return (
-    <div style={{ height: "300px", overflow: "auto" }}>
-      <div className="row">
-        <div className="col col-md-4">
-          {showDelete.showDelete ? "" : <SortBtn />}
+    <div style={{ height: "400px", overflow: "auto" }}>
+      <Fragment>
+        <div className="row">
+          <div className="col col-md-4">
+            {showDelete.showDelete ? "" : <SortBtn />}
+          </div>
+          <AccountTransactionBtns
+            onClick={onClick}
+            showDelete={showDelete.showDelete}
+          />
         </div>
-        <AccountTransactionBtns
-          onClick={onClick}
-          showDelete={showDelete.showDelete}
-        />
-      </div>
-      <div>{showDelete.showDelete ? "" : <TransactionFilter />}</div>
+        <div>{showDelete.showDelete ? "" : <TransactionFilter />}</div>
+      </Fragment>
       <table className="table-sm">
         <thead>
           <tr>
@@ -71,8 +73,6 @@ const AccountTransactions = ({ transaction, filteredTransactions }) => {
                       showDelete={showDelete.showDelete}
                     />
                   ))}
-
-
             </Suspense>
           </Fragment>
         </tbody>
