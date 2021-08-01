@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
+import { Children } from "react";
 
 const AccountChart = ({ transaction, account }) => {
   // Get current date that will be used in our Graph
@@ -67,6 +68,7 @@ const AccountChart = ({ transaction, account }) => {
 
     // Push data according to the key representing each month into our transaction object
     let monthIndex = 1;
+    let oldMonthIndex = 0;
     for (let j = 0; j < accounts[i].length; j++) {
       // Substring takes the month out of the string 2002-02-28
       if (typeof accounts[i][0] !== "undefined") {
@@ -75,14 +77,15 @@ const AccountChart = ({ transaction, account }) => {
         // subtract current month from the monthindex so that the transaction is shown correctly in the graph
         // To get the transaction set to the correct month we either add or subtract
         if (monthIndex - currentMonth <= 0) {
-          monthIndex += currentMonth;
+          monthIndex = monthIndex + oldMonthIndex;
         } else {
           monthIndex -= currentMonth;
+          oldMonthIndex = monthIndex;
         }
-
         monthlyTransactions[monthIndex].push(accounts[i][j].sum);
       }
     }
+
 
     // Count the combined value of transaction for each month and push it into our helper array
     for (const month in monthlyTransactions) {
