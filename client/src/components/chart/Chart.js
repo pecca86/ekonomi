@@ -97,7 +97,6 @@ const Chart = ({
         } else {
           monthIndex -= currentMonth;
         }
-
         monthlyTransactions[monthIndex].push(accounts[i][j].sum);
       }
     }

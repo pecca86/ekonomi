@@ -28,7 +28,7 @@ const TransactionFilter = ({
   };
 
   return (
-    <form>
+    <form onSubmit={(e) => e.preventDefault()}>
       <input
         ref={text}
         type="text"
