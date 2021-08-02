@@ -111,7 +111,7 @@ const AccountChart = ({ transaction, account }) => {
   }
 
   // Create a new line for savings goal and push it to our data set
-  if (account.account.savingsGoal && account.account.savingsGoal > 0) {
+  if (account.account.savingsGoal && account.account.savingsGoal > 0 && withCurrentBalance) {
     dataset.push({
       label: "Savings Goal",
       data: new Array(12).fill(account.account.savingsGoal),

@@ -120,11 +120,13 @@ exports.updateTransaction = wrapAsync(async (req, res, next) => {
 
   // If ONLY transactionType is provided in the body, we first check if there is a sum in the body as well, if not we take
   // the actual transaction sum and turn it into a negative number
+  // If only the SUM is provided, we need to check if the transaction type is of spending or income in order to make the sum postivie (default) or negative.
   if (
     (req.body.transactionType === "Spending" &&
       (req.body.sum > 0 || transaction.sum > 0)) ||
     (req.body.transactionType === "Income" &&
-      (req.body.sum < 0 || transaction.sum < 0))
+      (req.body.sum < 0 || transaction.sum < 0)) ||
+    (req.body.sum > 0 && transaction.transactionType === "Spending")
   ) {
     req.body.sum = -1 * req.body.sum || -1 * transaction.sum;
   }
