@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import {
   createTransaction,
   addTransactionCategory,
+  createMany,
 } from "../../actions/transaction/transactionActions";
 import { setAlert } from "../../actions/alerts/alertActions";
 import Select from "react-select";
@@ -16,6 +17,7 @@ const AddTransactionModal = ({
   setAlert,
   transactionCategories,
   addTransactionCategory,
+  createMany,
 }) => {
   // === COMPONENT STATES ===
   const [formData, setFormData] = useState({
@@ -85,6 +87,25 @@ const AddTransactionModal = ({
         formData.category = null;
       }
       createTransaction(formData, account.account._id);
+      // es-lint-disable-next-line
+      setFormData({ ...formData, monthsRecurring: 0 });
+      setRecurring(false);
+    }
+  };
+
+  const onSubmitMany = (e) => {
+    e.preventDefault();
+    if (!formData.transactionType) {
+      setAlert("Please fill in Transaction Type!", "danger");
+    } else if (formData.monthsRecurring < 0 || formData.monthsRecurring > 12) {
+      setAlert("You can only add 12 months ahead!", "danger");
+    } else {
+      formData.category = selectedOption.id;
+      // Need to nullify so that our backend can create a new Uncategorized category
+      if (formData.category === "") {
+        formData.category = null;
+      }
+      createMany(formData, account.account._id);
       // es-lint-disable-next-line
       setFormData({ ...formData, monthsRecurring: 0 });
       setRecurring(false);
@@ -251,7 +272,16 @@ const AddTransactionModal = ({
           )}
 
           {/* BUTTON */}
-          <button className="btn btn-success modal-close">Submit</button>
+          {recur ? (
+            <button
+              onClick={onSubmitMany}
+              className="btn btn-success modal-close"
+            >
+              Submit Many
+            </button>
+          ) : (
+            <button className="btn btn-success modal-close">Submit</button>
+          )}
         </form>
       </div>
     </div>
@@ -275,4 +305,5 @@ export default connect(mapStateToProps, {
   createTransaction,
   setAlert,
   addTransactionCategory,
+  createMany,
 })(AddTransactionModal);

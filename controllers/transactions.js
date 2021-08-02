@@ -35,6 +35,76 @@ exports.getTransaction = wrapAsync(async (req, res, next) => {
   });
 });
 
+// Create many Transactions at once
+exports.createManyTransactions = wrapAsync(async (req, res, next) => {
+  const transactions = req.body.transactions;
+  const newTransactions = [];
+
+  for (let transaction of transactions) {
+    transaction.account = req.params.accountId;
+    transaction.user = req.user.id;
+    transaction.sum = parseFloat(transaction.sum).toFixed(2);
+
+    const account = await Account.findById(req.params.accountId);
+    if (!account) {
+      return next(new ErrorResponse("No account found.", 404));
+    }
+    if (account.user.toString() !== req.user.id) {
+      return next(new ErrorResponse("Not authorized!", 400));
+    }
+
+    // == CATEGORY ==
+    // Check if given transaction category is owned by the user
+    let transactionCategory = await TransactionCategory.findById(
+      transaction.category
+    );
+    // check if exist
+    if (!transactionCategory) {
+      transactionCategory = await TransactionCategory.find({
+        transactionCategory: "Uncategorized",
+        user: req.user.id,
+      });
+      // Returns an array that should only consist of one element
+      transactionCategory = transactionCategory[0];
+      // Check if there is already a category named Uncategorized, if not create one
+      if (!transactionCategory) {
+        req.body.transactionCategory = "Uncategorized";
+        transactionCategory = await new TransactionCategory(req.body);
+        await transactionCategory.save();
+      }
+    }
+
+    if (transactionCategory.user.toString() !== req.user.id) {
+      return next(new ErrorResponse("Invalid Category for this User", 400));
+    }
+
+    // If there is no category passed into our body we insert the newly created / found Uncategorized category
+    if (!transaction.category) {
+      transaction.category = transactionCategory._id;
+    }
+
+    // Check if transaction type is of Spending and turn the value into negative
+    if (transaction.transactionType === "Spending") {
+      transaction.sum = -Math.abs(transaction.sum);
+    }
+
+    // create a transaction that is associated with this account
+    let newTransaction = new Transaction(transaction);
+    await newTransaction.save();
+
+    // Find transaction again so we can populate the category field for our frontend
+    newTransaction = await Transaction.findById(newTransaction._id).populate(
+      "category",
+      "transactionCategory"
+    );
+
+    newTransactions.push(newTransaction);
+  }
+  res.status(200).json({
+    data: newTransactions,
+  });
+});
+
 // @desc    Create a new transaction inside an account transactions
 // @route   POST /api/v1/transactions/:accountId
 // @access  Private
@@ -178,13 +248,11 @@ exports.updateManyTransactions = wrapAsync(async (req, res, next) => {
     // If the user changed the transaction type to spending, and the transaction is a positive number, we convert it to a negative one.
     if (req.body.data.transactionType === "Spending" && tr.sum > 0) {
       req.body.data.sum = tr.sum * -1;
-      console.log(req.body.data);
     }
 
     // If the transaction type is of 'Income' and the sum is a negative number, we convert it into a positive number
     if (req.body.data.transactionType === "Income" && tr.sum < 0) {
       req.body.data.sum = tr.sum * -1;
-      console.log(req.body.data);
     }
 
     // We then update the transaction
@@ -246,10 +314,10 @@ exports.deleteManyTransactions = wrapAsync(async (req, res, next) => {
       return next(new ErrorResponse("Not authorized!", 400));
     }
 
-    await trans.remove()
+    await trans.remove();
   }
 
   res.status(200).json({
-    msg: "Transactions Deleted!"
-  })
+    msg: "Transactions Deleted!",
+  });
 });

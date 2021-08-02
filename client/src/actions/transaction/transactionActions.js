@@ -35,6 +35,7 @@ import {
   CLEAR_FILTER,
   UPDATE_MANY,
   DELETE_MANY,
+  CREATE_MANY,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -83,10 +84,8 @@ export const clearAccountTransactionsByYear = () => (dispatch) => {
   });
 };
 
-// Creates a new Transaction
-export const createTransaction = (formData, accountId) => async (dispatch) => {
-  const body = JSON.stringify(formData);
-
+// Create many transactions where the month grows
+export const createMany = (formData, accountId) => async (dispatch) => {
   const { monthsRecurring } = formData;
   const loopCounts = parseInt(monthsRecurring, 10);
   // Get month, year and day from our date string
@@ -98,6 +97,8 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
 
   // array with months that contain 30 days for checking when creating recurring transactions
   const monthsWith30Days = [4, 6, 9, 11];
+
+  const newTransactions = [];
 
   // Loop trough the amount of months forward we want to duplicate the transaction, incrementing each time
   // the month value by one
@@ -121,10 +122,10 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
       }
 
       // Format the date into 01-09
-      if (day < 10) {
+      if (day < 10 && day.toString.length === 1) {
         day = "0" + day;
       }
-      if (month < 10) {
+      if (month < 10 && month.toString.length === 1) {
         month = "0" + month;
       }
 
@@ -132,51 +133,24 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
 
       formData.transactionDate = newDate;
 
-      let dataBody = JSON.stringify(formData);
+      // Push in a hard copy of formData, otherwise it will be a shallow copy that changes
+      newTransactions.push({ ...formData });
 
-      try {
-        setLoading();
-
-        const res = await fetch(`/api/v1/transactions/${accountId}`, {
-          method: "POST",
-          body: dataBody,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const data = await res.json();
-
-        dispatch({
-          type: CREATE_TRANSACTION,
-          payload: data.data,
-        });
-
-        // When loop ends update these
-        if (i === loopCounts - 1) {
-          dispatch(setAlert("Transactions added!", "success"));
-          dispatch(flushTimeIntervalls());
-          dispatch(getTimeSpans(accountId));
-        }
-        // increment month
-        month = parseInt(month);
-        month += 1;
-        // Check if tempDay is set
-        if (tempDay) {
-          day = tempDay;
-        }
-      } catch (err) {
-        dispatch(setAlert("Failed to create a new Transaction", "danger"));
+      // increment month
+      month = parseInt(month);
+      month += 1;
+      // Check if tempDay is set
+      if (tempDay) {
+        day = tempDay;
       }
     }
-  } else {
-    // === WITHOUT RECURRING ==
     try {
       setLoading();
-
-      const res = await fetch(`/api/v1/transactions/${accountId}`, {
+      var objMap = { transactions: newTransactions };
+      var json = JSON.stringify(objMap);
+      const res = await fetch(`/api/v1/transactions/${accountId}/createmany`, {
         method: "POST",
-        body: body,
+        body: json,
         headers: {
           "Content-Type": "application/json",
         },
@@ -185,30 +159,54 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
       const data = await res.json();
 
       dispatch({
-        type: CREATE_TRANSACTION,
+        type: CREATE_MANY,
         payload: data.data,
       });
 
-      dispatch(setAlert("Transaction added!", "success"));
+      dispatch(setAlert("Transactions added!", "success"));
       dispatch(flushTimeIntervalls());
       dispatch(getTimeSpans(accountId));
     } catch (err) {
-      dispatch(setAlert("Failed to create a new Transaction", "danger"));
+      dispatch(setAlert("Failed to create a new Transactions", "danger"));
     }
+  }
+};
+// Creates a new Transaction
+export const createTransaction = (formData, accountId) => async (dispatch) => {
+  const body = JSON.stringify(formData);
+
+  // === WITHOUT RECURRING ==
+  try {
+    setLoading();
+
+    const res = await fetch(`/api/v1/transactions/${accountId}`, {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await res.json();
+
+    dispatch({
+      type: CREATE_TRANSACTION,
+      payload: data.data,
+    });
+
+    dispatch(setAlert("Transaction added!", "success"));
+    dispatch(flushTimeIntervalls());
+    dispatch(getTimeSpans(accountId));
+  } catch (err) {
+    dispatch(setAlert("Failed to create a new Transaction", "danger"));
   }
 };
 
 export const deleteMany = (formData, accountId) => async (dispatch) => {
   const body = JSON.stringify(formData);
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-  console.log(body);
+
   try {
     setLoading();
-    //await axios.delete(`/api/v1/transactions`, body, config);
     await fetch(`/api/v1/transactions/`, {
       method: "DELETE",
       body: body,
@@ -221,6 +219,8 @@ export const deleteMany = (formData, accountId) => async (dispatch) => {
       type: DELETE_MANY,
       payload: formData.transactions,
     });
+    dispatch(flushTimeIntervalls());
+    dispatch(getTimeSpans(accountId));
   } catch (error) {
     dispatch(setAlert("Failed to delete transactions!", "danger"));
   }

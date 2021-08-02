@@ -12,7 +12,8 @@ const {
   updateTransaction,
   deleteTransaction,
   updateManyTransactions,
-  deleteManyTransactions
+  deleteManyTransactions,
+  createManyTransactions
 } = require("../controllers/transactions");
 const { protectedRoute } = require("../middleware/auth");
 const Transaction = require("../models/Transaction");
@@ -35,5 +36,6 @@ router
   .delete(protectedRoute, deleteTransaction);
 
 router.route("/:accountId").post(protectedRoute, createTransaction);
+router.route("/:accountId/createmany").post(protectedRoute, createManyTransactions)
 
 module.exports = router;

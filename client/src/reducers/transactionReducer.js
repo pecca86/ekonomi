@@ -37,6 +37,7 @@ import {
   CLEAR_FILTER,
   UPDATE_MANY,
   DELETE_MANY,
+  CREATE_MANY,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -67,6 +68,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         transactions: [...state.transactions, action.payload],
+        loading: false,
+      };
+    case CREATE_MANY:
+      return {
+        ...state,
+        transactions: [...state.transactions, ...action.payload],
         loading: false,
       };
     case GET_TRANSACTIONS:
