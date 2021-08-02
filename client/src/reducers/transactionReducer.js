@@ -35,6 +35,7 @@ import {
   CLEAR_CURRENT_TRANSACTIONS,
   FILTER_TRANSACTIONS,
   CLEAR_FILTER,
+  UPDATE_MANY,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -98,6 +99,21 @@ export default (state = initialState, action) => {
         transactions: state.transactions.filter(
           (transaction) => transaction._id !== action.payload
         ),
+        loading: false,
+      };
+    case UPDATE_MANY:
+      
+      console.log("PATLOAD: ", action.payload);
+      const newArray = [...state.transactions]; //making a new array
+      for (let trans of action.payload) {
+        const index = state.transactions.findIndex((tr) => tr._id === trans._id); //finding index of the item
+        newArray[index] = trans; //changing value in the new array
+      }
+      console.log("NEW: ", newArray);
+
+      return {
+        ...state,
+        transactions: newArray,
         loading: false,
       };
     case UPDATE_TRANSACTION:

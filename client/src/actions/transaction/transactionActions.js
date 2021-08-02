@@ -33,6 +33,7 @@ import {
   CLEAR_CURRENT_TRANSACTIONS,
   FILTER_TRANSACTIONS,
   CLEAR_FILTER,
+  UPDATE_MANY,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -220,6 +221,36 @@ export const deleteTransaction =
       dispatch(getTimeSpans(accountId));
     } catch (err) {
       dispatch(setAlert("Failed to delete the transaction", "danger"));
+    }
+  };
+
+export const updateMany =
+  (formData, accountId, transactionIdList) => async (dispatch) => {
+    formData.transactionIdList = transactionIdList
+    console.log(formData);
+    const body = JSON.stringify(formData)
+    console.log(body);
+
+    try {
+      setLoading()
+      const res = await fetch(`/api/v1/transactions/`, {
+        method: "PUT",
+        body: body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json()
+      
+      console.log(data);
+
+      dispatch({
+        type: UPDATE_MANY,
+        payload: data.data
+      })
+    } catch (err) {
+      console.log("REQUEST FAILED");
     }
   };
 

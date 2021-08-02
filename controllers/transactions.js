@@ -151,6 +151,68 @@ exports.updateTransaction = wrapAsync(async (req, res, next) => {
   });
 });
 
+// Takes in a list of transaction ID's and updates one or several fields
+exports.updateManyTransactions = wrapAsync(async (req, res, next) => {
+  const transactionIdList = req.body.transactionIdList;
+  const data = req.body.data;
+  const transactions = [];
+  let tempSum;
+  // Loop trough id list to find matching transactions
+  for (let id of transactionIdList) {
+    let tr = await Transaction.findById(id);
+
+    if (tr.user.toString() !== req.user.id) {
+      return next(new ErrorResponse("Not authorized!", 400));
+    }
+
+    // Check if sum is given
+    if (req.body.data.sum) {
+      // If sum is given and the transaction type is of 'Spending', we need to convert to sum to a negative number
+      if (tr.transactionType === "Spending") {
+        // We store the original sum in a temp variable
+        tempSum = req.body.data.sum;
+        req.body.data.sum = tempSum * -1;
+      }
+    }
+
+    // If the user changed the transaction type to spending, and the transaction is a positive number, we convert it to a negative one.
+    if (req.body.data.transactionType === "Spending" && tr.sum > 0) {
+      req.body.data.sum = tr.sum * -1;
+      console.log(req.body.data);
+    }
+
+    // If the transaction type is of 'Income' and the sum is a negative number, we convert it into a positive number
+    if (req.body.data.transactionType === "Income" && tr.sum < 0) {
+      req.body.data.sum = tr.sum * -1;
+      console.log(req.body.data);
+    }
+
+    // We then update the transaction
+    tr = await Transaction.findByIdAndUpdate(id, req.body.data, {
+      new: true,
+      runValidators: true,
+    });
+
+    // We need to fetch it again, so that our category and transactioncategory gets populated
+    tr = await Transaction.findById(id).populate(
+      "category",
+      "transactionCategory"
+    );
+
+    // We then push the newly updated transaction to our transactions array
+    transactions.push(tr);
+
+    // If the tempSum has a value, we set the body.sum back to it. Otherwise the sum will be negative for the next loop.
+    if (tempSum) {
+      req.body.data.sum = tempSum;
+    }
+  }
+
+  res.status(200).json({
+    data: transactions,
+  });
+});
+
 // @desc    Delete a transaction
 // @route   DELETE /api/v1/transactions/:transactionId
 // @access  Private

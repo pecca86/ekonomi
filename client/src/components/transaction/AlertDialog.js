@@ -13,6 +13,7 @@ import {
   deleteTransaction,
   updateTransaction,
   clearCurrentTransactions,
+  updateMany,
 } from "../../actions/transaction/transactionActions";
 
 const AlertDialog = ({
@@ -20,6 +21,7 @@ const AlertDialog = ({
   deleteTransaction,
   updateTransaction,
   clearCurrentTransactions,
+  updateMany,
   transaction,
   account,
 }) => {
@@ -44,43 +46,32 @@ const AlertDialog = ({
     //setOpen(false)
     switch (dialogTitle.value) {
       case "delete":
+        // TODO: delete Many, Update timeintervall on delete or sum change
         deleteTransaction(transaction.currentTransactions, account._id);
         clearCurrentTransactions();
         handleClose();
         break;
       case "category":
-        const categoryeData = { category: formData };
-        updateTransaction(
-          categoryeData,
-          account._id,
-          transaction.currentTransactions
-        );
+        const categoryData = { data: { category: formData } };
+        updateMany(categoryData, account._id, transaction.currentTransactions);
         setFormData(null);
         handleClose();
         break;
       case "sum":
-        const sumData = { sum: formData };
-        updateTransaction(
-          sumData,
-          account._id,
-          transaction.currentTransactions
-        );
+        const sumData = { data: { sum: formData } };
+        updateMany(sumData, account._id, transaction.currentTransactions);
         setFormData(null);
         handleClose();
         break;
       case "type":
-        const typeData = { transactionType: formData };
-        updateTransaction(
-          typeData,
-          account._id,
-          transaction.currentTransactions
-        );
+        const typeData = { data: { transactionType: formData } };
+        updateMany(typeData, account._id, transaction.currentTransactions);
         setFormData(null);
         handleClose();
         break;
       case "description":
-        const descriptionData = { description: formData };
-        updateTransaction(
+        const descriptionData = { data: { description: formData } };
+        updateMany(
           descriptionData,
           account._id,
           transaction.currentTransactions
@@ -190,4 +181,5 @@ export default connect(mapStateToProps, {
   deleteTransaction,
   updateTransaction,
   clearCurrentTransactions,
+  updateMany,
 })(AlertDialog);

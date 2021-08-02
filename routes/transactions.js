@@ -11,13 +11,20 @@ const {
   createTransaction,
   updateTransaction,
   deleteTransaction,
+  updateManyTransactions,
 } = require("../controllers/transactions");
 const { protectedRoute } = require("../middleware/auth");
-const Transaction = require('../models/Transaction')
-const accountFilters = require('../middleware/accountFilters')
+const Transaction = require("../models/Transaction");
+const accountFilters = require("../middleware/accountFilters");
 
-
-router.route("/").get(protectedRoute,accountFilters(Transaction, '', 'transaction'), getTransactions);
+router
+  .route("/")
+  .get(
+    protectedRoute,
+    accountFilters(Transaction, "", "transaction"),
+    getTransactions
+  )
+  .put(protectedRoute, updateManyTransactions);
 
 router
   .route("/:transactionId")
