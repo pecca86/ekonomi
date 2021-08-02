@@ -232,3 +232,24 @@ exports.deleteTransaction = wrapAsync(async (req, res, next) => {
     msg: "Transaction deleted!",
   });
 });
+
+exports.deleteManyTransactions = wrapAsync(async (req, res, next) => {
+  const transactions = [];
+  for (let id of req.body.transactions) {
+    let trans = await Transaction.findById(id);
+
+    if (!trans) {
+      return next(new ErrorResponse("Transaction not found.", 404));
+    }
+    // Check if the user requesting for the account details is the owner of the account
+    if (trans.user.toString() !== req.user.id) {
+      return next(new ErrorResponse("Not authorized!", 400));
+    }
+
+    await trans.remove()
+  }
+
+  res.status(200).json({
+    msg: "Transactions Deleted!"
+  })
+});

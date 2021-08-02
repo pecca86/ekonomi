@@ -36,6 +36,7 @@ import {
   FILTER_TRANSACTIONS,
   CLEAR_FILTER,
   UPDATE_MANY,
+  DELETE_MANY,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -101,15 +102,30 @@ export default (state = initialState, action) => {
         ),
         loading: false,
       };
+    case DELETE_MANY:
+      const newArr = [...state.transactions]; //making a new array
+      for (let trans of action.payload) {
+        const index = state.transactions.findIndex(
+          (tr) => tr._id === trans._id
+        ); //finding index of the item
+        newArr.splice(index, 1); // Splicing it out from the array
+      }
+
+      console.log(newArr);
+
+      return {
+        ...state,
+        transactions: newArr,
+        loading: false,
+      };
     case UPDATE_MANY:
-      
-      console.log("PATLOAD: ", action.payload);
       const newArray = [...state.transactions]; //making a new array
       for (let trans of action.payload) {
-        const index = state.transactions.findIndex((tr) => tr._id === trans._id); //finding index of the item
+        const index = state.transactions.findIndex(
+          (tr) => tr._id === trans._id
+        ); //finding index of the item
         newArray[index] = trans; //changing value in the new array
       }
-      console.log("NEW: ", newArray);
 
       return {
         ...state,

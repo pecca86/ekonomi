@@ -14,6 +14,7 @@ import {
   updateTransaction,
   clearCurrentTransactions,
   updateMany,
+  deleteMany,
 } from "../../actions/transaction/transactionActions";
 
 const AlertDialog = ({
@@ -22,6 +23,7 @@ const AlertDialog = ({
   updateTransaction,
   clearCurrentTransactions,
   updateMany,
+  deleteMany,
   transaction,
   account,
 }) => {
@@ -46,8 +48,9 @@ const AlertDialog = ({
     //setOpen(false)
     switch (dialogTitle.value) {
       case "delete":
-        // TODO: delete Many, Update timeintervall on delete or sum change
-        deleteTransaction(transaction.currentTransactions, account._id);
+        const data = { transactions: transaction.currentTransactions };
+        deleteMany(data, account._id);
+        //deleteTransaction(transaction.currentTransactions, account._id);
         clearCurrentTransactions();
         handleClose();
         break;
@@ -182,4 +185,5 @@ export default connect(mapStateToProps, {
   updateTransaction,
   clearCurrentTransactions,
   updateMany,
+  deleteMany,
 })(AlertDialog);

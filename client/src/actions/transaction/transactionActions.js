@@ -34,6 +34,7 @@ import {
   FILTER_TRANSACTIONS,
   CLEAR_FILTER,
   UPDATE_MANY,
+  DELETE_MANY,
 } from "./transactionTypes";
 import axios from "axios";
 import { setAlert } from "../alerts/alertActions";
@@ -119,6 +120,7 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
         day = 30;
       }
 
+      // Format the date into 01-09
       if (day < 10) {
         day = "0" + day;
       }
@@ -196,27 +198,45 @@ export const createTransaction = (formData, accountId) => async (dispatch) => {
   }
 };
 
+export const deleteMany = (formData, accountId) => async (dispatch) => {
+  const body = JSON.stringify(formData);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  console.log(body);
+  try {
+    setLoading();
+    //await axios.delete(`/api/v1/transactions`, body, config);
+    await fetch(`/api/v1/transactions/`, {
+      method: "DELETE",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    dispatch({
+      type: DELETE_MANY,
+      payload: formData.transactions,
+    });
+  } catch (error) {
+    dispatch(setAlert("Failed to delete transactions!", "danger"));
+  }
+};
+
 // DELETE a transaction
 export const deleteTransaction =
   (transactionId, accountId = "") =>
   async (dispatch) => {
     try {
-      // Check if there are multiple accountId's
-      if (typeof transactionId === "object") {
-        for (let id of transactionId) {
-          await axios.delete(`/api/v1/transactions/${id}`);
-          dispatch({
-            type: DELETE_TRANSACTION,
-            payload: id,
-          });
-        }
-      } else {
-        await axios.delete(`/api/v1/transactions/${transactionId}`);
-        dispatch({
-          type: DELETE_TRANSACTION,
-          payload: transactionId,
-        });
-      }
+      await axios.delete(`/api/v1/transactions/${transactionId}`);
+      dispatch({
+        type: DELETE_TRANSACTION,
+        payload: transactionId,
+      });
+
       dispatch(flushTimeIntervalls());
       dispatch(getTimeSpans(accountId));
     } catch (err) {
@@ -224,15 +244,14 @@ export const deleteTransaction =
     }
   };
 
+// Updates a batch of transactions
 export const updateMany =
   (formData, accountId, transactionIdList) => async (dispatch) => {
-    formData.transactionIdList = transactionIdList
-    console.log(formData);
-    const body = JSON.stringify(formData)
-    console.log(body);
+    formData.transactionIdList = transactionIdList;
+    const body = JSON.stringify(formData);
 
     try {
-      setLoading()
+      setLoading();
       const res = await fetch(`/api/v1/transactions/`, {
         method: "PUT",
         body: body,
@@ -241,82 +260,56 @@ export const updateMany =
         },
       });
 
-      const data = await res.json()
-      
-      console.log(data);
+      const data = await res.json();
 
       dispatch({
         type: UPDATE_MANY,
-        payload: data.data
-      })
+        payload: data.data,
+      });
+
+      // Only update the time intervall if type or sum is changed
+      if (formData.data.sum || formData.data.transactionType) {
+        dispatch(flushTimeIntervalls());
+        dispatch(getTimeSpans(accountId));
+      }
     } catch (err) {
-      console.log("REQUEST FAILED");
+      dispatch(setAlert("Failed to update Transactions!", "danger"));
     }
   };
 
 // update existing transaction
-export const updateTransaction =
-  (formData, accountId, transactionsArray = null) =>
-  async (dispatch) => {
-    if (transactionsArray) {
-      const body = JSON.stringify(formData);
+export const updateTransaction = (formData, accountId) => async (dispatch) => {
+  const { id, transactionType, sum } = formData;
+  if (transactionType === "Spending") {
+    formData.sum = sum * -1;
+  }
+  const body = JSON.stringify(formData);
+  try {
+    setLoading();
 
-      try {
-        for (let id of transactionsArray) {
-          setLoading();
-          const res = await fetch(`/api/v1/transactions/${id}`, {
-            method: "PUT",
-            body: body,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+    const res = await fetch(`/api/v1/transactions/${id}`, {
+      method: "PUT",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-          const data = await res.json();
+    const data = await res.json();
 
-          dispatch({
-            type: UPDATE_TRANSACTION,
-            payload: data.data,
-          });
-        }
-        dispatch(setAlert("Transaction updated!", "success"));
-        dispatch(flushTimeIntervalls());
-        dispatch(getTimeSpans(accountId));
-      } catch (err) {
-        dispatch(setAlert("Array failed!", "danger"));
-      }
-    } else {
-      const { id, transactionType, sum } = formData;
-      if (transactionType === "Spending") {
-        formData.sum = sum * -1;
-      }
-      const body = JSON.stringify(formData);
-      try {
-        setLoading();
+    dispatch({
+      type: UPDATE_TRANSACTION,
+      payload: data.data,
+    });
 
-        const res = await fetch(`/api/v1/transactions/${id}`, {
-          method: "PUT",
-          body: body,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+    dispatch(setAlert("Transaction updated!", "success"));
 
-        const data = await res.json();
-
-        dispatch({
-          type: UPDATE_TRANSACTION,
-          payload: data.data,
-        });
-
-        dispatch(setAlert("Transaction updated!", "success"));
-        dispatch(flushTimeIntervalls());
-        dispatch(getTimeSpans(accountId));
-      } catch (err) {
-        dispatch(setAlert("Failed to update Transaction", "danger"));
-      }
-    }
-  };
+    dispatch(flushTimeIntervalls());
+    dispatch(getTimeSpans(accountId));
+  } catch (err) {
+    dispatch(setAlert("Failed to update Transaction", "danger"));
+  }
+};
 
 // Set the current transaction to be the one the user clicked on
 export const setCurrentTransaction = (transaction) => {
