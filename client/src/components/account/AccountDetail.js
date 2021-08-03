@@ -86,7 +86,7 @@ const AccountDetail = ({ account, updateAccount }) => {
             balance >= 0 ? "text-success" : "text-danger"
           } `}
         >
-          {hideItem.hideBalance && <Fragment>{balance}€</Fragment>}
+          {hideItem.hideBalance && <Fragment>{balance.toFixed(2)}€</Fragment>}
         </div>
         <div className="col-1">
           <span>
@@ -230,7 +230,7 @@ const AccountDetail = ({ account, updateAccount }) => {
             balance >= 0 ? "text-success" : "text-danger"
           } `}
         >
-          {hideItem.hideSavingsGoal && <Fragment>{savingsGoal}€</Fragment>}
+          {hideItem.hideSavingsGoal && <Fragment>{savingsGoal.toFixed(2)}€</Fragment>}
         </div>
         <div className="col-1">
           <span>

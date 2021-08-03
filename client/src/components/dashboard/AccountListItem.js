@@ -10,7 +10,7 @@ const AccountListItem = ({ account }) => {
         <Link to={`/account/${account._id}`}>{account.name}</Link>
       </td>
       <td>{""}</td>
-      <td className={account.balance < 0 ? 'text-danger' : 'text-success'}>{account.balance}€</td>
+      <td className={account.balance < 0 ? 'text-danger' : 'text-success'}>{account.balance.toFixed(2)}€</td>
     </tr>
   );
 };

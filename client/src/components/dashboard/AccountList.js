@@ -54,7 +54,7 @@ const AccountList = ({ account, getAccounts, flushTimeIntervalls }) => {
           <tr>
             <td>Total:</td>
             <td>{""}</td>
-            <td className="fw-bold">{totalSum.sum}€</td>
+            <td className="fw-bold">{totalSum.sum.toFixed(2)}€</td>
           </tr>
         </tbody>
       </table>

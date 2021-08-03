@@ -39,9 +39,9 @@ const AccountTransactionItem = ({
         <td>{description}</td>
         <td>{category ? category.transactionCategory : "FAIL"}</td>
         {transactionType === "Spending" ? (
-          <td className="spending">{sum}€</td>
+          <td className="spending">{sum.toFixed(2)}€</td>
         ) : (
-          <td className="income">{sum}€</td>
+          <td className="income">{sum.toFixed(2)}€</td>
         )}
 
         <td>

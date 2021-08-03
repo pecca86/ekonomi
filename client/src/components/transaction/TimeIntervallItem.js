@@ -45,8 +45,8 @@ const TimeIntervallItem = ({
 
       setTransactionData({
         ...transactionData,
-        incomes: parseFloat(transData.income).toFixed(2),
-        spendings: parseFloat(transData.spending).toFixed(2),
+        incomes: parseFloat(transData.income),
+        spendings: parseFloat(transData.spending),
       });
     }
   };
@@ -115,11 +115,23 @@ const TimeIntervallItem = ({
           data-bs-parent="#accordionExample"
         >
           <div className="accordion-body ">
-            <div className="col text-success">
-              <strong> Incomes:</strong> {incomes}€
-            </div>
-            <div className="col text-danger">
-              <strong>Spendings:</strong> {spendings}€
+            <div className="row">
+              <div className="col col-md-3">
+                <div className="col text-success">
+                  <strong> Incomes:</strong> {incomes.toFixed(2)}€
+                </div>
+                <div className="col text-danger">
+                  <strong>Spendings:</strong> {spendings.toFixed(2)}€
+                </div>
+              </div>
+              <div className="col col-md-5">
+                <div>
+                  <strong>With current balance:</strong>
+                </div>
+                <div>
+                  {(parseInt(account.account.balance, 10) + parseInt(sum)).toFixed(2)}€
+                </div>
+              </div>
             </div>
           </div>
 
