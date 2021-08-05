@@ -1,21 +1,8 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import Chip from "@material-ui/core/Chip";
-import Select from "react-select";
 import AlertDialog from "./AlertDialog";
 
 const AccountTransactionBtns = ({ onClick, showDelete }) => {
-  const [selectedOption, setSelectedOption] = useState({
-    value: "",
-    label: "",
-  });
-
-  const options = [
-    { value: "delete", label: "Delete" },
-    { value: "description", label: "Update Description" },
-    { value: "category", label: "Update Category" },
-    { value: "sum", label: "Update Sum" },
-    { value: "type", label: "Update Type" },
-  ];
 
   return (
     <Fragment>
@@ -31,19 +18,9 @@ const AccountTransactionBtns = ({ onClick, showDelete }) => {
                 nonce="r@nd0m"
               />
             </div>
-            <div className="col col-md-4">
-              <Select
-                name="category"
-                id="category"
-                defaultValue={selectedOption}
-                onChange={setSelectedOption}
-                options={options}
-                required
-                nonce="r@nd0m"
-              />
-            </div>
+
             <div className="col col-md-6">
-              <AlertDialog dialogTitle={selectedOption} />
+              <AlertDialog dialogTitle="TEST" />
             </div>
           </Fragment>
         </div>

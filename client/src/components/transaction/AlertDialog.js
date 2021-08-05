@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
+import Select from "react-select";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -18,21 +19,36 @@ import {
 } from "../../actions/transaction/transactionActions";
 
 const AlertDialog = ({
-  dialogTitle,
-  deleteTransaction,
-  updateTransaction,
   clearCurrentTransactions,
   updateMany,
   deleteMany,
   transaction,
   account,
 }) => {
+  // SELECT
+  const [selectedOption, setSelectedOption] = useState({
+    value: "",
+    label: "",
+  });
+
+  const setSelected = e => {
+    console.log(e);
+    setSelectedOption({ value: e.value, label: e.label})
+    setOpen(true)
+  }
+
+  const options = [
+    { value: "delete", label: "Delete" },
+    { value: "description", label: "Update Description" },
+    { value: "category", label: "Update Category" },
+    { value: "sum", label: "Update Sum" },
+    { value: "type", label: "Update Type" },
+  ];
+
+  //
+
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState(null);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -46,11 +62,10 @@ const AlertDialog = ({
 
   const onSubmit = () => {
     //setOpen(false)
-    switch (dialogTitle.value) {
+    switch (selectedOption.value) {
       case "delete":
         const data = { transactions: transaction.currentTransactions };
         deleteMany(data, account._id);
-        //deleteTransaction(transaction.currentTransactions, account._id);
         clearCurrentTransactions();
         handleClose();
         break;
@@ -89,22 +104,28 @@ const AlertDialog = ({
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        OK
-      </Button>
+      <Select
+        name="category"
+        id="category"
+        defaultValue={selectedOption}
+        onChange={setSelected}
+        options={options}
+        required
+        nonce="r@nd0m"
+      />
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{dialogTitle.label}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{selectedOption.label}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {dialogTitle.value !== "delete" && (
+            {selectedOption.value !== "delete" && (
               <label htmlFor="update">Value to update to</label>
             )}
-            {dialogTitle.value === "sum" && (
+            {selectedOption.value === "sum" && (
               <input
                 value={formData}
                 onChange={onChange}
@@ -113,7 +134,7 @@ const AlertDialog = ({
                 min="0"
               />
             )}
-            {dialogTitle.value === "description" && (
+            {selectedOption.value === "description" && (
               <input
                 value={formData}
                 onChange={onChange}
@@ -121,7 +142,7 @@ const AlertDialog = ({
                 id="update"
               />
             )}
-            {dialogTitle.value === "type" && (
+            {selectedOption.value === "type" && (
               <Fragment>
                 <CategorySelector type="type" setData={setFormData} />
                 <div className="row"></div>
@@ -130,8 +151,8 @@ const AlertDialog = ({
                 <div className="row">.</div>
               </Fragment>
             )}
-            {dialogTitle.value === "delete" && "Delete selected transactions."}
-            {dialogTitle.value === "category" && (
+            {selectedOption.value === "delete" && "Delete selected transactions."}
+            {selectedOption.value === "category" && (
               <Fragment>
                 <CategorySelector setData={setFormData} />
                 <div className="row"></div>
@@ -145,7 +166,7 @@ const AlertDialog = ({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          {dialogTitle.value === "delete" ? (
+          {selectedOption.value === "delete" ? (
             <Fragment>
               <Button onClick={handleClose} color="primary">
                 Cancel
