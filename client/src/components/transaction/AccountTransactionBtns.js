@@ -3,7 +3,6 @@ import Chip from "@material-ui/core/Chip";
 import AlertDialog from "./AlertDialog";
 
 const AccountTransactionBtns = ({ onClick, showDelete }) => {
-
   return (
     <Fragment>
       {showDelete ? (
@@ -20,7 +19,7 @@ const AccountTransactionBtns = ({ onClick, showDelete }) => {
             </div>
 
             <div className="col col-md-6">
-              <AlertDialog dialogTitle="TEST" />
+              <AlertDialog />
             </div>
           </Fragment>
         </div>
