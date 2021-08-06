@@ -6,11 +6,17 @@ import SortBtn from "../layout/SortBtn";
 import AccountTransactionBtns from "./AccountTransactionBtns";
 import TransactionFilter from "./TransactionFilter";
 
+import { clearCurrentTransactions } from "../../actions/transaction/transactionActions";
+
 const AccounTransactionItem = React.lazy(() =>
   import("./AccountTransactionItem")
 );
 
-const AccountTransactions = ({ transaction, filteredTransactions }) => {
+const AccountTransactions = ({
+  transaction,
+  filteredTransactions,
+  clearCurrentTransactions,
+}) => {
   // STATES
   const [showDelete, setShowDelete] = useState({ showDelete: false });
   // Clears all selections in child components AccountTransactionsItem.js
@@ -28,6 +34,7 @@ const AccountTransactions = ({ transaction, filteredTransactions }) => {
   const onClear = (e) => {
     e.preventDefault();
     setClear(true);
+    clearCurrentTransactions()
   };
 
   return (
@@ -107,4 +114,6 @@ const mapStateToProps = (state) => ({
   filteredTransactions: state.transaction.filteredTransactions,
 });
 
-export default connect(mapStateToProps, {})(AccountTransactions);
+export default connect(mapStateToProps, { clearCurrentTransactions })(
+  AccountTransactions
+);

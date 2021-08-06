@@ -17,7 +17,6 @@ import {
   updateMany,
   deleteMany,
 } from "../../actions/transaction/transactionActions";
-import { setAlert } from "../../actions/alerts/alertActions";
 
 const AlertDialog = ({
   clearCurrentTransactions,
@@ -32,11 +31,10 @@ const AlertDialog = ({
     label: "",
   });
 
-  const setSelected = e => {
-    console.log(e);
-    setSelectedOption({ value: e.value, label: e.label})
-    setOpen(true)
-  }
+  const setSelected = (e) => {
+    setSelectedOption({ value: e.value, label: e.label });
+    setOpen(true);
+  };
 
   const options = [
     { value: "delete", label: "Delete" },
@@ -103,6 +101,12 @@ const AlertDialog = ({
     }
   };
 
+  if (transaction.currentTransactions.length <= 0) {
+    return (
+      <p>Please select Transactions to update</p>
+    )
+  }
+
   return (
     <div>
       <Select
@@ -120,12 +124,14 @@ const AlertDialog = ({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{selectedOption.label}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {selectedOption.label}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {selectedOption.value !== "delete" && (
               <label htmlFor="update">Value to update to</label>
-              )}
+            )}
             {selectedOption.value === "sum" && (
               <input
                 value={formData}
@@ -152,7 +158,8 @@ const AlertDialog = ({
                 <div className="row">.</div>
               </Fragment>
             )}
-            {selectedOption.value === "delete" && "Delete selected transactions."}
+            {selectedOption.value === "delete" &&
+              "Delete selected transactions."}
             {selectedOption.value === "category" && (
               <Fragment>
                 <CategorySelector setData={setFormData} />

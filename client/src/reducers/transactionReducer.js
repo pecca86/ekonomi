@@ -133,7 +133,6 @@ export default (state = initialState, action) => {
         ); //finding index of the item
         newArray[index] = trans; //changing value in the new array
       }
-
       return {
         ...state,
         transactions: newArray,

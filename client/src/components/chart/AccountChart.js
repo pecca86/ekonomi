@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Line } from "react-chartjs-2";
-import { Children } from "react";
 
 const AccountChart = ({ transaction, account }) => {
   // Get current date that will be used in our Graph
