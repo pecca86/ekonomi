@@ -17,6 +17,7 @@ import {
   updateMany,
   deleteMany,
 } from "../../actions/transaction/transactionActions";
+import { setAlert } from "../../actions/alerts/alertActions";
 
 const AlertDialog = ({
   clearCurrentTransactions,
@@ -124,7 +125,7 @@ const AlertDialog = ({
           <DialogContentText id="alert-dialog-description">
             {selectedOption.value !== "delete" && (
               <label htmlFor="update">Value to update to</label>
-            )}
+              )}
             {selectedOption.value === "sum" && (
               <input
                 value={formData}

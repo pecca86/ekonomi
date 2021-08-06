@@ -13,6 +13,8 @@ const AccounTransactionItem = React.lazy(() =>
 const AccountTransactions = ({ transaction, filteredTransactions }) => {
   // STATES
   const [showDelete, setShowDelete] = useState({ showDelete: false });
+  // Clears all selections in child components AccountTransactionsItem.js
+  const [clear, setClear] = useState(false);
 
   if (transaction.loading) {
     return <p>Loading...</p>;
@@ -21,6 +23,11 @@ const AccountTransactions = ({ transaction, filteredTransactions }) => {
   // FUNCTIONS
   const onClick = (event) => {
     setShowDelete({ showDelete: !showDelete.showDelete });
+  };
+
+  const onClear = (e) => {
+    e.preventDefault();
+    setClear(true);
   };
 
   return (
@@ -36,6 +43,13 @@ const AccountTransactions = ({ transaction, filteredTransactions }) => {
           />
         </div>
         <div>{showDelete.showDelete ? "" : <TransactionFilter />}</div>
+      </Fragment>
+      <Fragment>
+        {showDelete.showDelete && (
+          <button className="btn-outline-primary own-button" onClick={onClear}>
+            Clear Selections
+          </button>
+        )}
       </Fragment>
       <table className="table-sm">
         <thead>
@@ -71,6 +85,8 @@ const AccountTransactions = ({ transaction, filteredTransactions }) => {
                       key={transaction._id}
                       transaction={transaction}
                       showDelete={showDelete.showDelete}
+                      clearSelections={clear}
+                      setClearSelections={setClear}
                     />
                   ))}
             </Suspense>

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
@@ -10,12 +10,21 @@ import {
 } from "../../actions/transaction/transactionActions";
 
 const AccountTransactionItem = ({
+  clearSelections,
+  setClearSelections,
   transaction,
   account,
   showDelete,
   addToCurrentTransactions,
   removeFromCurrentTransactions,
 }) => {
+  
+  useEffect(()=>{
+    if (clearSelections) {
+      setChecked({checked:false})
+    }
+  }, [clearSelections])
+
   const { sum, transactionDate, description, _id, transactionType, category } =
     transaction;
 
@@ -29,6 +38,13 @@ const AccountTransactionItem = ({
       addToCurrentTransactions(_id);
     }
   };
+
+
+  // Calls our parent component's state to change clearSelection boolean to false
+  const removeClear =e => {
+    setChecked({checked : true })
+    setClearSelections(false)
+  }
 
   return (
     <Fragment>
@@ -48,8 +64,8 @@ const AccountTransactionItem = ({
           {showDelete ? (
             <Fragment>
               <Checkbox
-                checked={checked.checked}
-                onClick={handleChange}
+                checked={clearSelections ? false : checked.checked}
+                onClick={clearSelections ? removeClear : handleChange}
                 inputProps={{ "aria-label": "primary checkbox" }}
               />
             </Fragment>
