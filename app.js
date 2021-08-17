@@ -48,6 +48,7 @@ app.use(
       defaultSrc: ["'self'"],
       connectSrc: [
         "'self'",
+        "lit-cove-53027.herokuapp.com",
         "https://cdn.jsdelivr.net",
         "https://cdnjs.cloudflare.com",
         "http://www.w3.org",
@@ -55,6 +56,7 @@ app.use(
       ],
       frameSrc: [
         "'self'",
+        "lit-cove-53027.herokuapp.com",
         "https://cdn.jsdelivr.net",
         "https://cdnjs.cloudflare.com",
         "https://www.w3.org",
@@ -62,6 +64,7 @@ app.use(
       ],
       childSrc: [
         "'self'",
+        "lit-cove-53027.herokuapp.com",
         "https://cdn.jsdelivr.net",
         "https://cdnjs.cloudflare.com",
         "https://www.w3.org",
@@ -70,6 +73,7 @@ app.use(
       scriptSrc: [
         "'self'",
         "unsafe-inline",
+        "lit-cove-53027.herokuapp.com",
         "https://cdn.jsdelivr.net",
         "https://cdnjs.cloudflare.com",
         "https://www.w3.org",
@@ -79,6 +83,7 @@ app.use(
         "'self'",
         "'unsafe-inline'",
         "'nonce-r@nd0m'",
+        "lit-cove-53027.herokuapp.com",
         "https://fonts.googleapis.com",
         "https://cdn.jsdelivr.net",
         "https://cdnjs.cloudflare.com",
@@ -88,6 +93,7 @@ app.use(
       fontSrc: [
         "'self'",
         "unsafe-inline",
+        "lit-cove-53027.herokuapp.com",
         "https://fonts.gstatic.com",
         "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
@@ -96,6 +102,7 @@ app.use(
       ],
       imgSrc: [
         "'self'",
+        "lit-cove-53027.herokuapp.com",
         "https://*.jsdelivr.net",
         "https://www.w3.org",
         "https://unpkg.com/",
