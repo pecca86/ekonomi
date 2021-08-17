@@ -38,6 +38,7 @@ import {
   UPDATE_MANY,
   DELETE_MANY,
   CREATE_MANY,
+  UPDATE_FILTERED_TRANSACTION,
 } from "../actions/transaction/transactionTypes";
 
 const initialState = {
@@ -118,8 +119,6 @@ export default (state = initialState, action) => {
         newArr.splice(index, 1); // Splicing it out from the array
       }
 
-      console.log(newArr);
-
       return {
         ...state,
         transactions: newArr,
@@ -133,9 +132,20 @@ export default (state = initialState, action) => {
         ); //finding index of the item
         newArray[index] = trans; //changing value in the new array
       }
+
+      // Do the same operation on the filtered Transactions
+      const filtered = [...state.filteredTransactions];
+      for (let trans of action.payload) {
+        const index = state.filteredTransactions.findIndex(
+          (tr) => tr._id === trans._id
+        ); //finding index of the item
+        filtered[index] = trans; //changing value in the new array
+      }
+
       return {
         ...state,
         transactions: newArray,
+        filteredTransactions: filtered,
         loading: false,
       };
     case UPDATE_TRANSACTION:
@@ -146,6 +156,15 @@ export default (state = initialState, action) => {
         ),
         loading: false,
       };
+    case UPDATE_FILTERED_TRANSACTION:
+      return {
+        ...state,
+        filteredTransactions: state.filteredTransactions.map((transaction) =>
+          transaction._id === action.payload._id ? action.payload : transaction
+        ),
+        loading: false,
+      };
+
     case SET_CURRENT_TRANSACTION:
       return {
         ...state,
@@ -181,7 +200,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         transactions: state.transactions.sort((a, b) =>
-          a.category.transactionCategory.toLowerCase() > b.category.transactionCategory.toLowerCase()
+          a.category.transactionCategory.toLowerCase() >
+          b.category.transactionCategory.toLowerCase()
             ? 1
             : -1
         ),
@@ -226,14 +246,20 @@ export default (state = initialState, action) => {
         ...state,
         //transactionCategories: action.payload,
         transactionCategories: categories.sort((a, b) =>
-          a.transactionCategory.toLowerCase() > b.transactionCategory.toLowerCase() ? 1 : -1
+          a.transactionCategory.toLowerCase() >
+          b.transactionCategory.toLowerCase()
+            ? 1
+            : -1
         ),
         loading: false,
       };
     case ADD_TRANSACTION_CATEGORY:
       let newCategories = [...state.transactionCategories, action.payload];
       newCategories = newCategories.sort((a, b) =>
-        a.transactionCategory.toLowerCase() > b.transactionCategory.toLowerCase() ? 1 : -1
+        a.transactionCategory.toLowerCase() >
+        b.transactionCategory.toLowerCase()
+          ? 1
+          : -1
       );
       return {
         ...state,

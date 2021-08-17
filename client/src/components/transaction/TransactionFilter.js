@@ -15,7 +15,8 @@ const TransactionFilter = ({
     if (transaction.filteredTransactions === null) {
       text.current.value = "";
     }
-  });
+    clearFilter();
+  }, [clearFilter]);
 
   const text = useRef("");
 

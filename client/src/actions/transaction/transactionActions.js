@@ -32,6 +32,7 @@ import {
   REMOVE_FROM_CURRENT_TRANSACTIONS,
   CLEAR_CURRENT_TRANSACTIONS,
   FILTER_TRANSACTIONS,
+  UPDATE_FILTERED_TRANSACTION,
   CLEAR_FILTER,
   UPDATE_MANY,
   DELETE_MANY,
@@ -301,6 +302,12 @@ export const updateTransaction = (formData, accountId) => async (dispatch) => {
       type: UPDATE_TRANSACTION,
       payload: data.data,
     });
+
+    // also update the filtered transactions
+    dispatch({
+      type: UPDATE_FILTERED_TRANSACTION,
+      payload: data.data
+    })
 
     dispatch(setAlert("Transaction updated!", "success"));
 
