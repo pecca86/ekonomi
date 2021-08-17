@@ -71,7 +71,7 @@ const ManageCategories = ({
           </div>
         </div>
       )}
-      <div className="mt-5" style={{ height: "300px", overflow: "auto" }}>
+      <div className="mt-5" >
         <table className="table">
           <thead>
             <tr>

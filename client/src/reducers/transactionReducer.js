@@ -221,15 +221,23 @@ export default (state = initialState, action) => {
       };
     // === TRANSACTION CATEGORIES ===
     case GET_TRANSACTION_CATEGORIES:
+      const categories = action.payload;
       return {
         ...state,
-        transactionCategories: action.payload,
+        //transactionCategories: action.payload,
+        transactionCategories: categories.sort((a, b) =>
+          a.transactionCategory.toLowerCase() > b.transactionCategory.toLowerCase() ? 1 : -1
+        ),
         loading: false,
       };
     case ADD_TRANSACTION_CATEGORY:
+      let newCategories = [...state.transactionCategories, action.payload];
+      newCategories = newCategories.sort((a, b) =>
+        a.transactionCategory.toLowerCase() > b.transactionCategory.toLowerCase() ? 1 : -1
+      );
       return {
         ...state,
-        transactionCategories: [...state.transactionCategories, action.payload],
+        transactionCategories: newCategories,
       };
     case DELETE_TRANSACTION_CATEGORY:
       return {

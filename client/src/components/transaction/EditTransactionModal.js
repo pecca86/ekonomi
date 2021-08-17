@@ -114,7 +114,6 @@ const EditTransactionModal = ({
     <div
       id="edit-transaction-modal"
       className="modal fade mt-5"
-      style={{ height: "400px" }}
     >
       <div className="modal-content mb-3">
         <h4>Edit Transaction</h4>
