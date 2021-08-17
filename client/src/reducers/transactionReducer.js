@@ -174,14 +174,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         transactions: state.transactions.sort((a, b) =>
-          a.description > b.description ? 1 : -1
+          a.description.toLowerCase() > b.description.toLowerCase() ? 1 : -1
         ),
       };
     case SORT_TRANSACTIONS_BY_CATEGORY:
       return {
         ...state,
         transactions: state.transactions.sort((a, b) =>
-          a.category.transactionCategory > b.category.transactionCategory
+          a.category.transactionCategory.toLowerCase() > b.category.transactionCategory.toLowerCase()
             ? 1
             : -1
         ),
