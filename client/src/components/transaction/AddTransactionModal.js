@@ -9,6 +9,7 @@ import {
 import { setAlert } from "../../actions/alerts/alertActions";
 import Select from "react-select";
 import { Link } from "react-router-dom";
+import Alert from "../layout/Alert";
 
 const AddTransactionModal = ({
   createTransaction,
@@ -130,12 +131,13 @@ const AddTransactionModal = ({
 
   return (
     <div id="add-transaction-modal" className="modal mt-5">
+      <Alert />
       <div className="modal-content mb-3">
         <h4>{current ? "Copy Transaction" : "New Transaction"}</h4>
         <form onSubmit={onSubmit}>
           {/* DATE */}
           <label htmlFor="transactionDate" className="active">
-            Transaction Date
+            Transaction Date *
           </label>
           <input
             type="date"
@@ -146,13 +148,20 @@ const AddTransactionModal = ({
           />
 
           {/* TYPE */}
+          <label htmlFor="transactionType" className="active">
+            Transaction Type *
+          </label>
           <select
             className=""
             onChange={onChange}
             name="transactionType"
             required
           >
-            <option defaultValue>Transaction Type</option>
+            {!formData.transactionType ? (
+              <option defaultValue>Transaction Type</option>
+            ) : (
+              ""
+            )}
             <option value="Income">Income</option>
             <option value="Spending">Spending</option>
           </select>
@@ -268,19 +277,52 @@ const AddTransactionModal = ({
               <label htmlFor="floatingMonths">
                 Enter how many months forward
               </label>
+              <Fragment>
+                {formData.monthsRecurring > 12 && (
+                  <p className="text-danger">You can only add 12 months ahead</p>
+                )}
+              </Fragment>
             </div>
           )}
 
-          {/* BUTTON */}
+          {/* BUTTON THAT CHECKS IF REQUIRED FIELDS ARE FILLED AND IF WE ARE SUBMITTING MANY OR JUST ONE TRANSACTION*/}
           {recur ? (
-            <button
-              onClick={onSubmitMany}
-              className="btn btn-success modal-close"
-            >
-              Submit Many
-            </button>
+            !formData.transactionType || !formData.transactionDate ||formData.monthsRecurring > 12 ? (
+              <Fragment>
+                <button
+                  onClick={onSubmitMany}
+                  className="btn btn-success"
+                  disabled
+                >
+                  Submit Many
+                </button>
+                <p className="text-danger">
+                  Please fill out all fields marked with a *
+                </p>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <button
+                  onClick={onSubmitMany}
+                  className="btn btn-success modal-close"
+                >
+                  Submit Many
+                </button>
+              </Fragment>
+            )
+          ) : !formData.transactionType || !formData.transactionDate ? (
+            <Fragment>
+              <button className="btn btn-success" disabled>
+                Submit
+              </button>
+              <p className="text-danger">
+                Please fill out all fields marked with a *
+              </p>
+            </Fragment>
           ) : (
-            <button className="btn btn-success modal-close">Submit</button>
+            <Fragment>
+              <button className="btn btn-success modal-close">Submit</button>
+            </Fragment>
           )}
         </form>
       </div>

@@ -108,6 +108,9 @@ export default (state = initialState, action) => {
         transactions: state.transactions.filter(
           (transaction) => transaction._id !== action.payload
         ),
+        filteredTransactions: state.filteredTransactions.filter(
+          (transaction) => transaction._id !== action.payload
+        ),
         loading: false,
       };
     case DELETE_MANY:
@@ -119,9 +122,18 @@ export default (state = initialState, action) => {
         newArr.splice(index, 1); // Splicing it out from the array
       }
 
+      const filteredArr = [...state.filteredTransactions];
+      for (let trans of action.payload) {
+        const index = state.filteredTransactions.findIndex(
+          (tr) => tr._id === trans._id
+        ); //finding index of the item
+        filteredArr.splice(index, 1); // Splicing it out from the array
+      }
+
       return {
         ...state,
         transactions: newArr,
+        filteredTransactions: filteredArr,
         loading: false,
       };
     case UPDATE_MANY:
