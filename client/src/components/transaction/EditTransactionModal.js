@@ -44,6 +44,7 @@ const EditTransactionModal = ({
       });
       if (current.category) {
         setFormData({
+          //sum: Math.abs(current.sum),
           sum: Math.abs(current.sum),
           transactionType: current.transactionType,
           description: current.description,
@@ -89,6 +90,13 @@ const EditTransactionModal = ({
     if (formData.category === "") {
       formData.category = "Uncategorized";
     }
+    console.log(formData);
+    if (formData.transactionType === "Income" && formData.sum < 0) {
+      console.log("TRUEEE");
+      //formData.sum = -1 * formData.sum;
+      //console.log(formData.sum);
+    }
+
     updateTransaction(formData, account.account._id);
     clearCurrentTransaction();
   };
@@ -110,11 +118,10 @@ const EditTransactionModal = ({
     setNewCategory(e.target.value);
   };
 
+  // TESTING
+
   return (
-    <div
-      id="edit-transaction-modal"
-      className="modal fade mt-5"
-    >
+    <div id="edit-transaction-modal" className="modal fade mt-5">
       <div className="modal-content mb-3">
         <h4>Edit Transaction</h4>
         <form onSubmit={onSubmit}>

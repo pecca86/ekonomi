@@ -82,6 +82,7 @@ const AlertDialog = ({
         break;
       case "type":
         const typeData = { data: { transactionType: formData } };
+        console.log(typeData);
         updateMany(typeData, account._id, transaction.currentTransactions);
         setFormData(null);
         handleClose();

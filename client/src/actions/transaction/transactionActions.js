@@ -281,7 +281,7 @@ export const updateMany =
 // update existing transaction
 export const updateTransaction = (formData, accountId) => async (dispatch) => {
   const { id, transactionType, sum } = formData;
-  if (transactionType === "Spending") {
+  if (transactionType === "Spending" && formData.sum >= 0) {
     formData.sum = sum * -1;
   }
   const body = JSON.stringify(formData);
