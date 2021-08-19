@@ -78,9 +78,14 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case GET_TRANSACTIONS:
+      // Sort as default from oldest to newest
+      const transactionsData = action.payload;
+      transactionsData.sort((a, b) =>
+        a.transactionDate > b.transactionDate ? 1 : -1
+      );
       return {
         ...state,
-        transactions: action.payload,
+        transactions: transactionsData,
         loading: false,
       };
     case GET_TRANSACTIONS_BY_YEAR:

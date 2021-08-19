@@ -13,7 +13,7 @@ const AccountChart = ({ transaction, account }) => {
   const [withCurrentBalance, setWithCurrentBalance] = useState(true);
 
   // === GRAPH DATA ===
-  if (transaction.transactionsByYear <= 0) {
+  if (transaction.transactionsByYear.length <= 0) {
     return (
       <div>
         <p>Update to show data...</p>
@@ -85,7 +85,6 @@ const AccountChart = ({ transaction, account }) => {
       }
     }
 
-
     // Count the combined value of transaction for each month and push it into our helper array
     for (const month in monthlyTransactions) {
       summedArr.push(monthlyTransactions[month].reduce((a, b) => a + b, 0));
@@ -110,7 +109,11 @@ const AccountChart = ({ transaction, account }) => {
   }
 
   // Create a new line for savings goal and push it to our data set
-  if (account.account.savingsGoal && account.account.savingsGoal > 0 && withCurrentBalance) {
+  if (
+    account.account.savingsGoal &&
+    account.account.savingsGoal > 0 &&
+    withCurrentBalance
+  ) {
     dataset.push({
       label: "Savings Goal",
       data: new Array(12).fill(account.account.savingsGoal),

@@ -34,22 +34,24 @@ const AccountTransactions = ({
   const onClear = (e) => {
     e.preventDefault();
     setClear(true);
-    clearCurrentTransactions()
+    clearCurrentTransactions();
   };
 
   return (
     <div style={{ height: "400px", overflow: "auto" }}>
       <Fragment>
-        <div className="row">
-          <div className="col col-md-4">
-            {showDelete.showDelete ? "" : <SortBtn />}
+        <div class="stickypanel">
+          <div className="row">
+            <div className="col col-md-4">
+              {showDelete.showDelete ? "" : <SortBtn />}
+            </div>
+            <AccountTransactionBtns
+              onClick={onClick}
+              showDelete={showDelete.showDelete}
+            />
           </div>
-          <AccountTransactionBtns
-            onClick={onClick}
-            showDelete={showDelete.showDelete}
-          />
+          <div>{showDelete.showDelete ? "" : <TransactionFilter />}</div>
         </div>
-        <div>{showDelete.showDelete ? "" : <TransactionFilter />}</div>
       </Fragment>
       <Fragment>
         {showDelete.showDelete && (
