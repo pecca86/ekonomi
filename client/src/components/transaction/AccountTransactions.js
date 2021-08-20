@@ -40,7 +40,7 @@ const AccountTransactions = ({
   return (
     <div style={{ height: "400px", overflow: "auto" }}>
       <Fragment>
-        <div class="stickypanel">
+        <div className="stickypanel">
           <div className="row">
             <div className="col col-md-4">
               {showDelete.showDelete ? "" : <SortBtn />}
@@ -60,7 +60,7 @@ const AccountTransactions = ({
           </button>
         )}
       </Fragment>
-      <table className="table-sm">
+      <table className="table-sm account-transactions-table">
         <thead>
           <tr>
             <th scope="col">Date</th>

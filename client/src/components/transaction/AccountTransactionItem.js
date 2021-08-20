@@ -48,7 +48,7 @@ const AccountTransactionItem = ({
 
   return (
     <Fragment>
-      <tr>
+      <tr className="account-transaction-item">
         <td>
           <Moment format="D/M/YY">{transactionDate}</Moment>
         </td>

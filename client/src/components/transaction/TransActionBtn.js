@@ -21,13 +21,13 @@ const SortBtn = ({
   return (
     <div className="dropdown">
       <i
-        className="material-icons dropdown-toggle ps-1 action-icon"
-        id="dropdownMenuButton2"
+        className="material-icons dropdown-toggle ps-1 action-icon z-index-icon"
+        id={`dropdownMenuButton2-${id}`}
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
       </i>
-      <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+      <ul className="dropdown-menu" aria-labelledby={`dropdownMenuButton2-${id}`}>
         <li>
           <i
             onClick={onDelete}
