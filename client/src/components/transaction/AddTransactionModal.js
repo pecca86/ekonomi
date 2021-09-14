@@ -234,7 +234,7 @@ const AddTransactionModal = ({
           <div className="form-floating mb-3">
             <input
               className="form-control"
-              type="number"
+              type="number" step="0.01"
               name="sum"
               id="floatingSum"
               placeholder="Transaction sum"
