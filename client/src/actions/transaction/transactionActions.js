@@ -62,10 +62,11 @@ export const getAllAccountTransactionsByYear =
   (accountId, year, month, day) => async (dispatch) => {
     try {
       setLoading();
+      
       const res = await axios.get(
         `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${year}-${month}-${day}&transactionDate[lte]=${
           year + 1
-        }-${month}-${day}`
+        }-${month-1}-31`
       );
       dispatch({
         type: GET_TRANSACTIONS_BY_YEAR,
