@@ -17,6 +17,7 @@ const TransactionsPerTypeChart = ({ transaction, month, day, year }) => {
   // Create an object that takes in each unique transaction type and initial value of 0
   const myObj = {};
   for (const transaction of transactionData) {
+    // Check if it has a transaction category and if so, create a key with that name
     if (transaction.category) {
       myObj[transaction.category.transactionCategory] = 0;
     } else {

@@ -15,7 +15,7 @@ const Chart = ({
 }) => {
   // Get current date that will be used in our Graph
   let currentDate = new Date();
-  let currentMonth = currentDate.getMonth();
+  let currentMonth = currentDate.getMonth()+1; // Jan is represented as 0
   let currentDay = currentDate.getDate();
   let currentYear = currentDate.getFullYear();
 
@@ -25,7 +25,7 @@ const Chart = ({
       getAllAccountTransactionsByYear(
         account._id,
         currentYear,
-        currentMonth + 1,
+        currentMonth,
         currentDay
       )
     );

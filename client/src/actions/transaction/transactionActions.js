@@ -62,11 +62,14 @@ export const getAllAccountTransactionsByYear =
   (accountId, year, month, day) => async (dispatch) => {
     try {
       setLoading();
+
+      console.log(`The given month is: ${month}`);      
       
+      // Check in january the month goes to 0 in our lte timespan if we don't check for it
       const res = await axios.get(
         `/api/v1/accounts/${accountId}/transactions?transactionDate[gte]=${year}-${month}-${day}&transactionDate[lte]=${
           year + 1
-        }-${month-1}-31`
+        }-${month - 1 === 0 ? month = 12 : month-1}-31`
       );
       dispatch({
         type: GET_TRANSACTIONS_BY_YEAR,

@@ -6,7 +6,7 @@ import { Line } from "react-chartjs-2";
 const AccountChart = ({ transaction, account }) => {
   // Get current date that will be used in our Graph
   let currentDate = new Date();
-  let currentMonth = currentDate.getMonth();
+  let currentMonth = currentDate.getMonth() +1;
   let currentDay = currentDate.getDate();
   let currentYear = currentDate.getFullYear();
 
