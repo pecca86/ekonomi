@@ -15,7 +15,7 @@ const Chart = ({
 }) => {
   // Get current date that will be used in our Graph
   let currentDate = new Date();
-  let currentMonth = currentDate.getMonth()+1; // Jan is represented as 0
+  let currentMonth = currentDate.getMonth(); // Jan is represented as 0
   let currentDay = currentDate.getDate();
   let currentYear = currentDate.getFullYear();
 
